@@ -126,10 +126,10 @@ public class KhachHangControllerTest {
     public void PayIn_Success_UnitTest() {
         RequestPayinMapper mapper = new RequestPayinMapper();
         mapper.setMakh(1);
-        mapper.setTiennap(20000);
+        mapper.setTiennap(200000);
         HashMap<String, String> message = new HashMap<>();
         message.put("message", "Success");
-        Mockito.when(service.payIn(1, 20000)).thenReturn(message);
+        Mockito.when(service.payIn(1, 200000)).thenReturn(message);
         HashMap<String, String> actual = controller.payIn(mapper);
         Assert.assertEquals(message.get("message"), actual.get("message"));
     }
@@ -142,6 +142,19 @@ public class KhachHangControllerTest {
         HashMap<String, String> message = new HashMap<>();
         message.put("message", "Not found customer");
         Mockito.when(service.payIn(5, 20000)).thenReturn(message);
+        HashMap<String, String> actual = controller.payIn(mapper);
+        Assert.assertEquals(message.get("message"), actual.get("message"));
+    }
+    
+    
+    @Test
+    public void PayIn_AmoutLessThan100000_UnitTest() {
+        RequestPayinMapper mapper = new RequestPayinMapper();
+        mapper.setMakh(1);
+        mapper.setTiennap(20000);
+        HashMap<String, String> message = new HashMap<>();
+        message.put("message", "Amount must be greater than 100000");
+        Mockito.when(service.payIn(1, 20000)).thenReturn(message);
         HashMap<String, String> actual = controller.payIn(mapper);
         Assert.assertEquals(message.get("message"), actual.get("message"));
     }

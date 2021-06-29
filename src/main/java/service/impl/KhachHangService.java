@@ -85,26 +85,31 @@ public class KhachHangService implements IKhachHangService {
         KhachHangEntity khTemp = khRepository.findOne(makh);
         PhieuThuEntity pt = new PhieuThuEntity();
         HashMap<String, String> message = new HashMap<>();
-        if (khTemp == null) {
-            message.put("message", "Not found customer");
+        if (tiennap < 100000) {
+            message.put("message", "Amount must be greater than 100000");
             message.put("redirect", "/customer");
         } else {
-            if (khRepository.updateSodu(makh, tiennap) == true) {
-                khTemp = khRepository.findOne(makh);
-                pt.setMakh(makh);
-                pt.setSotiennap(tiennap);
-                pt.setSodu(khTemp.getSodu());
-                pt.setTenkh(khTemp.getTenkh());
-                if (ptRepository.create(pt) == true) {
-                    message.put("message", "Success");
-                    message.put("redirect", "/customer");
+            if (khTemp == null) {
+                message.put("message", "Not found customer");
+                message.put("redirect", "/customer");
+            } else {
+                if (khRepository.updateSodu(makh, tiennap) == true) {
+                    khTemp = khRepository.findOne(makh);
+                    pt.setMakh(makh);
+                    pt.setSotiennap(tiennap);
+                    pt.setSodu(khTemp.getSodu());
+                    pt.setTenkh(khTemp.getTenkh());
+                    if (ptRepository.create(pt) == true) {
+                        message.put("message", "Success");
+                        message.put("redirect", "/customer");
+                    } else {
+                        message.put("message", "Error");
+                        message.put("redirect", "/customer");
+                    }
                 } else {
                     message.put("message", "Error");
                     message.put("redirect", "/customer");
                 }
-            } else {
-                message.put("message", "Error");
-                message.put("redirect", "/customer");
             }
         }
         return message;
