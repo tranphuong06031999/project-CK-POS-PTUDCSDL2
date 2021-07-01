@@ -46,7 +46,7 @@ public class KhachHangRepository implements IKhachHangRepository {
     @Override
     public ArrayList<KhachHangEntity> search(String keyword) {
         ArrayList<KhachHangEntity> list = new ArrayList<>();
-        String sql = "SELECT * from khachhang where makh like '%" + keyword + "%' or tenkh like '%" + keyword + "%'";
+        String sql = "SELECT * from khachhang where makh like '%" + keyword + "%' or tenkh like '%" + keyword + "%' or sodienthoai like '%" + keyword + "%'";
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
