@@ -48,3 +48,20 @@
 -url: /api/receipt/{id}
 -method: get
 -output: object phiếu thu (ko phải mảng, trả về 1 object)
+
+10. Hiển thị giỏ hàng
+-url: /api/cart
+-method: get
+-output mảng json chứa object giỏ hàng
+
+11. Thêm giỏ hàng
+-url: /api/cart/add
+-method: post
+-input: masp,tensp,gia,soluong
+-output: message
+
+12. Xóa giỏ hàng
+-url: /api/cart/delete
+-method: delete
+-input: magiohang
+-output: message
