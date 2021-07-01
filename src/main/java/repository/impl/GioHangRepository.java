@@ -121,6 +121,7 @@ public class GioHangRepository implements IGioHangRepository {
             while (rs.next()) {
                 GioHangEntity cart = new GioHangEntity();
                 cart.setMagiohang(rs.getInt("magiohang"));
+                cart.setTensp(rs.getString("tensp"));
                 cart.setMasp(rs.getInt("masp"));
                 cart.setGia(rs.getInt("gia"));
                 cart.setSoluong(rs.getInt("soluong"));
