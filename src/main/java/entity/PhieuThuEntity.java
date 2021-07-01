@@ -5,11 +5,13 @@
  */
 package entity;
 
+import java.io.Serializable;
+
 /**
  *
  * @author NguyenThanhDat
  */
-public class PhieuThuEntity {
+public class PhieuThuEntity implements Serializable{
 
     private int maphieuthu;
     private int makh;
