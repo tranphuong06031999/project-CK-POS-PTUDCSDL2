@@ -5,7 +5,7 @@
  */
 package test;
 
-import controller.KhachHangController;
+import api.KhachHangApi;
 import entity.KhachHangEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,10 +24,10 @@ import org.junit.Assert;
  * @author NguyenThanhDat
  */
 @RunWith(MockitoJUnitRunner.class)
-public class KhachHangControllerTest {
+public class KhachHangApiTest {
 
     @InjectMocks
-    KhachHangController controller = new KhachHangController();
+    KhachHangApi api = new KhachHangApi();
 
     @Mock
     IKhachHangService service;
@@ -37,7 +37,7 @@ public class KhachHangControllerTest {
         ArrayList<KhachHangEntity> list = new ArrayList<>();
         list.add(new KhachHangEntity(1, "admin2", 135000, "9876543210"));
         Mockito.when(service.getAll()).thenReturn(list);
-        ArrayList<KhachHangEntity> actual = controller.getAll();
+        ArrayList<KhachHangEntity> actual = api.getAll();
         Assert.assertEquals(list.get(0).getTenkh(), actual.get(0).getTenkh());
     }
 
@@ -45,7 +45,7 @@ public class KhachHangControllerTest {
     public void GetAll_Empty_UnitTest() {
         ArrayList<KhachHangEntity> list = new ArrayList<>();
         Mockito.when(service.getAll()).thenReturn(list);
-        ArrayList<KhachHangEntity> actual = controller.getAll();
+        ArrayList<KhachHangEntity> actual = api.getAll();
         Assert.assertEquals(0, actual.size());
     }
 
@@ -54,7 +54,7 @@ public class KhachHangControllerTest {
         ArrayList<KhachHangEntity> list = new ArrayList<>();
         list.add(new KhachHangEntity(2, "Andrew", 10000, "094554545"));
         Mockito.when(service.searchCustomer("2")).thenReturn(list);
-        ArrayList<KhachHangEntity> actual = controller.searchCustomer("2");
+        ArrayList<KhachHangEntity> actual = api.searchCustomer("2");
         Assert.assertEquals(list.get(0).getTenkh(), actual.get(0).getTenkh());
     }
 
@@ -62,7 +62,7 @@ public class KhachHangControllerTest {
     public void SearchCustomer_Empty_UnitTest() {
         ArrayList<KhachHangEntity> list = null;
         Mockito.when(service.searchCustomer("Andrew")).thenReturn(list);
-        ArrayList<KhachHangEntity> actual = controller.searchCustomer("Andrew");
+        ArrayList<KhachHangEntity> actual = api.searchCustomer("Andrew");
         Assert.assertEquals(null, actual);
     }
 
@@ -72,7 +72,7 @@ public class KhachHangControllerTest {
         HashMap<String, String> message = new HashMap<>();
         message.put("message", "success");
         Mockito.when(service.addCustomer(kh)).thenReturn(message);
-        HashMap<String, String> actual = controller.addCustomer(kh);
+        HashMap<String, String> actual = api.addCustomer(kh);
         Assert.assertEquals(message.get("message"), actual.get("message"));
     }
 
@@ -82,7 +82,7 @@ public class KhachHangControllerTest {
         HashMap<String, String> message = new HashMap<>();
         message.put("message", "Phone number already exists");
         Mockito.when(service.addCustomer(kh)).thenReturn(message);
-        HashMap<String, String> actual = controller.addCustomer(kh);
+        HashMap<String, String> actual = api.addCustomer(kh);
         Assert.assertEquals(message.get("message"), actual.get("message"));
     }
 
@@ -92,7 +92,7 @@ public class KhachHangControllerTest {
         HashMap<String, String> message = new HashMap<>();
         message.put("message", "Success");
         Mockito.when(service.addCustomer(kh)).thenReturn(message);
-        HashMap<String, String> actual = controller.addCustomer(kh);
+        HashMap<String, String> actual = api.addCustomer(kh);
         Assert.assertEquals(message.get("message"), actual.get("message"));
     }
 
@@ -102,7 +102,7 @@ public class KhachHangControllerTest {
         HashMap<String, String> message = new HashMap<>();
         message.put("message", "Not found customer");
         Mockito.when(service.addCustomer(kh)).thenReturn(message);
-        HashMap<String, String> actual = controller.addCustomer(kh);
+        HashMap<String, String> actual = api.addCustomer(kh);
         Assert.assertEquals(message.get("message"), actual.get("message"));
     }
 
@@ -110,7 +110,7 @@ public class KhachHangControllerTest {
     public void GetOne_NonEmpty_UnitTest() {
         KhachHangEntity kh = new KhachHangEntity(2, "admin2", 135000, "9876543210");
         Mockito.when(service.getOne(2)).thenReturn(kh);
-        KhachHangEntity actual = controller.getOne(2);
+        KhachHangEntity actual = api.getOne(2);
         Assert.assertEquals(kh.getTenkh(), actual.getTenkh());
     }
 
@@ -118,7 +118,7 @@ public class KhachHangControllerTest {
     public void GetOne_Empty_UnitTest() {
         KhachHangEntity kh = null;
         Mockito.when(service.getOne(5)).thenReturn(kh);
-        KhachHangEntity actual = controller.getOne(5);
+        KhachHangEntity actual = api.getOne(5);
         Assert.assertEquals(null, actual);
     }
 
@@ -130,7 +130,7 @@ public class KhachHangControllerTest {
         HashMap<String, String> message = new HashMap<>();
         message.put("message", "Success");
         Mockito.when(service.payIn(1, 200000)).thenReturn(message);
-        HashMap<String, String> actual = controller.payIn(mapper);
+        HashMap<String, String> actual = api.payIn(mapper);
         Assert.assertEquals(message.get("message"), actual.get("message"));
     }
 
@@ -142,7 +142,7 @@ public class KhachHangControllerTest {
         HashMap<String, String> message = new HashMap<>();
         message.put("message", "Not found customer");
         Mockito.when(service.payIn(5, 20000)).thenReturn(message);
-        HashMap<String, String> actual = controller.payIn(mapper);
+        HashMap<String, String> actual = api.payIn(mapper);
         Assert.assertEquals(message.get("message"), actual.get("message"));
     }
     
@@ -155,7 +155,7 @@ public class KhachHangControllerTest {
         HashMap<String, String> message = new HashMap<>();
         message.put("message", "Amount must be greater than 100000");
         Mockito.when(service.payIn(1, 20000)).thenReturn(message);
-        HashMap<String, String> actual = controller.payIn(mapper);
+        HashMap<String, String> actual = api.payIn(mapper);
         Assert.assertEquals(message.get("message"), actual.get("message"));
     }
 }

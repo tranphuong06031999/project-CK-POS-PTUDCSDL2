@@ -5,18 +5,15 @@
  */
 package test;
 
-import controller.PhieuThuController;
+import api.PhieuThuApi;
 import entity.PhieuThuEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
-import mapper.RequestPayinMapper;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import service.IKhachHangService;
 import org.junit.Assert;
 import service.IPhieuThuService;
 
@@ -25,10 +22,10 @@ import service.IPhieuThuService;
  * @author NguyenThanhDat
  */
 @RunWith(MockitoJUnitRunner.class)
-public class PhieuThuControllerTest {
+public class PhieuThuApiTest {
 
     @InjectMocks
-    PhieuThuController controller = new PhieuThuController();
+    PhieuThuApi api = new PhieuThuApi();
 
     @Mock
     IPhieuThuService service;
@@ -38,7 +35,7 @@ public class PhieuThuControllerTest {
         ArrayList<PhieuThuEntity> list = new ArrayList<>();
         list.add(new PhieuThuEntity(1, 1, "admin", 100000, 10000, "2021-06-28"));
         Mockito.when(service.getAll()).thenReturn(list);
-        ArrayList<PhieuThuEntity> actual = controller.getAll();
+        ArrayList<PhieuThuEntity> actual = api.getAll();
         Assert.assertEquals(list.get(0).getTenkh(), actual.get(0).getTenkh());
     }
 
@@ -46,7 +43,7 @@ public class PhieuThuControllerTest {
     public void GetAll_Empty_UnitTest() {
         ArrayList<PhieuThuEntity> list = new ArrayList<>();
         Mockito.when(service.getAll()).thenReturn(list);
-        ArrayList<PhieuThuEntity> actual = controller.getAll();
+        ArrayList<PhieuThuEntity> actual = api.getAll();
         Assert.assertEquals(0, actual.size());
     }
 
@@ -55,7 +52,7 @@ public class PhieuThuControllerTest {
         ArrayList<PhieuThuEntity> list = new ArrayList<>();
         list.add(new PhieuThuEntity(1, 1, "admin", 100000, 10000, "2021-06-28"));
         Mockito.when(service.searchReceipt("1")).thenReturn(list);
-        ArrayList<PhieuThuEntity> actual = controller.searchReceipt("1");
+        ArrayList<PhieuThuEntity> actual = api.searchReceipt("1");
         Assert.assertEquals(list.get(0).getTenkh(), actual.get(0).getTenkh());
     }
 
@@ -63,7 +60,7 @@ public class PhieuThuControllerTest {
     public void SearchReceipt_Empty_UnitTest() {
         ArrayList<PhieuThuEntity> list = null;
         Mockito.when(service.searchReceipt("10")).thenReturn(list);
-        ArrayList<PhieuThuEntity> actual = controller.searchReceipt("10");
+        ArrayList<PhieuThuEntity> actual = api.searchReceipt("10");
         Assert.assertEquals(null, actual);
     }
 
@@ -71,7 +68,7 @@ public class PhieuThuControllerTest {
     public void GetOne_NonEmpty_UnitTest() {
         PhieuThuEntity kh = new PhieuThuEntity(1, 1, "admin", 100000, 10000, "2021-06-28");
         Mockito.when(service.getOne(1)).thenReturn(kh);
-        PhieuThuEntity actual = controller.getOne(1);
+        PhieuThuEntity actual = api.getOne(1);
         Assert.assertEquals(kh.getTenkh(), actual.getTenkh());
     }
 
@@ -79,7 +76,7 @@ public class PhieuThuControllerTest {
     public void GetOne_Empty_UnitTest() {
         PhieuThuEntity kh = null;
         Mockito.when(service.getOne(10)).thenReturn(kh);
-        PhieuThuEntity actual = controller.getOne(10);
+        PhieuThuEntity actual = api.getOne(10);
         Assert.assertEquals(null, actual);
     }
 }

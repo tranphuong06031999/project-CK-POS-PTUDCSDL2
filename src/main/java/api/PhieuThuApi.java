@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package api;
 
 import entity.PhieuThuEntity;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import service.IPhieuThuService;
  * @author NguyenThanhDat
  */
 @RestController
-public class PhieuThuController {
+public class PhieuThuApi {
 
     @Autowired
     private IPhieuThuService ptService;

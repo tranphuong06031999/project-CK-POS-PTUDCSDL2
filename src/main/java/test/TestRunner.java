@@ -16,8 +16,8 @@ import org.junit.runner.notification.Failure;
 public class TestRunner {
 
     public static void main(String[] args) {
-        Result result = JUnitCore.runClasses(KhachHangControllerTest.class);
-        Result result1 = JUnitCore.runClasses(PhieuThuControllerTest.class);
+        Result result = JUnitCore.runClasses(KhachHangApiTest.class);
+        Result result1 = JUnitCore.runClasses(PhieuThuApiTest.class);
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());
         }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package api;
 
 import entity.KhachHangEntity;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import service.IKhachHangService;
  * @author NguyenThanhDat
  */
 @RestController
-public class KhachHangController {
+public class KhachHangApi {
 
     @Autowired
     private IKhachHangService khService;
