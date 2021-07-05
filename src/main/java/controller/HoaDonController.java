@@ -39,7 +39,12 @@ public class HoaDonController {
 
     @RequestMapping(value = "/bill/search", method = RequestMethod.GET)
     public ModelAndView search(@RequestParam("makh") int makh) {
-        return new ModelAndView("billsList", "list", hdService.searchBill(makh));
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("list", hdService.searchBill(makh));
+        mav.addObject("totalPage", 1);
+        mav.addObject("currentPage", 1);
+        mav.setViewName("billsList");
+        return mav;
     }
 
     @RequestMapping(value = "/bill/{id}", method = RequestMethod.GET)
