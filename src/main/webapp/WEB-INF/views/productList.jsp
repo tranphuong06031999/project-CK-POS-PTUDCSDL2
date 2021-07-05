@@ -160,7 +160,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="donVi">Đơn vị</label>
-                                <input type="text" class="form-control" id="donVi" name="donVi" placeholder="Nhập đơn vị" required minlength="3">
+                                <input type="text" class="form-control" id="donVi" name="donVi" placeholder="Nhập đơn vị" required minlength="1">
                             </div>
                             <div class="form-group">
                                 <label for="soLuong">Số lượng</label>
@@ -208,7 +208,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="donVi">Đơn vị</label>
-                                <input type="text" class="form-control" id="donVi1" name="donVi" placeholder="Nhập đơn vị" required minlength="3">
+                                <input type="text" class="form-control" id="donVi1" name="donVi" placeholder="Nhập đơn vị" required minlength="1">
                             </div>
                             <div class="form-group">
                                 <label for="soLuong">Số lượng</label>
