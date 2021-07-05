@@ -8,7 +8,6 @@ package service.impl;
 import entity.KhachHangEntity;
 import entity.PhieuThuEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.IKhachHangRepository;
@@ -39,40 +38,30 @@ public class KhachHangService implements IKhachHangService {
     }
 
     @Override
-    public HashMap<String, String> addCustomer(KhachHangEntity kh) {
-        HashMap<String, String> message = new HashMap<>();
+    public String addCustomer(KhachHangEntity kh) {
         if (khRepository.findOneByPhone(kh.getSodienthoai()) == true) {
-            message.put("message", "Phone number already exists");
-            message.put("redirect", "/customer");
+            return "Số điện thoại đã tồn tại";
         } else {
             if (khRepository.create(kh) == true) {
-                message.put("message", "Success");
-                message.put("redirect", "/customer");
+                return "Thêm khách hàng thành công";
             } else {
-                message.put("message", "Error");
-                message.put("redirect", "/customer");
+                return "Thêm khách hàng thất bại";
             }
         }
-        return message;
     }
 
     @Override
-    public HashMap<String, String> updateCustomer(KhachHangEntity kh) {
-        HashMap<String, String> message = new HashMap<>();
+    public String updateCustomer(KhachHangEntity kh) {
         KhachHangEntity khTemp = khRepository.findOne(kh.getMakh());
         if (khTemp == null) {
-            message.put("message", "Not found customer");
-            message.put("redirect", "/customer");
+            return "Không tìm thấy khách hàng";
         } else {
             if (khRepository.update(kh) == true) {
-                message.put("message", "Success");
-                message.put("redirect", "/customer");
+                return "Cập nhập khách hàng thành công";
             } else {
-                message.put("message", "Error");
-                message.put("redirect", "/customer");
+                return "Cập nhập khách hàng thất bại";
             }
         }
-        return message;
     }
 
     @Override
@@ -81,38 +70,40 @@ public class KhachHangService implements IKhachHangService {
     }
 
     @Override
-    public HashMap<String, String> payIn(int makh, int tiennap) {
+    public String payIn(int makh, int tiennap) {
         KhachHangEntity khTemp = khRepository.findOne(makh);
         PhieuThuEntity pt = new PhieuThuEntity();
-        HashMap<String, String> message = new HashMap<>();
-        if (tiennap < 100000) {
-            message.put("message", "Amount must be greater than 100000");
-            message.put("redirect", "/customer");
+        if (khTemp == null) {
+            return "Không tìm thấy khách hàng";
         } else {
-            if (khTemp == null) {
-                message.put("message", "Not found customer");
-                message.put("redirect", "/customer");
-            } else {
-                if (khRepository.updateSodu(makh, tiennap) == true) {
-                    khTemp = khRepository.findOne(makh);
-                    pt.setMakh(makh);
-                    pt.setSotiennap(tiennap);
-                    pt.setSodu(khTemp.getSodu());
-                    pt.setTenkh(khTemp.getTenkh());
-                    if (ptRepository.create(pt) == true) {
-                        message.put("message", "Success");
-                        message.put("redirect", "/customer");
-                    } else {
-                        message.put("message", "Error");
-                        message.put("redirect", "/customer");
-                    }
-                } else {
-                    message.put("message", "Error");
-                    message.put("redirect", "/customer");
+            if (khRepository.updateSodu(makh, tiennap) == true) {
+                khTemp = khRepository.findOne(makh);
+                pt.setMakh(makh);
+                pt.setSotiennap(tiennap);
+                pt.setSodu(khTemp.getSodu());
+                pt.setTenkh(khTemp.getTenkh());
+                if (khTemp.getSodu() >= 10000000) {
+                    khRepository.updateVip(makh);
                 }
+                if (ptRepository.create(pt) == true) {
+                    return "Nạp tiền thành công";
+                } else {
+                    return "Nạp tiền thất bại";
+                }
+            } else {
+                return "Nạp tiền thất bại";
             }
         }
-        return message;
     }
 
+    @Override
+    public ArrayList<KhachHangEntity> getAllPaging(int page) {
+        return khRepository.paging(page);
+    }
+
+    @Override
+    public int totalPage() {
+        int totalPage = (int) Math.ceil((double) khRepository.count() / 10);
+        return totalPage;
+    }
 }

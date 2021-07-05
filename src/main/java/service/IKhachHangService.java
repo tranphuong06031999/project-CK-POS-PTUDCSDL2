@@ -21,9 +21,13 @@ public interface IKhachHangService {
 
     public ArrayList<KhachHangEntity> searchCustomer(String keyword);
 
-    public HashMap<String, String> addCustomer(KhachHangEntity kh);
+    public String addCustomer(KhachHangEntity kh);
 
-    public HashMap<String, String> updateCustomer(KhachHangEntity kh);
+    public String updateCustomer(KhachHangEntity kh);
 
-    public HashMap<String, String> payIn(int makh, int tiennap);
+    public String payIn(int makh, int tiennap);
+    
+    public ArrayList<KhachHangEntity> getAllPaging(int page);
+    
+    public int totalPage();
 }

@@ -7,7 +7,6 @@ package service.impl;
 
 import entity.SanPhamEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.ISanPhamRepository;
@@ -18,45 +17,55 @@ import service.ISanPhamService;
  * @author Trần Đinh Phương
  */
 @Service
-public class SanPhamService implements ISanPhamService{
+public class SanPhamService implements ISanPhamService {
+
     @Autowired
     private ISanPhamRepository sanPhamRepository;
-    
+
     @Override
-    public SanPhamEntity findOne(int masp){      
+    public SanPhamEntity findOne(int masp) {
         return sanPhamRepository.findById(masp);
     }
+
     @Override
-    public HashMap<String, String> addSanPham(SanPhamEntity sp){
-        HashMap<String, String> message = new HashMap<>();
-        if(sanPhamRepository.create(sp) == true){
-            message.put("message", "Success");
+    public String addSanPham(SanPhamEntity sp) {
+        if (sanPhamRepository.create(sp) == true) {
+            return "Thêm sản phẩm thành công";
+        } else {
+            return "Thêm sản phẩm thất bại!";
         }
-        else{
-            message.put("message", "Add failed!");
-        }
-        return message;
     }
+
     @Override
-    public HashMap<String, SanPhamEntity> updateSanPham(SanPhamEntity sp){
-        HashMap<String, SanPhamEntity> data = new HashMap<>();
-        if(sanPhamRepository.update(sp) == true){
+    public String updateSanPham(SanPhamEntity sp) {
+        if (sanPhamRepository.update(sp) == true) {
             SanPhamEntity sanpham = sanPhamRepository.findById(sp.getMaSP());
 //            data.put("message", "Success");
-            data.put("sanpham", sanpham);
-        }
-        else{
-            data.put("sanpham", null);
+            return "Cập nhập sản phẩm thành công";
+        } else {
+            return "Cập nhập sản phẩm thất bại";
 //            message.put("redirect", "/update");
         }
-        return data;
     }
+
     @Override
     public ArrayList<SanPhamEntity> searchSanPham(String keyword) {
         return sanPhamRepository.search(keyword);
     }
+
     @Override
     public ArrayList<SanPhamEntity> productList() {
         return sanPhamRepository.productsList();
+    }
+
+    @Override
+    public ArrayList<SanPhamEntity> getAllPaging(int page) {
+        return sanPhamRepository.paging(page);
+    }
+
+    @Override
+    public int totalPage() {
+        int totalPage = (int) Math.ceil((double) sanPhamRepository.count() / 10);
+        return totalPage;
     }
 }

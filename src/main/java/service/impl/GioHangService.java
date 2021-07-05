@@ -24,36 +24,32 @@ public class GioHangService implements IGioHangService {
     IGioHangRepository ghRepository;
 
     @Override
-    public HashMap<String, String> createCart(GioHangEntity cart) {
+    public String createCart(GioHangEntity cart) {
         int magiohang = ghRepository.isExists(cart.getMasp());
-        HashMap<String, String> message = new HashMap<>();
         if (magiohang < 0) {
             int giatong = cart.getGia() * cart.getSoluong();
             cart.setGiatong(giatong);
             if (ghRepository.create(cart) == true) {
-                message.put("message", "Success");
+                return "Thêm giỏ hàng thành công";
             } else {
-                message.put("message", "Error");
+                return "Thêm giỏ hàng thất bại";
             }
         } else {
             if (ghRepository.update(magiohang, cart.getGia(), cart.getSoluong()) == true) {
-                message.put("message", "Success");
+                return "Thêm giỏ hàng thành công";
             } else {
-                message.put("message", "Error");
-            };
+                return "Thêm giỏ hàng thất bại";
+            }
         }
-        return message;
     }
 
     @Override
-    public HashMap<String, String> deleteCart(int magiohang) {
-        HashMap<String, String> message = new HashMap<>();
+    public String deleteCart(int magiohang) {
         if (ghRepository.delete(magiohang) == true) {
-            message.put("message", "Success");
+            return "Xóa giỏ hàng thành công";
         } else {
-            message.put("message", "Error");
+            return "Xóa giỏ hàng thất bại";
         }
-        return message;
     }
 
     @Override

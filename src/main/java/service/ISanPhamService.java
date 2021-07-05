@@ -14,10 +14,18 @@ import java.util.HashMap;
  * @author Trần Đinh Phương
  */
 public interface ISanPhamService {
+
     public SanPhamEntity findOne(int masp);
-    public HashMap<String, String> addSanPham(SanPhamEntity sp);
-    public HashMap<String, SanPhamEntity> updateSanPham(SanPhamEntity sp);
-    public ArrayList<SanPhamEntity> searchSanPham(String keyword);    
+
+    public String addSanPham(SanPhamEntity sp);
+
+    public String updateSanPham(SanPhamEntity sp);
+
+    public ArrayList<SanPhamEntity> searchSanPham(String keyword);
+
     public ArrayList<SanPhamEntity> productList();
 
+    public ArrayList<SanPhamEntity> getAllPaging(int page);
+
+    public int totalPage();
 }

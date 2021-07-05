@@ -18,19 +18,20 @@ import repository.ISanPhamRepository;
  * @author Trần Đinh Phương
  */
 @Repository
-public class SanPhamRepository implements ISanPhamRepository{
+public class SanPhamRepository implements ISanPhamRepository {
+
     @Override
-    public SanPhamEntity findById(int masp){
+    public SanPhamEntity findById(int masp) {
         SanPhamEntity sp = new SanPhamEntity();
         String sql = "SELECT masp, tensp, loai, donvi, soluong, gia, ghichu FROM sanpham WHERE masp = " + masp;
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
             ResultSet rs = helper.excuteQuery(sql);
-            while(rs.next()) {
+            while (rs.next()) {
                 sp.setMaSP(rs.getInt("masp"));
                 sp.setTenSP(rs.getString("tensp"));
-                sp.setLoai(rs.getInt("loai"));                    
+                sp.setLoai(rs.getInt("loai"));
                 sp.setDonVi(rs.getString("donvi"));
                 sp.setSoLuong(rs.getInt("soluong"));
                 sp.setGia(rs.getInt("gia"));
@@ -42,8 +43,9 @@ public class SanPhamRepository implements ISanPhamRepository{
         }
         return sp;
     }
+
     @Override
-    public boolean create(SanPhamEntity sp){
+    public boolean create(SanPhamEntity sp) {
         String sql = String.format("INSERT INTO sanpham (tensp, loai, donvi, soluong, gia, ghichu) VALUES ('%s', '%d', '%s', '%d', '%d', '%s')",
                 sp.getTenSP(),
                 sp.getLoai(),
@@ -62,9 +64,9 @@ public class SanPhamRepository implements ISanPhamRepository{
             return false;
         }
     }
-    
-     @Override
-    public boolean update(SanPhamEntity sp){
+
+    @Override
+    public boolean update(SanPhamEntity sp) {
         String sql = String.format("UPDATE sanpham SET tensp = '%s', loai = '%d', donvi = '%s', soluong = '%d', gia = '%d', ghichu = '%s' WHERE masp = '%d'",
                 sp.getTenSP(),
                 sp.getLoai(),
@@ -84,7 +86,7 @@ public class SanPhamRepository implements ISanPhamRepository{
             return false;
         }
     }
-    
+
     @Override
     public ArrayList<SanPhamEntity> search(String keyword) {
         ArrayList<SanPhamEntity> list = new ArrayList<>();
@@ -96,17 +98,17 @@ public class SanPhamRepository implements ISanPhamRepository{
             if (rs.next() == false) {
                 list = null;
             } else {
-                while(rs.next()) {
+                do {
                     SanPhamEntity sp = new SanPhamEntity();
                     sp.setMaSP(rs.getInt("masp"));
                     sp.setTenSP(rs.getString("tensp"));
-                    sp.setLoai(rs.getInt("loai"));                    
+                    sp.setLoai(rs.getInt("loai"));
                     sp.setDonVi(rs.getString("donvi"));
                     sp.setSoLuong(rs.getInt("soluong"));
                     sp.setGia(rs.getInt("gia"));
                     sp.setGhiChu(rs.getString("ghichu"));
                     list.add(sp);
-                }
+                } while (rs.next());
             }
             helper.close();
         } catch (SQLException ex) {
@@ -114,8 +116,9 @@ public class SanPhamRepository implements ISanPhamRepository{
         }
         return list;
     }
+
     @Override
-    public ArrayList<SanPhamEntity> productsList(){
+    public ArrayList<SanPhamEntity> productsList() {
         ArrayList<SanPhamEntity> list = new ArrayList<>();
         String sql = "SELECT masp, tensp, loai, donvi, soluong, gia, ghichu FROM sanpham";
         MySQLDataHelper helper = new MySQLDataHelper();
@@ -125,17 +128,17 @@ public class SanPhamRepository implements ISanPhamRepository{
             if (rs.next() == false) {
                 list = null;
             } else {
-                while(rs.next()) {
+                do {
                     SanPhamEntity sp = new SanPhamEntity();
                     sp.setMaSP(rs.getInt("masp"));
                     sp.setTenSP(rs.getString("tensp"));
-                    sp.setLoai(rs.getInt("loai"));                    
+                    sp.setLoai(rs.getInt("loai"));
                     sp.setDonVi(rs.getString("donvi"));
                     sp.setSoLuong(rs.getInt("soluong"));
                     sp.setGia(rs.getInt("gia"));
                     sp.setGhiChu(rs.getString("ghichu"));
                     list.add(sp);
-                }
+                } while (rs.next());
             }
             helper.close();
         } catch (SQLException ex) {
@@ -143,5 +146,54 @@ public class SanPhamRepository implements ISanPhamRepository{
         }
         return list;
     }
-    
+
+    @Override
+    public int count() {
+        int count = 0;
+        try {
+            String sql = "select count(*) count from sanpham";
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
+
+    @Override
+    public ArrayList<SanPhamEntity> paging(int page) {
+        page = (page - 1) * 10;
+        ArrayList<SanPhamEntity> list = new ArrayList<>();
+        String sql = "SELECT masp, tensp, loai, donvi, soluong, gia, ghichu FROM sanpham limit " + page + ",10";
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            if (rs.next() == false) {
+                list = null;
+            } else {
+                do {
+                    SanPhamEntity sp = new SanPhamEntity();
+                    sp.setMaSP(rs.getInt("masp"));
+                    sp.setTenSP(rs.getString("tensp"));
+                    sp.setLoai(rs.getInt("loai"));
+                    sp.setDonVi(rs.getString("donvi"));
+                    sp.setSoLuong(rs.getInt("soluong"));
+                    sp.setGia(rs.getInt("gia"));
+                    sp.setGhiChu(rs.getString("ghichu"));
+                    list.add(sp);
+                } while (rs.next());
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
 }

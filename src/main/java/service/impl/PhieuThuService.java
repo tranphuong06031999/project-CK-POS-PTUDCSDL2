@@ -28,13 +28,24 @@ public class PhieuThuService implements IPhieuThuService {
     }
 
     @Override
-    public ArrayList<PhieuThuEntity> searchReceipt(String keyword) { 
+    public ArrayList<PhieuThuEntity> searchReceipt(String keyword) {
         return ptRepository.search(keyword);
     }
 
     @Override
     public PhieuThuEntity getOne(int id) {
         return ptRepository.findOne(id);
+    }
+
+    @Override
+    public ArrayList<PhieuThuEntity> getAllPaging(int page) {
+        return ptRepository.paging(page);
+    }
+
+    @Override
+    public int totalPage() {
+        int totalPage = (int) Math.ceil((double) ptRepository.count() / 10);
+        return totalPage;
     }
 
 }

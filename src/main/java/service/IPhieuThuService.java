@@ -19,4 +19,8 @@ public interface IPhieuThuService {
     public ArrayList<PhieuThuEntity> searchReceipt(String keyword);
 
     public PhieuThuEntity getOne(int id);
+
+    public ArrayList<PhieuThuEntity> getAllPaging(int page);
+
+    public int totalPage();
 }

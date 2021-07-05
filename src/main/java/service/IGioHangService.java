@@ -15,9 +15,9 @@ import java.util.HashMap;
  */
 public interface IGioHangService {
 
-    public HashMap<String, String> createCart(GioHangEntity cart);
+    public String createCart(GioHangEntity cart);
 
-    public HashMap<String, String> deleteCart(int magiohang);
+    public String deleteCart(int magiohang);
     
     public ArrayList<GioHangEntity> getAll();
 }

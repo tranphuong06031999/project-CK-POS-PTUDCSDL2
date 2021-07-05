@@ -10,6 +10,8 @@ import helper.MySQLDataHelper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Repository;
 import repository.IKhachHangRepository;
 
@@ -34,6 +36,7 @@ public class KhachHangRepository implements IKhachHangRepository {
                 kh.setTenkh(rs.getString("tenkh"));
                 kh.setSodu(rs.getInt("sodu"));
                 kh.setSodienthoai(rs.getString("sodienthoai"));
+                kh.setLoaikh(rs.getInt("loaikh"));
                 list.add(kh);
             }
             helper.close();
@@ -157,5 +160,63 @@ public class KhachHangRepository implements IKhachHangRepository {
         }
         helper.close();
         return true;
+    }
+
+    @Override
+    public boolean updateVip(int makh) {
+        String sql = String.format("update khachhang set loaikh = 1 where makh = %s", makh);
+        MySQLDataHelper helper = new MySQLDataHelper();
+        helper.open();
+        int n = helper.excuteUpdate(sql);
+        if (n > 0) {
+            helper.close();
+            return true;
+        } else {
+            helper.close();
+            return false;
+        }
+    }
+
+    @Override
+    public int count() {
+        int count = 0;
+        try {
+            String sql = "select count(*) count from khachhang";
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+    @Override
+    public ArrayList<KhachHangEntity> paging(int page) {
+        page = (page - 1) * 10;
+        ArrayList<KhachHangEntity> list = new ArrayList<>();
+        String sql = "select * from khachhang limit " + page + ",10";
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                KhachHangEntity kh = new KhachHangEntity();
+                kh.setMakh(rs.getInt("makh"));
+                kh.setTenkh(rs.getString("tenkh"));
+                kh.setSodu(rs.getInt("sodu"));
+                kh.setSodienthoai(rs.getString("sodienthoai"));
+                kh.setLoaikh(rs.getInt("loaikh"));
+                list.add(kh);
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
     }
 }

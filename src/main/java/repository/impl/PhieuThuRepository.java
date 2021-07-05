@@ -117,4 +117,48 @@ public class PhieuThuRepository implements IPhieuThuRepository {
         return pt;
     }
 
+    @Override
+    public int count() {
+        int count = 0;
+        try {
+            String sql = "select count(*) count from phieuthu";
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
+
+    @Override
+    public ArrayList<PhieuThuEntity> paging(int page) {
+        page = (page - 1) * 10;
+        ArrayList<PhieuThuEntity> list = new ArrayList<>();
+        String sql = "SELECT * from phieuthu limit " + page + ",10";
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                PhieuThuEntity pt = new PhieuThuEntity();
+                pt.setMaphieuthu(rs.getInt("maphieuthu"));
+                pt.setMakh(rs.getInt("makh"));
+                pt.setTenkh(rs.getString("tenkh"));
+                pt.setSotiennap(rs.getInt("sotiennap"));
+                pt.setSodu(rs.getInt("sodu"));
+                pt.setNgaylap(rs.getDate("ngaylap").toString());
+                list.add(pt);
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
 }

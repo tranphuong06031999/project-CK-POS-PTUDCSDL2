@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mapper;
+package entity;
+
+import java.io.Serializable;
 
 /**
  *
  * @author NguyenThanhDat
  */
-public class RequestPayinMapper {
+public class AbstractEntity implements Serializable{
 
     private int makh;
     private int tiennap;
@@ -29,5 +31,4 @@ public class RequestPayinMapper {
     public void setTiennap(int tiennap) {
         this.tiennap = tiennap;
     }
-
 }

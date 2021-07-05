@@ -15,10 +15,14 @@ import java.util.ArrayList;
 public interface IPhieuThuRepository {
 
     public boolean create(PhieuThuEntity pt);
-    
+
     public ArrayList<PhieuThuEntity> findAll();
-    
+
     public ArrayList<PhieuThuEntity> search(String keyword);
-    
+
     public PhieuThuEntity findOne(int id);
+
+    public int count();
+
+    public ArrayList<PhieuThuEntity> paging(int page);
 }

@@ -13,10 +13,19 @@ import java.util.ArrayList;
  * @author Trần Đinh Phương
  */
 public interface ISanPhamRepository {
+
     public SanPhamEntity findById(int masp);
+
     public boolean create(SanPhamEntity sp);
+
     public boolean update(SanPhamEntity sp);
-    public ArrayList<SanPhamEntity> search(String keyword);   
+
+    public ArrayList<SanPhamEntity> search(String keyword);
+
     public ArrayList<SanPhamEntity> productsList();
+
+    public int count();
+
+    public ArrayList<SanPhamEntity> paging(int page);
 
 }

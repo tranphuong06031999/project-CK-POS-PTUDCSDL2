@@ -17,7 +17,16 @@ public class KhachHangEntity implements Serializable{
     private String tenkh;
     private int sodu;
     private String sodienthoai;
+    private int loaikh;
 
+    public int getLoaikh() {
+        return loaikh;
+    }
+
+    public void setLoaikh(int loaikh) {
+        this.loaikh = loaikh;
+    }
+    
     public KhachHangEntity() {
     }
 

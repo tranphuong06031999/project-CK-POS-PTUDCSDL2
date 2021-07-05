@@ -27,4 +27,10 @@ public interface IKhachHangRepository {
     public boolean update(KhachHangEntity kh);
 
     public boolean updateSodu(int makh, int tiennap);
+    
+    public boolean updateVip(int makh);
+    
+    public int count();
+    
+    public ArrayList<KhachHangEntity> paging(int page);
 }
