@@ -40,10 +40,14 @@ public class PhieuThuController {
         return mav;
     }
 
-    //Tìm phiếu thu theo tên hoặc mã khách hàng
     @RequestMapping(value = "/receipt/search", method = RequestMethod.GET)
     public ModelAndView searchReceipt(@RequestParam("keyword") String keyword) {
-        return new ModelAndView("receiptsList", "list", ptService.searchReceipt(keyword));
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("list", ptService.searchReceipt(keyword));
+        mav.addObject("totalPage", 1);
+        mav.addObject("currentPage", 1);
+        mav.setViewName("receiptsList");
+        return mav;
     }
 
     //Lấy 1 phiếu thu
