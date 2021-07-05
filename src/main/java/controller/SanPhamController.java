@@ -36,7 +36,12 @@ public class SanPhamController {
     //Tìm kiếm sản phẩm
     @RequestMapping(value = "/product/search", method = RequestMethod.GET)
     public ModelAndView searchProduct(@RequestParam("keyword") String keyword) {
-        return new ModelAndView("productList", "list", sanPhamService.searchSanPham(keyword));
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("list", sanPhamService.searchSanPham(keyword));
+        mav.addObject("totalPage", 1);
+        mav.addObject("currentPage", 1);
+        mav.setViewName("productList");
+        return mav;
     }
 
     //Get view addproduct

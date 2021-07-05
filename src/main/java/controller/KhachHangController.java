@@ -47,7 +47,12 @@ public class KhachHangController {
     //Tìm theo tên hoặc mã khách hàng
     @RequestMapping(value = "/customer/search", method = RequestMethod.GET)
     public ModelAndView searchCustomer(@RequestParam("keyword") String keyword) {
-        return new ModelAndView("customersList", "list", khService.searchCustomer(keyword));
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("list", khService.searchCustomer(keyword));
+        mav.addObject("totalPage", 1);
+        mav.addObject("currentPage", 1);
+        mav.setViewName("customersList");
+        return mav;
     }
 
     //Thêm khách hàng
