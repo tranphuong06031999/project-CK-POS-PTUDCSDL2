@@ -33,7 +33,7 @@ public class PhieuThuController {
             page = ptService.totalPage();
         }
         if (page < 1) {
-            page = 1
+            page = 1;
         }
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", ptService.getAllPaging(page));
