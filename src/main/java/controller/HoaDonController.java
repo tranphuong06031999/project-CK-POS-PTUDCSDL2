@@ -29,6 +29,9 @@ public class HoaDonController {
         if (page > hdService.totalPage()) {
             page = hdService.totalPage();
         }
+        if (page < 1) {
+            page = 1
+        }
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", hdService.getAllPaging(page));
         mav.addObject("totalPage", hdService.totalPage());
