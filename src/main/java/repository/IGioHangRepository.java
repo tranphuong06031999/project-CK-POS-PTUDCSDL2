@@ -24,5 +24,5 @@ public interface IGioHangRepository {
     
     public int isExists(int masp);
     
-    public ArrayList<GioHangEntity> findAll();
+    public ArrayList<GioHangEntity> findAll(int makh);
 }

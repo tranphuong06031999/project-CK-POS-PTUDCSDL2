@@ -7,7 +7,6 @@ package service;
 
 import entity.GioHangEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -19,5 +18,5 @@ public interface IGioHangService {
 
     public String deleteCart(int magiohang);
     
-    public ArrayList<GioHangEntity> getAll();
+    public ArrayList<GioHangEntity> getAll(int makh);
 }

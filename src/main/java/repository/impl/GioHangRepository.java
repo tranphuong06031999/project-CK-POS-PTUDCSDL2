@@ -22,7 +22,8 @@ public class GioHangRepository implements IGioHangRepository {
 
     @Override
     public boolean create(GioHangEntity cart) {
-        String sql = "INSERT INTO giohang(masp, tensp, soluong, gia,giatong) VALUES (" + "'"
+        String sql = "INSERT INTO giohang(makh,masp, tensp, soluong, gia,giatong) VALUES (" + "'"
+                + cart.getMakh() + "'" + ", " + "'"
                 + cart.getMasp() + "'" + ", " + "'"
                 + cart.getTensp() + "'" + ", " + "'"
                 + cart.getSoluong() + "'" + ", " + "'"
@@ -111,15 +112,16 @@ public class GioHangRepository implements IGioHangRepository {
     }
 
     @Override
-    public ArrayList<GioHangEntity> findAll() {
+    public ArrayList<GioHangEntity> findAll(int makh) {
         ArrayList<GioHangEntity> list = new ArrayList<>();
-        String sql = "select * from giohang";
+        String sql = "select * from giohang where makh = " + makh;
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
             ResultSet rs = helper.excuteQuery(sql);
             while (rs.next()) {
                 GioHangEntity cart = new GioHangEntity();
+                cart.setMakh(rs.getInt("makh"));
                 cart.setMagiohang(rs.getInt("magiohang"));
                 cart.setTensp(rs.getString("tensp"));
                 cart.setMasp(rs.getInt("masp"));

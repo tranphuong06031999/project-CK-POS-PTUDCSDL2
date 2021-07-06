@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class GioHangEntity implements Serializable {
 
     private int magiohang;
+    private int makh;
     private int masp;
     private String tensp;
     private int soluong;
@@ -69,5 +70,13 @@ public class GioHangEntity implements Serializable {
 
     public void setGiatong(int giatong) {
         this.giatong = giatong;
+    }
+
+    public int getMakh() {
+        return makh;
+    }
+
+    public void setMakh(int makh) {
+        this.makh = makh;
     }
 }

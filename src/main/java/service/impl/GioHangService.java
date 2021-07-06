@@ -11,6 +11,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.IGioHangRepository;
+import repository.IKhachHangRepository;
 import service.IGioHangService;
 
 /**
@@ -23,22 +24,29 @@ public class GioHangService implements IGioHangService {
     @Autowired
     IGioHangRepository ghRepository;
 
+    @Autowired
+    IKhachHangRepository khRepository;
+
     @Override
     public String createCart(GioHangEntity cart) {
-        int magiohang = ghRepository.isExists(cart.getMasp());
-        if (magiohang < 0) {
-            int giatong = cart.getGia() * cart.getSoluong();
-            cart.setGiatong(giatong);
-            if (ghRepository.create(cart) == true) {
-                return "Thêm giỏ hàng thành công";
-            } else {
-                return "Thêm giỏ hàng thất bại";
-            }
+        if (khRepository.findOne(cart.getMakh()) == null) {
+            return "Không tìm thấy khách hàng";
         } else {
-            if (ghRepository.update(magiohang, cart.getGia(), cart.getSoluong()) == true) {
-                return "Thêm giỏ hàng thành công";
+            int magiohang = ghRepository.isExists(cart.getMasp());
+            if (magiohang < 0) {
+                int giatong = cart.getGia() * cart.getSoluong();
+                cart.setGiatong(giatong);
+                if (ghRepository.create(cart) == true) {
+                    return "Thêm giỏ hàng thành công";
+                } else {
+                    return "Thêm giỏ hàng thất bại";
+                }
             } else {
-                return "Thêm giỏ hàng thất bại";
+                if (ghRepository.update(magiohang, cart.getGia(), cart.getSoluong()) == true) {
+                    return "Thêm giỏ hàng thành công";
+                } else {
+                    return "Thêm giỏ hàng thất bại";
+                }
             }
         }
     }
@@ -53,8 +61,8 @@ public class GioHangService implements IGioHangService {
     }
 
     @Override
-    public ArrayList<GioHangEntity> getAll() {
-        return ghRepository.findAll();
+    public ArrayList<GioHangEntity> getAll(int makh) {
+        return ghRepository.findAll(makh);
     }
 
 }

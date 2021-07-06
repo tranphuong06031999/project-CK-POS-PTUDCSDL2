@@ -47,12 +47,7 @@
                             <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
                             <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2H3z"/>
                             </svg> Lịch sử giao dịch
-                        </a>
-                        <a href="/bill" class="btn btn-outline-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                            </svg> Giỏ hàng
-                        </a>
+                        </a>   
                         <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#addProductModal">
                             <svg xmlns="http://www.w3.org/2000/svg " width="16 " height="16 " fill="currentColor " class="bi bi-plus " viewBox="0 0 16 16 ">
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z "/>
@@ -258,9 +253,13 @@
                     </div>
                     <div class="modal-body">
                         <form action="/cart/add" method="post" accept-charset="utf-8">
+                            <div class="form-group">
+                                <label for="makh">Mã khách hàng</label>
+                                <input type="number" class="form-control" id="makh" name="makh" placeholder="Nhập mã khách hàng" required min="1">
+                            </div>
                             <input type="hidden" id="masp1" name="masp">
                             <input type="hidden" id="tensp" name="tensp">
-                            <input type="hidden" id="gia2" name="gia">
+                            <input type="hidden" id="gia2" name="gia">  
                             <div class="form-group">
                                 <label for="soluong">Số lượng</label>
                                 <input type="number" class="form-control" id="soluong" name="soluong" placeholder="Nhập số lượng" required min="1">
