@@ -32,6 +32,9 @@ public class PhieuThuController {
         if (page > ptService.totalPage()) {
             page = ptService.totalPage();
         }
+        if (page < 1) {
+            page = 1
+        }
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", ptService.getAllPaging(page));
         mav.addObject("totalPage", ptService.totalPage());
