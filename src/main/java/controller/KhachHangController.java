@@ -36,7 +36,7 @@ public class KhachHangController {
             page = khService.totalPage();
         }
         if (page < 1) {
-            page = 1
+            page = 1;
         }
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", khService.getAllPaging(page));
