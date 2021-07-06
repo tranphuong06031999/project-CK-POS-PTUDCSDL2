@@ -63,6 +63,9 @@ public class SanPhamController {
         if (page > sanPhamService.totalPage()) {
             page = sanPhamService.totalPage();
         }
+        if (page < 1) {
+            page = 1;
+        }
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", sanPhamService.getAllPaging(page));
         mav.addObject("totalPage", sanPhamService.totalPage());
