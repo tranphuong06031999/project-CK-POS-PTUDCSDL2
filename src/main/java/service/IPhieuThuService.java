@@ -23,4 +23,8 @@ public interface IPhieuThuService {
     public ArrayList<PhieuThuEntity> getAllPaging(int page);
 
     public int totalPage();
+
+    public ArrayList<PhieuThuEntity> searchPaging(String keyword, int page);
+
+    public int totalPageSearch(String keyword);
 }

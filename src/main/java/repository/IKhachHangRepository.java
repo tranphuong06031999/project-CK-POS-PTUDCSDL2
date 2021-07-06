@@ -33,4 +33,8 @@ public interface IKhachHangRepository {
     public int count();
     
     public ArrayList<KhachHangEntity> paging(int page);
+    
+    public ArrayList<KhachHangEntity> searchPaging(String keyword, int page);
+    
+    public int countSearch(String keyword);
 }

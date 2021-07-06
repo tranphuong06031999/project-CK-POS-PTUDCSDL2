@@ -26,4 +26,8 @@ public interface IHoaDonService {
     public ArrayList<HoaDonEntity> getAllPaging(int page);
 
     public int totalPage();
+
+    public ArrayList<HoaDonEntity> searchPaging(int makh, int page);
+
+    public int totalPageSearch(int makh);
 }

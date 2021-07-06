@@ -161,4 +161,52 @@ public class PhieuThuRepository implements IPhieuThuRepository {
         return list;
     }
 
+    @Override
+    public ArrayList<PhieuThuEntity> searchPaging(String keyword, int page) {
+        page = (page - 1) * 10;
+        ArrayList<PhieuThuEntity> list = new ArrayList<>();
+        String sql = "SELECT * from phieuthu where makh like '%" + keyword + "%' or tenkh like '%" + keyword + "%' limit " + page + ",10";
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            if (rs.next() == false) {
+                list = null;
+            } else {
+                do {
+                    PhieuThuEntity pt = new PhieuThuEntity();
+                    pt.setMaphieuthu(rs.getInt("maphieuthu"));
+                    pt.setMakh(rs.getInt("makh"));
+                    pt.setTenkh(rs.getString("tenkh"));
+                    pt.setSotiennap(rs.getInt("sotiennap"));
+                    pt.setSodu(rs.getInt("sodu"));
+                    pt.setNgaylap(rs.getDate("ngaylap").toString());
+                    list.add(pt);
+                } while (rs.next());
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public int countSearch(String keyword) {
+        int count = 0;
+        try {
+            String sql = "SELECT count(*) count from phieuthu where makh like '%" + keyword + "%' or tenkh like '%" + keyword + "%'";
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
+
 }

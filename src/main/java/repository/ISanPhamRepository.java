@@ -28,4 +28,8 @@ public interface ISanPhamRepository {
 
     public ArrayList<SanPhamEntity> paging(int page);
 
+    public ArrayList<SanPhamEntity> searchPaging(String keyword, int page);
+
+    public int countSearch(String keyword);
+
 }

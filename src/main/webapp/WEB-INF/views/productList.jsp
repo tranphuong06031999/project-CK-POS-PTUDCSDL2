@@ -126,13 +126,25 @@
                 <div class="container-fluid d-flex justify-content-center">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
+                            <input type="hidden" id="keyword" value="${keyword}">
                             <input type="hidden" id="currentPage" value="${currentPage}">
                             <input type="hidden" id="totalPage" value="${totalPage}">
-                            <li class="page-item" id="previous"><a class="page-link" id="page-previous" href="#">Previous</a></li>
-                                <c:forEach var = "i" begin = "1" end = "${totalPage}">
-                                <li class="page-item" id="page${i}"><a class="page-link" href="/product?page=${i}">${i}</a></li>
-                                </c:forEach>
-                            <li class="page-item" id="next"><a class="page-link" id="page-next" href="#">Next</a></li>
+                            <c:choose>
+                                <c:when test="${keyword != null}">
+                                    <li class="page-item" id="previous"><a class="page-link" id="page-previous" href="#">Previous</a></li>
+                                        <c:forEach var = "i" begin = "1" end = "${totalPage}">
+                                        <li class="page-item" id="page${i}"><a class="page-link" href="/product/search?keyword=${keyword}&page=${i}">${i}</a></li>
+                                        </c:forEach>
+                                    <li class="page-item" id="next"><a class="page-link" id="page-next" href="#">Next</a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <li class="page-item" id="previous"><a class="page-link" id="page-previous" href="#">Previous</a></li>
+                                        <c:forEach var = "i" begin = "1" end = "${totalPage}">
+                                        <li class="page-item" id="page${i}"><a class="page-link" href="/product?page=${i}">${i}</a></li>
+                                        </c:forEach>
+                                    <li class="page-item" id="next"><a class="page-link" id="page-next" href="#">Next</a></li>
+                                    </c:otherwise>
+                                </c:choose>
                         </ul>
                     </nav>
                 </div>
@@ -271,21 +283,30 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl " crossorigin="anonymous "></script>
     <script>
         var currentPage = 'page' + $('#currentPage').val();
+        var keyword = $('#keyword').val();
         if ($('#currentPage').val() === '1') {
             $('#previous').addClass("disabled");
         }
-        if ($('#currentPage').val() === $('#totalPage').val()) {
+        if ($('#currentPage').val() === $('#totalPage').val() || $('#totalPage').val() === '0') {
             $('#next').addClass("disabled");
         }
         $('#page-previous').on('click', function (e) {
             var atag = e.target;
             var currentPage = $('#currentPage').val() - 1;
-            $(atag).attr("href", "/product?page=" + currentPage);
+            if (keyword !== "") {
+                $(atag).attr("href", "/product/search?keyword=" + keyword + "&page=" + currentPage);
+            } else {
+                $(atag).attr("href", "/product?page=" + currentPage);
+            }
         });
         $('#page-next').on('click', function (e) {
             var atag = e.target;
             var currentPage = Number($('#currentPage').val()) + 1;
-            $(atag).attr("href", "/product?page=" + currentPage);
+            if (keyword !== "") {
+                $(atag).attr("href", "/product/search?keyword=" + keyword + "&page=" + currentPage);
+            } else {
+                $(atag).attr("href", "/product?page=" + currentPage);
+            }
         });
         $('#' + currentPage).addClass('active');
         var message = $('#message').val();

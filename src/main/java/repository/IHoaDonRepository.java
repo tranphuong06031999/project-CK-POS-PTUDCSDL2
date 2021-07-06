@@ -23,4 +23,8 @@ public interface IHoaDonRepository {
     public int count();
 
     public ArrayList<HoaDonEntity> paging(int page);
+
+    public ArrayList<HoaDonEntity> searchPaging(int makh, int page);
+
+    public int countSearch(int makh);
 }

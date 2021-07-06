@@ -44,11 +44,18 @@ public class PhieuThuController {
     }
 
     @RequestMapping(value = "/receipt/search", method = RequestMethod.GET)
-    public ModelAndView searchReceipt(@RequestParam("keyword") String keyword) {
+    public ModelAndView searchReceipt(@RequestParam("keyword") String keyword, @RequestParam(defaultValue = "1", name = "page", required = false) int page) {
+        if (page > ptService.totalPageSearch(keyword)) {
+            page = ptService.totalPageSearch(keyword);
+        }
+        if (page < 1) {
+            page = 1;
+        }
         ModelAndView mav = new ModelAndView();
-        mav.addObject("list", ptService.searchReceipt(keyword));
-        mav.addObject("totalPage", 1);
-        mav.addObject("currentPage", 1);
+        mav.addObject("list", ptService.searchPaging(keyword, page));
+        mav.addObject("totalPage", ptService.totalPageSearch(keyword));
+        mav.addObject("currentPage", page);
+        mav.addObject("keyword", keyword);
         mav.setViewName("receiptsList");
         return mav;
     }

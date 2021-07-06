@@ -135,4 +135,50 @@ public class HoaDonRepository implements IHoaDonRepository {
         return list;
     }
 
+    @Override
+    public ArrayList<HoaDonEntity> searchPaging(int makh, int page) {
+        page = (page - 1) * 10;
+        ArrayList<HoaDonEntity> list = new ArrayList<>();
+        String sql = "select * from hoadon where makh = " + makh + " limit " + page + ",10";
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            if (rs.next() == false) {
+                list = null;
+            } else {
+                do {
+                    HoaDonEntity hd = new HoaDonEntity();
+                    hd.setHoadon_id(rs.getInt("hoadon_id"));
+                    hd.setMakh(rs.getInt("makh"));
+                    hd.setNgaylap(rs.getDate("ngaylap").toString());
+                    hd.setTongtien(rs.getInt("tongtien"));
+                    list.add(hd);
+                } while (rs.next());
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public int countSearch(int makh) {
+       int count = 0;
+        try {
+            String sql = "select count(*) count from hoadon where makh = " + makh;
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
 }

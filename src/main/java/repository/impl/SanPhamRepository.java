@@ -196,4 +196,53 @@ public class SanPhamRepository implements ISanPhamRepository {
         return list;
     }
 
+    @Override
+    public ArrayList<SanPhamEntity> searchPaging(String keyword, int page) {
+        page = (page - 1) * 10;
+        ArrayList<SanPhamEntity> list = new ArrayList<>();
+        String sql = "SELECT * from sanpham where lower(tensp) like '%" + keyword + "%' limit " + page + ",10";
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            if (rs.next() == false) {
+                list = null;
+            } else {
+                do {
+                    SanPhamEntity sp = new SanPhamEntity();
+                    sp.setMaSP(rs.getInt("masp"));
+                    sp.setTenSP(rs.getString("tensp"));
+                    sp.setLoai(rs.getInt("loai"));
+                    sp.setDonVi(rs.getString("donvi"));
+                    sp.setSoLuong(rs.getInt("soluong"));
+                    sp.setGia(rs.getInt("gia"));
+                    sp.setGhiChu(rs.getString("ghichu"));
+                    list.add(sp);
+                } while (rs.next());
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public int countSearch(String keyword) {
+        int count = 0;
+        try {
+            String sql = "SELECT count(*) count from sanpham where lower(tensp) like '%" + keyword + "%'";
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
+
 }

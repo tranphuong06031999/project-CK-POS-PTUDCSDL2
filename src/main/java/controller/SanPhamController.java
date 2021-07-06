@@ -35,11 +35,18 @@ public class SanPhamController {
 
     //Tìm kiếm sản phẩm
     @RequestMapping(value = "/product/search", method = RequestMethod.GET)
-    public ModelAndView searchProduct(@RequestParam("keyword") String keyword) {
+    public ModelAndView searchProduct(@RequestParam("keyword") String keyword, @RequestParam(defaultValue = "1", name = "page", required = false) int page) {
+        if (page > sanPhamService.totalPageSearch(keyword)) {
+            page = sanPhamService.totalPageSearch(keyword);
+        }
+        if (page < 1) {
+            page = 1;
+        }
         ModelAndView mav = new ModelAndView();
-        mav.addObject("list", sanPhamService.searchSanPham(keyword));
-        mav.addObject("totalPage", 1);
-        mav.addObject("currentPage", 1);
+        mav.addObject("list", sanPhamService.searchPaging(keyword, page));
+        mav.addObject("totalPage", sanPhamService.totalPageSearch(keyword));
+        mav.addObject("currentPage", page);
+        mav.addObject("keyword", keyword);
         mav.setViewName("productList");
         return mav;
     }

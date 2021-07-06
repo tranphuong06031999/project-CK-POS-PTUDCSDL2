@@ -26,8 +26,12 @@ public interface IKhachHangService {
     public String updateCustomer(KhachHangEntity kh);
 
     public String payIn(int makh, int tiennap);
-    
+
     public ArrayList<KhachHangEntity> getAllPaging(int page);
-    
+
     public int totalPage();
+
+    public ArrayList<KhachHangEntity> searchPaging(String keyword, int page);
+
+    public int totalPageSearch(String keyword);
 }

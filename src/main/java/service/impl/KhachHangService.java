@@ -106,4 +106,15 @@ public class KhachHangService implements IKhachHangService {
         int totalPage = (int) Math.ceil((double) khRepository.count() / 10);
         return totalPage;
     }
+
+    @Override
+    public ArrayList<KhachHangEntity> searchPaging(String keyword, int page) {
+        return khRepository.searchPaging(keyword, page);
+    }
+
+    @Override
+    public int totalPageSearch(String keyword) {
+        int totalPage = (int) Math.ceil((double) khRepository.countSearch(keyword) / 10);
+        return totalPage;
+    }
 }

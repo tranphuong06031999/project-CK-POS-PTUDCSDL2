@@ -68,4 +68,15 @@ public class SanPhamService implements ISanPhamService {
         int totalPage = (int) Math.ceil((double) sanPhamRepository.count() / 10);
         return totalPage;
     }
+
+    @Override
+    public ArrayList<SanPhamEntity> searchPaging(String keyword, int page) {
+        return sanPhamRepository.searchPaging(keyword, page);
+    }
+
+    @Override
+    public int totalPageSearch(String keyword) {
+        int totalPage = (int) Math.ceil((double) sanPhamRepository.countSearch(keyword) / 10);
+        return totalPage;
+    }
 }

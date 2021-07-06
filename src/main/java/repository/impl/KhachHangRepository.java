@@ -219,4 +219,50 @@ public class KhachHangRepository implements IKhachHangRepository {
         }
         return list;
     }
+
+    @Override
+    public ArrayList<KhachHangEntity> searchPaging(String keyword, int page) {
+        page = (page - 1) * 10;
+        ArrayList<KhachHangEntity> list = new ArrayList<>();
+        String sql = "SELECT * from khachhang where makh like '%" + keyword + "%' or tenkh like '%" + keyword + "%' or sodienthoai like '%" + keyword + "%' limit " + page + ",10";
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            if (rs.next() == false) {
+                list = null;
+            } else {
+                do {
+                    KhachHangEntity kh = new KhachHangEntity();
+                    kh.setMakh(rs.getInt("makh"));
+                    kh.setTenkh(rs.getString("tenkh"));
+                    kh.setSodu(rs.getInt("sodu"));
+                    kh.setSodienthoai(rs.getString("sodienthoai"));
+                    list.add(kh);
+                } while (rs.next());
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public int countSearch(String keyword) {
+        int count = 0;
+        try {
+            String sql = "SELECT count(*) count from khachhang where makh like '%" + keyword + "%' or tenkh like '%" + keyword + "%' or sodienthoai like '%" + keyword + "%'";
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
 }

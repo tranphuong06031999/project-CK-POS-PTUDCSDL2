@@ -48,4 +48,15 @@ public class PhieuThuService implements IPhieuThuService {
         return totalPage;
     }
 
+    @Override
+    public ArrayList<PhieuThuEntity> searchPaging(String keyword, int page) {
+        return ptRepository.searchPaging(keyword, page);
+    }
+
+    @Override
+    public int totalPageSearch(String keyword) {
+        int totalPage = (int) Math.ceil((double) ptRepository.countSearch(keyword) / 10);
+        return totalPage;
+    }
+
 }

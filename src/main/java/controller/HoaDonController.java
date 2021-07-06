@@ -41,11 +41,18 @@ public class HoaDonController {
     }
 
     @RequestMapping(value = "/bill/search", method = RequestMethod.GET)
-    public ModelAndView search(@RequestParam("makh") int makh) {
+    public ModelAndView search(@RequestParam(defaultValue = "1", name = "makh") int makh, @RequestParam(defaultValue = "1", name = "page", required = false) int page) {
+        if (page > hdService.totalPageSearch(makh)) {
+            page = hdService.totalPageSearch(makh);
+        }
+        if (page < 1) {
+            page = 1;
+        }
         ModelAndView mav = new ModelAndView();
-        mav.addObject("list", hdService.searchBill(makh));
-        mav.addObject("totalPage", 1);
-        mav.addObject("currentPage", 1);
+        mav.addObject("list", hdService.searchPaging(makh, page));
+        mav.addObject("totalPage", hdService.totalPageSearch(makh));
+        mav.addObject("currentPage", page);
+        mav.addObject("keyword", makh);
         mav.setViewName("billsList");
         return mav;
     }

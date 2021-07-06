@@ -25,4 +25,8 @@ public interface IPhieuThuRepository {
     public int count();
 
     public ArrayList<PhieuThuEntity> paging(int page);
+
+    public ArrayList<PhieuThuEntity> searchPaging(String keyword, int page);
+
+    public int countSearch(String keyword);
 }

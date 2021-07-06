@@ -58,4 +58,15 @@ public class HoaDonService implements IHoaDonService {
         return totalPage;
     }
 
+    @Override
+    public ArrayList<HoaDonEntity> searchPaging(int makh, int page) {
+        return hdRepository.searchPaging(makh,page);
+    }
+
+    @Override
+    public int totalPageSearch(int makh) {
+         int totalPage = (int) Math.ceil((double) hdRepository.countSearch(makh) / 10);
+        return totalPage;
+    }
+
 }

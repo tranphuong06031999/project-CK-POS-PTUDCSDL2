@@ -28,4 +28,8 @@ public interface ISanPhamService {
     public ArrayList<SanPhamEntity> getAllPaging(int page);
 
     public int totalPage();
+
+    public ArrayList<SanPhamEntity> searchPaging(String keyword, int page);
+
+    public int totalPageSearch(String keyword);
 }
