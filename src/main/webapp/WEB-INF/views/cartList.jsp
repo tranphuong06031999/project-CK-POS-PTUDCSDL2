@@ -59,7 +59,7 @@
                             <tbody>
                                 <c:choose>
                                     <c:when test="${cartList == null}">
-                                        <tr >
+                                        <tr>
                                             <td colspan="8">Chưa có sản phẩm vào</td>
                                         </tr>
                                     </c:when>
@@ -138,7 +138,7 @@
                                     <a href="#" class="btn btn-primary">Thanh toán</a>
                                 </c:when>    
                                 <c:otherwise>
-                                    <a href="" class="btn btn-secondary">Thanh toán</a>
+                                    <a href="" class="btn btn-secondary disabled">Thanh toán</a>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -159,7 +159,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl " crossorigin="anonymous "></script>
     <script>
         var message = $('#message').val();
-        if (message !== "") {s
+        if (message !== "") {
             alert(message);
         }
         
@@ -169,7 +169,7 @@
             var price = cart.getAttribute("data-price");
             var makh = cart.getAttribute("data-makh");
             var masp = cart.getAttribute("data-masp");
-            if(quantity > 1 && quantity <= 10000){
+            if(quantity >= 1 && quantity <= 10000){
                 $("#cartid").val(id);
                 $("#price").val(price);
                 $("#qty").val(quantity);
@@ -223,8 +223,5 @@
                 $("#hiddenForm").submit();
             }
         }
-        (function($){
-            
-        }(jQuery));
     </script>
 </html>

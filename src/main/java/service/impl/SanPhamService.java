@@ -79,4 +79,9 @@ public class SanPhamService implements ISanPhamService {
         int totalPage = (int) Math.ceil((double) sanPhamRepository.countSearch(keyword) / 10);
         return totalPage;
     }
+
+    @Override
+    public boolean updateSoluong(int masp, int soluong) {
+        return sanPhamRepository.updateSoluong(masp, soluong);
+    }
 }

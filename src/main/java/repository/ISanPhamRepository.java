@@ -31,7 +31,7 @@ public interface ISanPhamRepository {
     public ArrayList<SanPhamEntity> searchPaging(String keyword, int page);
 
     public int countSearch(String keyword);
-    
-    public boolean checkQuantity(int id, int quantity);
+
+    public boolean updateSoluong(int masp, int soluong);
 
 }

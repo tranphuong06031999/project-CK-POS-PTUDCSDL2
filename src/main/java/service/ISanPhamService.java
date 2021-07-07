@@ -32,4 +32,6 @@ public interface ISanPhamService {
     public ArrayList<SanPhamEntity> searchPaging(String keyword, int page);
 
     public int totalPageSearch(String keyword);
+
+    public boolean updateSoluong(int masp, int soluong);
 }

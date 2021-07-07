@@ -70,7 +70,7 @@ public class GioHangRepository implements IGioHangRepository {
         helper.close();
         return false;
     }
-    
+
     @Override
     public boolean update(GioHangEntity cart) {
         int total = cart.getSoluong() * cart.getGia();
@@ -105,9 +105,9 @@ public class GioHangRepository implements IGioHangRepository {
     }
 
     @Override
-    public int isExists(int masp) {
+    public int isExists(int masp, int makh) {
         int cart_id = 0;
-        String sql = "select * from giohang where masp = " + masp;
+        String sql = "select * from giohang where masp = " + masp + " and makh = " + makh;
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
@@ -134,16 +134,20 @@ public class GioHangRepository implements IGioHangRepository {
         try {
             helper.open();
             ResultSet rs = helper.excuteQuery(sql);
-            while (rs.next()) {
-                GioHangEntity cart = new GioHangEntity();
-                cart.setMakh(rs.getInt("makh"));
-                cart.setMagiohang(rs.getInt("magiohang"));
-                cart.setTensp(rs.getString("tensp"));
-                cart.setMasp(rs.getInt("masp"));
-                cart.setGia(rs.getInt("gia"));
-                cart.setSoluong(rs.getInt("soluong"));
-                cart.setGiatong(rs.getInt("giatong"));
-                list.add(cart);
+            if (rs.next() == false) {
+                list = null;
+            } else {
+                do {
+                    GioHangEntity cart = new GioHangEntity();
+                    cart.setMakh(rs.getInt("makh"));
+                    cart.setMagiohang(rs.getInt("magiohang"));
+                    cart.setTensp(rs.getString("tensp"));
+                    cart.setMasp(rs.getInt("masp"));
+                    cart.setGia(rs.getInt("gia"));
+                    cart.setSoluong(rs.getInt("soluong"));
+                    cart.setGiatong(rs.getInt("giatong"));
+                    list.add(cart);
+                } while (rs.next());
             }
             helper.close();
         } catch (SQLException ex) {
@@ -151,8 +155,8 @@ public class GioHangRepository implements IGioHangRepository {
         }
         return list;
     }
-    
-    public int totalPrice(int makh){
+
+    public int totalPrice(int makh) {
         int total = 0;
         String sql = "select SUM(giatong) as total  from giohang where makh = " + makh;
         MySQLDataHelper helper = new MySQLDataHelper();
@@ -167,6 +171,30 @@ public class GioHangRepository implements IGioHangRepository {
             ex.printStackTrace();
         }
         return total;
+    }
+
+    @Override
+    public GioHangEntity findById(int magiohang) {
+        GioHangEntity cart = new GioHangEntity();
+        String sql = "select * from giohang where magiohang = " + magiohang;
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                cart.setMakh(rs.getInt("makh"));
+                cart.setMagiohang(rs.getInt("magiohang"));
+                cart.setTensp(rs.getString("tensp"));
+                cart.setMasp(rs.getInt("masp"));
+                cart.setGia(rs.getInt("gia"));
+                cart.setSoluong(rs.getInt("soluong"));
+                cart.setGiatong(rs.getInt("giatong"));
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return cart;
     }
 
 }
