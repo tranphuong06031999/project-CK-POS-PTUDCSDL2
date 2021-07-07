@@ -49,11 +49,12 @@ public class GioHangService implements IGioHangService {
                     } else {
                         return "Thêm giỏ hàng thất bại";
                     }
-                }
-                if (ghRepository.incremental(magiohang, cart.getGia(), cart.getSoluong()) == true) {
-                    return "Thêm giỏ hàng thành công";
                 } else {
-                    return "Thêm giỏ hàng thất bại";
+                    if (ghRepository.incremental(magiohang, cart.getGia(), cart.getSoluong()) == true) {
+                        return "Thêm giỏ hàng thành công";
+                    } else {
+                        return "Thêm giỏ hàng thất bại";
+                    }
                 }
             } else {
                 return "Thêm giỏ hàng thất bại";
@@ -68,12 +69,12 @@ public class GioHangService implements IGioHangService {
         int soluong = sp.getSoLuong();
         if (cart.getSoluong() - gh.getSoluong() == 1) {
             soluong = soluong - 1;
-        } else if(cart.getSoluong() - gh.getSoluong() == -1){
+        } else if (cart.getSoluong() - gh.getSoluong() == -1) {
             soluong = soluong + 1;
-        }else if(cart.getSoluong() - gh.getSoluong() < -1){
-            soluong = soluong + (gh.getSoluong() - cart.getSoluong()); 
-        }else if(cart.getSoluong() - gh.getSoluong() > 1){
-            soluong = soluong - (cart.getSoluong() - gh.getSoluong()); 
+        } else if (cart.getSoluong() - gh.getSoluong() < -1) {
+            soluong = soluong + (gh.getSoluong() - cart.getSoluong());
+        } else if (cart.getSoluong() - gh.getSoluong() > 1) {
+            soluong = soluong - (cart.getSoluong() - gh.getSoluong());
         }
         if (soluong < 1) {
             return "Số lượng đã vượt quá số lượng tồn";
