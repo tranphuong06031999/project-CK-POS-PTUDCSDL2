@@ -48,10 +48,8 @@ public class GioHangController {
 
     //Thêm số lượng
     @RequestMapping(value = "/cart/update", method = RequestMethod.POST)
-    public RedirectView updateCart(@ModelAttribute GioHangEntity gh, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("message", ghService.updateCart(gh));
-//        RedirectView rv = new RedirectView();
-//        rv.setUrl("/cart/makh");
+    public RedirectView updateCart(@ModelAttribute GioHangEntity gh) {
+        ghService.updateCart(gh);
         String url = "/cart/" + gh.getMakh();
         return new RedirectView(url);
     }
