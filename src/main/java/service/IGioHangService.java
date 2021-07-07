@@ -23,5 +23,7 @@ public interface IGioHangService {
     public ArrayList<GioHangEntity> getAll(int makh);  
     
     public int totalPrice(int makh);
+    
+    public int discount(int makh);
 
 }

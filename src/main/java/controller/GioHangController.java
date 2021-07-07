@@ -41,7 +41,8 @@ public class GioHangController {
         ModelAndView modelView = new ModelAndView();
         modelView.addObject("message", message);
         modelView.addObject("cartList", ghService.getAll(makh));
-        modelView.addObject("totalPrice", ghService.totalPrice(makh));
+        modelView.addObject("totalPrice", ghService.totalPrice(makh));        
+        modelView.addObject("discount", ghService.discount(makh));
         modelView.setViewName("cartList");
         return modelView;
     }

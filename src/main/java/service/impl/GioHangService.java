@@ -114,12 +114,27 @@ public class GioHangService implements IGioHangService {
 
     @Override
     public int totalPrice(int makh) {
-//        int total = 0;
-//        int total = ghRepository.totalPrice(makh);
-//        for(GioHangEntity cart : cartList){
-//            total += cart.getGiatong();
-//        }
-        return ghRepository.totalPrice(makh);
+        int total = ghRepository.totalPrice(makh);
+        int discount = discount(makh);
+        total = total - (total * discount / 100);
+        return total;
+    }
+    
+    @Override
+    public int discount(int makh){
+        int qty = ghRepository.quantity(makh);
+        if(qty <= 100){
+            return 2;
+        }
+        else if(qty > 100 && qty <= 200){
+            return 3;
+        }
+        else if(qty > 200 && qty <= 500){
+            return 5;
+        }
+        else{
+            return 7;
+        }
     }
 
 }

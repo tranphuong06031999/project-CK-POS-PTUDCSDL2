@@ -172,6 +172,24 @@ public class GioHangRepository implements IGioHangRepository {
         }
         return total;
     }
+    
+    @Override
+    public int quantity(int makh){
+        int total = 0;
+        String sql = "select SUM(soluong) as total  from giohang where makh = " + makh;
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                total = rs.getInt("total");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
 
     @Override
     public GioHangEntity findById(int magiohang) {

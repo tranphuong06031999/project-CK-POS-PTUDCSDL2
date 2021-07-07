@@ -30,5 +30,8 @@ public interface IGioHangRepository {
 
     public int totalPrice(int makh);
 
+    public int quantity(int makh);
+    
     public GioHangEntity findById(int magiohang);
+
 }

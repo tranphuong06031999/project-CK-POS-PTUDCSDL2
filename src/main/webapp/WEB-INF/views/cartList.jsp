@@ -41,7 +41,7 @@
         <div class="container-fluid pt-3">
             <h5>Giỏ hàng</h5>
             <div class="row d-flex justify-content-between p-2">
-                <div clas="col-md-10" style="width: 70% ">
+                <div clas="col-md-10" style="width: 73% ">
                     <div class="table-title d-block justify-content-between mb-2">
                         <table class="table table-hover ">
                             <thead>
@@ -114,23 +114,32 @@
                         <div class="card-header text-center">
                             Thành tiền
                         </div>
-                        <div class="card-body p-3"  style="width: 440px;">
+                        <div class="card-body p-3"  style="width: 400px;">
                             <h5 class="card-title text-center" style="color: red;">
                                 <fmt:formatNumber value="${totalPrice}" pattern="#,###.##" var="pat" /> 
                                  ${pat} đ
                             </h5>
                             <hr>
-                            <div class="d-block">
-                                <p>With supportimg</p>
-                                <span style="float: right;" >50%</span>
+                            <h5 style="text-transform: uppercase;" >Chiết khấu</h5>
+                            <div class="d-block mb-4">
+                                <!--<span style="color: rgba(0,0,0,0.54); text-decoration: line-through; text-decoration-thickness: 1px;">30.000đ</span>-->
+                                <fmt:formatNumber value="${totalPrice*(discount/100)}" pattern="#,###.##" var="discountAmount" /> 
+                                <span > - ${discountAmount}đ</span>
+                                <span class="float-right">${discount}%</span>
                             </div>
-                            <div class="d-block">
-                                <p>With supportimg</p>
-                                <span style="float: right;" >50%</span>
+                            <h5 style="text-transform: uppercase;" >Khách hàng thân thiết</h5>
+                            <div class="d-block mb-4">
+                                <!--<span style="color: rgba(0,0,0,0.54); text-decoration: line-through; text-decoration-thickness: 1px;">30.000đ</span>-->
+                                <fmt:formatNumber value="${totalPrice*(discount/100)}" pattern="#,###.##" var="discountAmount" /> 
+                                <span > - ${discountAmount}đ</span>
+                                <span class="float-right">${discount}%</span>
                             </div>
-                            <div class="d-block">
-                                <p>With supportimg</p>
-                                <span style="float: right;" >50%</span>
+                            <h5 style="text-transform: uppercase;" >Số sản phẩm nhiều hơn 100</h5>
+                            <div class="d-block mb-4">
+                                <!--<span style="color: rgba(0,0,0,0.54); text-decoration: line-through; text-decoration-thickness: 1px;">30.000đ</span>-->
+                                <fmt:formatNumber value="${totalPrice*(discount/100)}" pattern="#,###.##" var="discountAmount" /> 
+                                <span > - ${discountAmount}đ</span>
+                                <span class="float-right">${discount}%</span>
                             </div>
                             <hr>
                             <c:choose>
