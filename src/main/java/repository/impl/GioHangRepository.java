@@ -55,11 +55,26 @@ public class GioHangRepository implements IGioHangRepository {
     }
 
     @Override
-    public boolean update(int id, int price, int qty) {
+    public boolean incremental(int id, int price, int qty) {
         GioHangEntity cart = this.findOne(id);
         qty += cart.getSoluong();
         price *= qty;
         String sql = "update giohang set soluong = " + qty + ", giatong = " + price + " where magiohang = " + id;
+        MySQLDataHelper helper = new MySQLDataHelper();
+        helper.open();
+        int n = helper.excuteUpdate(sql);
+        if (n == 1) {
+            helper.close();
+            return true;
+        }
+        helper.close();
+        return false;
+    }
+    
+    @Override
+    public boolean update(GioHangEntity cart) {
+        int total = cart.getSoluong() * cart.getGia();
+        String sql = "update giohang set soluong = " + cart.getSoluong() + ", giatong = " + total + " where magiohang = " + cart.getMagiohang();
         MySQLDataHelper helper = new MySQLDataHelper();
         helper.open();
         int n = helper.excuteUpdate(sql);
@@ -135,6 +150,23 @@ public class GioHangRepository implements IGioHangRepository {
             ex.printStackTrace();
         }
         return list;
+    }
+    
+    public int totalPrice(int makh){
+        int total = 0;
+        String sql = "select SUM(giatong) as total  from giohang where makh = " + makh;
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                total = rs.getInt("total");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return total;
     }
 
 }

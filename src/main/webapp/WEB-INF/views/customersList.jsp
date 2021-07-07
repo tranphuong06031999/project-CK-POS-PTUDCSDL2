@@ -83,8 +83,8 @@
                                             <td>${customer.makh}</td>
                                             <td>${customer.tenkh}</td>
                                             <td>
-                                                <fmt:formatNumber type = "number" 
-                                                                  groupingUsed = "false" value = "${customer.sodu}"/>
+                                                <fmt:formatNumber value="${customer.sodu}" pattern="#,###.##" var="pat" /> 
+                                                ${pat}
                                             </td>
                                             <td>${customer.sodienthoai}</td>
                                             <c:choose>

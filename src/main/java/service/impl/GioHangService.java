@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.IGioHangRepository;
 import repository.IKhachHangRepository;
+import repository.ISanPhamRepository;
 import service.IGioHangService;
 
 /**
@@ -26,6 +27,9 @@ public class GioHangService implements IGioHangService {
 
     @Autowired
     IKhachHangRepository khRepository;
+    
+    @Autowired
+    ISanPhamRepository spRepository;
 
     @Override
     public String createCart(GioHangEntity cart) {
@@ -42,12 +46,25 @@ public class GioHangService implements IGioHangService {
                     return "Thêm giỏ hàng thất bại";
                 }
             } else {
-                if (ghRepository.update(magiohang, cart.getGia(), cart.getSoluong()) == true) {
+                if (ghRepository.incremental(magiohang, cart.getGia(), cart.getSoluong()) == true) {
                     return "Thêm giỏ hàng thành công";
                 } else {
                     return "Thêm giỏ hàng thất bại";
                 }
             }
+        }
+    }
+    @Override
+    public String updateCart(GioHangEntity cart){
+        if(spRepository.checkQuantity(cart.getMasp(), cart.getSoluong()) == true){
+            if (ghRepository.update(cart) == true) {
+                return "Cập nhật số lượng thành công";
+            } else {
+                return "Cập nhật số lượng thất bại";
+            }
+        }
+        else{
+            return "Số lượng vượt quá số lượng tồn";
         }
     }
 
@@ -63,6 +80,16 @@ public class GioHangService implements IGioHangService {
     @Override
     public ArrayList<GioHangEntity> getAll(int makh) {
         return ghRepository.findAll(makh);
+    }
+    
+    @Override
+    public int totalPrice(int makh){
+//        int total = 0;
+//        int total = ghRepository.totalPrice(makh);
+//        for(GioHangEntity cart : cartList){
+//            total += cart.getGiatong();
+//        }
+        return ghRepository.totalPrice(makh);
     }
 
 }

@@ -66,8 +66,8 @@
                                             <td>${bill.makh}</td>
 
                                             <td>
-                                                <fmt:formatNumber type = "number" 
-                                                                  groupingUsed = "false" value = "${bill.tongtien}"/>
+                                                <fmt:formatNumber value="${bill.tongtien}" pattern="#,###.##" var="pat" /> 
+                                                ${pat}
                                             </td>
                                             <td>${bill.ngaylap}</td>
                                             <td>

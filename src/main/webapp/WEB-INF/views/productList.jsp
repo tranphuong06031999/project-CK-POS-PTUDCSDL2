@@ -60,15 +60,15 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                <th scope="col ">Mã</th>
-                                <th scope="col ">Tên sản phẩm</th>
-                                <th scope="col ">Loại</th>
-                                <th scope="col ">Đơn vị</th>
-                                <th scope="col ">Số lượng</th>
-                                <th scope="col ">Giá(đ)</th>
-                                <th scope="col ">Ghi chú</th>
+                                <th scope="col">Mã</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Loại</th>
+                                <th scope="col" style="width: 6%">Đơn vị</th>
+                                <th scope="col" style="width: 7%">Số lượng</th>
+                                <th scope="col">Giá(đ)</th>
+                                <th scope="col">Ghi chú</th>
                                 <th scope="col">Mua</th>
-                                <th scope="col " style="width: 13% ">Trạng thái</th>
+                                <th scope="col" style="width: 13% ">Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -87,8 +87,8 @@
                                             <td>${product.donVi}</td>
                                             <td>${product.soLuong}</td>
                                             <td>
-                                                <fmt:formatNumber type = "number" 
-                                                                  groupingUsed = "false" value = "${product.gia}"/>
+                                                <fmt:formatNumber value="${product.gia}" pattern="#,###.##" var="pat" /> 
+                                                ${pat}
                                             </td>
                                             <td>${product.ghiChu}</td>
                                             <td>

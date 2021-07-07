@@ -244,5 +244,26 @@ public class SanPhamRepository implements ISanPhamRepository {
         }
         return count;
     }
+    
+    @Override
+    public boolean checkQuantity(int id, int quantity){
+        String sql = "SELECT soluong FROM sanpham WHERE masp = " + id;
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            int qtyDB = 0;
+            while (rs.next()) {
+                qtyDB = rs.getInt("soluong");
+            }
+            if(quantity <= qtyDB){
+                return true;
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+         return false;
+    }
 
 }

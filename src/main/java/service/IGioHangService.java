@@ -15,8 +15,13 @@ import java.util.ArrayList;
 public interface IGioHangService {
 
     public String createCart(GioHangEntity cart);
+    
+    public String updateCart(GioHangEntity cart);
 
     public String deleteCart(int magiohang);
     
-    public ArrayList<GioHangEntity> getAll(int makh);
+    public ArrayList<GioHangEntity> getAll(int makh);  
+    
+    public int totalPrice(int makh);
+
 }
