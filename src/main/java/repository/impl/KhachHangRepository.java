@@ -163,8 +163,8 @@ public class KhachHangRepository implements IKhachHangRepository {
     }
 
     @Override
-    public boolean updateVip(int makh) {
-        String sql = String.format("update khachhang set loaikh = 1 where makh = %s", makh);
+    public boolean updateVip(int makh, int loaikh) {
+        String sql = String.format("update khachhang set loaikh = %d where makh = %d", loaikh, makh);
         MySQLDataHelper helper = new MySQLDataHelper();
         helper.open();
         int n = helper.excuteUpdate(sql);
