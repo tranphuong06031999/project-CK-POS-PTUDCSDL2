@@ -57,6 +57,11 @@ public class KhachHangService implements IKhachHangService {
             return "Không tìm thấy khách hàng";
         } else {
             if (khRepository.update(kh) == true) {
+                if (kh.getSodu() < 0) {
+                    khRepository.updateVip(kh.getMakh(), 0);
+                } else if (kh.getSodu() >= 10000000) {
+                    khRepository.updateVip(kh.getMakh(), 1);
+                }
                 return "Cập nhập khách hàng thành công";
             } else {
                 return "Cập nhập khách hàng thất bại";
@@ -83,7 +88,7 @@ public class KhachHangService implements IKhachHangService {
                 pt.setSodu(khTemp.getSodu());
                 pt.setTenkh(khTemp.getTenkh());
                 if (khTemp.getSodu() >= 10000000) {
-                    khRepository.updateVip(makh);
+                    khRepository.updateVip(makh, 1);
                 }
                 if (ptRepository.create(pt) == true) {
                     return "Nạp tiền thành công";
