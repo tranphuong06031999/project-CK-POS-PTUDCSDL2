@@ -5,22 +5,14 @@
  */
 package controller;
 
-import entity.KhachHangEntity;
 import entity.SanPhamEntity;
-import java.util.ArrayList;
-import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 import service.ISanPhamService;
 
 /**
@@ -53,15 +45,19 @@ public class SanPhamController {
 
     //Get view addproduct
     @RequestMapping(value = "/product/add")
-    public RedirectView addNewProduct(@ModelAttribute SanPhamEntity sp, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("message", sanPhamService.addSanPham(sp));
-        return new RedirectView("/product");
+    public ModelAndView addNewProduct(@ModelAttribute SanPhamEntity sp) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("message", sanPhamService.addSanPham(sp));
+        mav.setViewName("redirect:/product");
+        return mav;
     }
 
     @RequestMapping(value = "/product/update")
-    public RedirectView updateProduct(@ModelAttribute SanPhamEntity sp, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("message", sanPhamService.updateSanPham(sp));
-        return new RedirectView("/product");
+    public ModelAndView updateProduct(@ModelAttribute SanPhamEntity sp) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("message", sanPhamService.updateSanPham(sp));
+        mav.setViewName("redirect:/product");
+        return mav;
     }
 
     //GET view danh sách sản phẩm 

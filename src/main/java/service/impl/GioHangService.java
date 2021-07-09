@@ -8,7 +8,6 @@ package service.impl;
 import entity.GioHangEntity;
 import entity.SanPhamEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.IGioHangRepository;

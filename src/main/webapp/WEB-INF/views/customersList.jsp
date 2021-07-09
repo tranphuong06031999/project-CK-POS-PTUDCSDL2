@@ -81,7 +81,14 @@
                                     <c:forEach var="customer" items="${list}">
                                         <tr>
                                             <td>${customer.makh}</td>
-                                            <td>${customer.tenkh}</td>
+                                            <c:choose>
+                                                <c:when test="${customer.sodu<=-30000000}">
+                                                    <td class="text-danger">${customer.tenkh}</td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>${customer.tenkh}</td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td>
                                                 <fmt:formatNumber value="${customer.sodu}" pattern="#,###.##" var="pat" /> 
                                                 ${pat}
