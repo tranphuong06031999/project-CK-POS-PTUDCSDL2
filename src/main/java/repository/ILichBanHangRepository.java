@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface ILichBanHangRepository {
     List<LichBanHangEnity> paging(int page);
+    int count();
 }

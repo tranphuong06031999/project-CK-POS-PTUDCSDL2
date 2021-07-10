@@ -27,6 +27,12 @@ public class LichBanHangService implements ILichBanHangService {
         return lichBanHangRepository.paging(page);
     }
 
+    @Override
+    public int totalPage() {
+        int totalPage = (int) Math.ceil((double) lichBanHangRepository.count() / 10);
+        return totalPage;
+    }
+
     
 
 }

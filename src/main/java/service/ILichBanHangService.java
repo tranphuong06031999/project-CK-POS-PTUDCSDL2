@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface ILichBanHangService {
     List<LichBanHangEnity> getAllPaging(int page);
+    int totalPage();
 }

@@ -14,8 +14,6 @@ import java.io.Serializable;
 public class LichBanHangEnity extends AbstractEntity implements Serializable{
     private int hoadon_id;
     private String tenkh;
-    private String tensp;
-    private int soluong;
     private int tongtien;
     private String ngaylap;
 
@@ -34,22 +32,6 @@ public class LichBanHangEnity extends AbstractEntity implements Serializable{
 
     public void setTenkh(String tenkh) {
         this.tenkh = tenkh;
-    }
-
-    public String getTensp() {
-        return tensp;
-    }
-
-    public void setTensp(String tensp) {
-        this.tensp = tensp;
-    }
-
-    public int getSoluong() {
-        return soluong;
-    }
-
-    public void setSoluong(int soluong) {
-        this.soluong = soluong;
     }
 
     public int getTongtien() {

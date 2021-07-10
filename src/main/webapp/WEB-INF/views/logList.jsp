@@ -47,8 +47,6 @@
                             <tr>
                                  <th scope="col ">Mã khách hàng</th>
                                 <th scope="col ">Tên khách hàng</th>
-                                <th scope="col ">Tên sản phẩm</th>
-                                <th scope="col ">Số lượng</th>
                                 <th scope="col ">Tổng tiền</th>
                                 <th scope="col ">Ngày lập</th>
                             </tr>
@@ -65,8 +63,6 @@
                                         <tr>
                                             <td>${log.makh}</td>
                                             <td>${log.tenkh}</td>
-                                            <td>${log.tensp}</td>
-                                            <td>${log.soluong}</td>
                                             <td>
                                                 <fmt:formatNumber value="${log.tongtien}" pattern="#,###.##" var="pat" /> 
                                                 ${pat}

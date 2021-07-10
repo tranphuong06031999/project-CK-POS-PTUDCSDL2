@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Repository;
 import repository.ILichBanHangRepository;
 
@@ -26,14 +28,12 @@ public class LichBanHangRepository implements ILichBanHangRepository {
         page = (page - 1) * 10;
         List<LichBanHangEnity> list = new ArrayList<LichBanHangEnity>();
 
-        String sql = "SELECT khachhang.makh, hoadon.hoadon_id, khachhang.tenkh, sanpham.tensp, chitiethoadon.soluong, SUM(chitiethoadon.tongtien) AS tongtien, hoadon.ngaylap\n"
-                + "FROM hoadon, chitiethoadon, khachhang, sanpham\n"
-                + "WHERE hoadon.hoadon_id=chitiethoadon.ma_hoadon\n"
-                + "AND hoadon.makh=khachhang.makh\n"
-                + "AND chitiethoadon.masp = sanpham.masp\n"
+        String sql = "SELECT khachhang.makh, hoadon.hoadon_id, khachhang.tenkh, SUM(hoadon.tongtien) AS tongtien, hoadon.ngaylap\n"
+                + "FROM hoadon, khachhang\n"
+                + "WHERE hoadon.makh = khachhang.makh\n"
                 + "GROUP BY khachhang.makh, hoadon.ngaylap\n"
                 + "ORDER BY hoadon.ngaylap DESC\n"
-                + "LIMIT "+page+",10";
+                + "LIMIT " + page + ",10";
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
@@ -46,8 +46,6 @@ public class LichBanHangRepository implements ILichBanHangRepository {
                     lbh.setMakh(rs.getInt("makh"));
                     lbh.setHoadon_id(rs.getInt("hoadon_id"));
                     lbh.setTenkh(rs.getString("tenkh"));
-                    lbh.setTensp(rs.getString("tensp"));
-                    lbh.setSoluong(rs.getInt("soluong"));
                     lbh.setTongtien(rs.getInt("tongtien"));
                     lbh.setNgaylap(rs.getString("ngaylap"));
                     list.add(lbh);
@@ -55,9 +53,29 @@ public class LichBanHangRepository implements ILichBanHangRepository {
             }
             helper.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(KhachHangRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
+    }
+
+    @Override
+    public int count() {
+        int count = 0;
+        try {
+            String sql = "SELECT COUNT(*)\n"
+                    + "FROM hoadon\n"
+                    + "GROUP BY hoadon.makh, hoadon.ngaylap";
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                count++;
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
     }
 
 }

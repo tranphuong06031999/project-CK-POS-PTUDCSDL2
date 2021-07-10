@@ -23,21 +23,18 @@ public class LichBanHangController {
 
     @Autowired
     private ILichBanHangService lichBanHangService;
-    
-    @Autowired
-    private IHoaDonService hdService;
 
     @RequestMapping(value = "/log", method = RequestMethod.GET) 
     public ModelAndView getAll(@RequestParam(defaultValue = "1", name = "page", required = false) int page) {
-        if (page > hdService.totalPage()) {
-            page = hdService.totalPage();
+        if (page > lichBanHangService.totalPage()) {
+            page = lichBanHangService.totalPage();
         }
         if (page < 1) {
             page = 1;
         }
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", lichBanHangService.getAllPaging(page));
-        mav.addObject("totalPage", hdService.totalPage());
+        mav.addObject("totalPage", lichBanHangService.totalPage());
         mav.addObject("currentPage", page);
         mav.setViewName("logList");
         return mav;
