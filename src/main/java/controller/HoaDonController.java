@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import service.IHoaDonService;
+import service.IKhachHangService;
 
 /**
  *
@@ -23,6 +24,9 @@ public class HoaDonController {
 
     @Autowired
     private IHoaDonService hdService;
+    
+    @Autowired
+    private IKhachHangService khService;
 
     @RequestMapping(value = "/bill", method = RequestMethod.GET)
     public ModelAndView getAll(@RequestParam(defaultValue = "1", name = "page", required = false) int page) {
@@ -60,7 +64,8 @@ public class HoaDonController {
     @RequestMapping(value = "/bill/{id}", method = RequestMethod.GET)
     public ModelAndView getAllCTHD(@PathVariable("id") int mahd) {
         ModelAndView model = new ModelAndView();
-        model.addObject("total", hdService.getOne(mahd).getTongtien());
+        model.addObject("kh", khService.getOne(hdService.getOne(mahd).getMakh()));
+        model.addObject("hoadon", hdService.getOne(mahd));
         model.addObject("list", hdService.getAllCTHD(mahd));
         model.setViewName("detailBill");
         return model;
