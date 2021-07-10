@@ -26,11 +26,12 @@ public class LichBanHangRepository implements ILichBanHangRepository {
         page = (page - 1) * 10;
         List<LichBanHangEnity> list = new ArrayList<LichBanHangEnity>();
 
-        String sql = "SELECT khachhang.makh, hoadon.hoadon_id, khachhang.tenkh, sanpham.tensp, chitiethoadon.soluong, chitiethoadon.tongtien, hoadon.ngaylap\n"
+        String sql = "SELECT khachhang.makh, hoadon.hoadon_id, khachhang.tenkh, sanpham.tensp, chitiethoadon.soluong, SUM(chitiethoadon.tongtien) AS tongtien, hoadon.ngaylap\n"
                 + "FROM hoadon, chitiethoadon, khachhang, sanpham\n"
                 + "WHERE hoadon.hoadon_id=chitiethoadon.ma_hoadon\n"
                 + "AND hoadon.makh=khachhang.makh\n"
                 + "AND chitiethoadon.masp = sanpham.masp\n"
+                + "GROUP BY (khachhang.makh)\n"
                 + "ORDER BY hoadon.ngaylap DESC\n"
                 + "LIMIT "+page+",10";
         MySQLDataHelper helper = new MySQLDataHelper();
