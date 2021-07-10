@@ -51,7 +51,7 @@ public class PhieuThuRepository implements IPhieuThuRepository {
                 pt.setTenkh(rs.getString("tenkh"));
                 pt.setSotiennap(rs.getInt("sotiennap"));
                 pt.setSodu(rs.getInt("sodu"));
-                pt.setNgaylap(rs.getDate("ngaylap").toString());
+                pt.setNgaylap(rs.getString("ngaylap"));
                 list.add(pt);
             }
             helper.close();
@@ -79,7 +79,7 @@ public class PhieuThuRepository implements IPhieuThuRepository {
                     pt.setTenkh(rs.getString("tenkh"));
                     pt.setSotiennap(rs.getInt("sotiennap"));
                     pt.setSodu(rs.getInt("sodu"));
-                    pt.setNgaylap(rs.getDate("ngaylap").toString());
+                    pt.setNgaylap(rs.getString("ngaylap"));
                     list.add(pt);
                 } while (rs.next());
             }
@@ -107,7 +107,7 @@ public class PhieuThuRepository implements IPhieuThuRepository {
                     pt.setTenkh(rs.getString("tenkh"));
                     pt.setSotiennap(rs.getInt("sotiennap"));
                     pt.setSodu(rs.getInt("sodu"));
-                    pt.setNgaylap(rs.getDate("ngaylap").toString());
+                    pt.setNgaylap(rs.getString("ngaylap"));
                 } while (rs.next());
             }
             helper.close();
@@ -151,7 +151,7 @@ public class PhieuThuRepository implements IPhieuThuRepository {
                 pt.setTenkh(rs.getString("tenkh"));
                 pt.setSotiennap(rs.getInt("sotiennap"));
                 pt.setSodu(rs.getInt("sodu"));
-                pt.setNgaylap(rs.getDate("ngaylap").toString());
+                pt.setNgaylap(rs.getString("ngaylap"));
                 list.add(pt);
             }
             helper.close();
@@ -180,7 +180,7 @@ public class PhieuThuRepository implements IPhieuThuRepository {
                     pt.setTenkh(rs.getString("tenkh"));
                     pt.setSotiennap(rs.getInt("sotiennap"));
                     pt.setSodu(rs.getInt("sodu"));
-                    pt.setNgaylap(rs.getDate("ngaylap").toString());
+                    pt.setNgaylap(rs.getString("ngaylap"));
                     list.add(pt);
                 } while (rs.next());
             }
