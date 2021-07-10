@@ -22,7 +22,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/log">Lịch sử bán hàng <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/customer">Khách Hàng</a>
@@ -42,12 +42,6 @@
                 <div class="table-title d-flex justify-content-between mb-2">
                     <h5>Danh sách sản phẩm</h5>
                     <div>
-                        <a href="/log" class="btn btn-outline-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
-                            <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
-                            <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2H3z"/>
-                            </svg> Lịch sử bán hàng
-                        </a> 
                         <a href="/bill" class="btn btn-outline-info">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
                             <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
@@ -350,7 +344,7 @@
             } else {
                 $('#btnAddCart').attr("disabled", true);
                 $('#soluong').attr("disabled", true);
-               $('#btnAddCart').text("Số lượng tồn không đủ");
+                $('#btnAddCart').text("Số lượng tồn không đủ");
                 $('#makh').attr("disabled", true);
             }
         });

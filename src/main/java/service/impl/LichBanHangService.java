@@ -18,21 +18,30 @@ import service.ILichBanHangService;
  */
 @Service
 public class LichBanHangService implements ILichBanHangService {
-
+    
     @Autowired
     private ILichBanHangRepository lichBanHangRepository;
-
+    
     @Override
     public List<LichBanHangEnity> getAllPaging(int page) {
         return lichBanHangRepository.paging(page);
     }
-
+    
     @Override
     public int totalPage() {
         int totalPage = (int) Math.ceil((double) lichBanHangRepository.count() / 10);
         return totalPage;
     }
-
     
-
+    @Override
+    public List<LichBanHangEnity> getAllPagingSearch(int page, int makh) {
+        return lichBanHangRepository.pagingSearch(page, makh);
+    }
+    
+    @Override
+    public int totalPageSearch(int makh) {
+        int totalPage = (int) Math.ceil((double) lichBanHangRepository.countSearch(makh) / 10);
+        return totalPage;
+    }
+    
 }

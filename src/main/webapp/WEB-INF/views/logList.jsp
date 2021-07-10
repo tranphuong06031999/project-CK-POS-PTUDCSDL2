@@ -21,13 +21,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/log">Lịch sử bán hàng <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/customer">Khách Hàng</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="/product">Sản phẩm</a>
                         </li>
                     </ul>
@@ -45,7 +45,7 @@
                     <table class="table table-hover ">
                         <thead>
                             <tr>
-                                 <th scope="col ">Mã khách hàng</th>
+                                <th scope="col ">Mã khách hàng</th>
                                 <th scope="col ">Tên khách hàng</th>
                                 <th scope="col ">Tổng tiền</th>
                                 <th scope="col ">Ngày lập</th>
@@ -55,7 +55,7 @@
                             <c:choose>
                                 <c:when test="${list == null}">
                                     <tr >
-                                        <td colspan="7">Không tìm thấy hóa đơn</td>
+                                        <td colspan="7">Không tìm thấy</td>
                                     </tr>
                                 </c:when>
                                 <c:otherwise>
@@ -107,7 +107,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q " crossorigin="anonymous "></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl " crossorigin="anonymous "></script>   
     <script>
-       var currentPage = 'page' + $('#currentPage').val();
+        var currentPage = 'page' + $('#currentPage').val();
         var keyword = $('#keyword').val();
         if ($('#currentPage').val() === '1') {
             $('#previous').addClass("disabled");

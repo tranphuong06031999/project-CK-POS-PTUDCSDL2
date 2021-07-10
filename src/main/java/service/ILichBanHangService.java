@@ -13,6 +13,12 @@ import java.util.List;
  * @author THAIHUYNH
  */
 public interface ILichBanHangService {
-    List<LichBanHangEnity> getAllPaging(int page);
-    int totalPage();
+
+    public List<LichBanHangEnity> getAllPaging(int page);
+
+    public int totalPage();
+
+    public List<LichBanHangEnity> getAllPagingSearch(int page, int makh);
+
+    public int totalPageSearch(int makh);
 }

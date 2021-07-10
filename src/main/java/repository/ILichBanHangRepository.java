@@ -13,6 +13,12 @@ import java.util.List;
  * @author THAIHUYNH
  */
 public interface ILichBanHangRepository {
-    List<LichBanHangEnity> paging(int page);
-    int count();
+
+    public List<LichBanHangEnity> paging(int page);
+
+    public int count();
+
+    public List<LichBanHangEnity> pagingSearch(int page, int makh);
+
+    public int countSearch(int makh);
 }

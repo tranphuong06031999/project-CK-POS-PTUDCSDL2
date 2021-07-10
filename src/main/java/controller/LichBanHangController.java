@@ -24,7 +24,7 @@ public class LichBanHangController {
     @Autowired
     private ILichBanHangService lichBanHangService;
 
-    @RequestMapping(value = "/log", method = RequestMethod.GET) 
+    @RequestMapping(value = "/log", method = RequestMethod.GET)
     public ModelAndView getAll(@RequestParam(defaultValue = "1", name = "page", required = false) int page) {
         if (page > lichBanHangService.totalPage()) {
             page = lichBanHangService.totalPage();
@@ -36,6 +36,23 @@ public class LichBanHangController {
         mav.addObject("list", lichBanHangService.getAllPaging(page));
         mav.addObject("totalPage", lichBanHangService.totalPage());
         mav.addObject("currentPage", page);
+        mav.setViewName("logList");
+        return mav;
+    }
+
+    @RequestMapping(value = "/log/search", method = RequestMethod.GET)
+    public ModelAndView getAllSearch(@RequestParam(defaultValue = "1", name = "page", required = false) int page, @RequestParam(defaultValue = "1", name = "makh") int makh) {
+        if (page > lichBanHangService.totalPageSearch(makh)) {
+            page = lichBanHangService.totalPageSearch(makh);
+        }
+        if (page < 1) {
+            page = 1;
+        }
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("list", lichBanHangService.getAllPagingSearch(page, makh));
+        mav.addObject("totalPage", lichBanHangService.totalPageSearch(makh));
+        mav.addObject("currentPage", page);
+        mav.addObject("keyword", makh);
         mav.setViewName("logList");
         return mav;
     }
