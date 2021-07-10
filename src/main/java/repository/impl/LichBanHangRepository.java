@@ -31,7 +31,7 @@ public class LichBanHangRepository implements ILichBanHangRepository {
                 + "WHERE hoadon.hoadon_id=chitiethoadon.ma_hoadon\n"
                 + "AND hoadon.makh=khachhang.makh\n"
                 + "AND chitiethoadon.masp = sanpham.masp\n"
-                + "GROUP BY (khachhang.makh)\n"
+                + "GROUP BY khachhang.makh, hoadon.ngaylap\n"
                 + "ORDER BY hoadon.ngaylap DESC\n"
                 + "LIMIT "+page+",10";
         MySQLDataHelper helper = new MySQLDataHelper();
