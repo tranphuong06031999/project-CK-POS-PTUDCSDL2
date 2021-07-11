@@ -76,4 +76,150 @@ public class TestSanPhamController {
         Assert.assertEquals(expect_view, view_actual);
 
     }
+    
+    @Test
+    public void EditProduct_Success_UniTest(){
+        String messenge = "Cập nhập sản phẩm thành công";
+        SanPhamEntity sp = new SanPhamEntity();
+        sp.setMaSP(1);
+        sp.setTenSP("Phân bón lá NPK hòa tan Sitto FoPro");
+        sp.setDonVi("Gói");
+        sp.setLoai(2);
+        sp.setSoLuong(80);
+        sp.setGia(38000);
+        sp.setGhiChu("SIÊU TẠO MẦM HOA. KÍCH RA HOA ĐỒNG LOẠT GIÚP BỘ RỄ PHÁT TRIỂN MẠNH, ĐẺ NHÁNH HỮU HIỆU CỦ NHIỀU, CỦ TO, TĂNG HÀM LƯỢNG TINH BỘT");
+        Mockito.when(service.updateSanPham(sp)).thenReturn(messenge);
+        ModelAndView model  = controller.updateProduct(sp);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        String actual = (String) map.get("message");
+        Assert.assertEquals(messenge, actual);
+        
+    }
+    
+    @Test
+    public void EditProduct_Failed_UniTest(){
+        String messenge = "Thêm sản phẩm thất bại!";
+        SanPhamEntity sp = new SanPhamEntity();
+        // mã sản phẩm không có
+        sp.setMaSP(1000);
+        sp.setTenSP("Phân bón lá NPK hòa tan Sitto FoPro");
+        sp.setDonVi("Gói");
+        sp.setLoai(2);
+        sp.setSoLuong(80);
+        sp.setGia(38000);
+        sp.setGhiChu("SIÊU TẠO MẦM HOA. KÍCH RA HOA ĐỒNG LOẠT GIÚP BỘ RỄ PHÁT TRIỂN MẠNH, ĐẺ NHÁNH HỮU HIỆU CỦ NHIỀU, CỦ TO, TĂNG HÀM LƯỢNG TINH BỘT");
+        Mockito.when(service.updateSanPham(sp)).thenReturn(messenge);
+        ModelAndView model  = controller.updateProduct(sp);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        String actual = (String) map.get("message");
+        Assert.assertEquals(messenge, actual);    
+    }
+    
+    @Test
+    public void AddProduct_Success_UniTest(){
+        String messenge = "Thêm sản phẩm thành công";
+        SanPhamEntity sp = new SanPhamEntity();
+        // Id sản phẩm mới
+        sp.setMaSP(140);
+        sp.setTenSP("Phân bón lá NPK hòa tan Sitto FoPro");
+        sp.setDonVi("Gói");
+        sp.setLoai(2);
+        sp.setSoLuong(800);
+        sp.setGia(40000);
+        sp.setGhiChu("SIÊU TẠO MẦM HOA. KÍCH RA HOA ĐỒNG LOẠT GIÚP BỘ RỄ PHÁT TRIỂN MẠNH, ĐẺ NHÁNH HỮU HIỆU CỦ NHIỀU, CỦ TO, TĂNG HÀM LƯỢNG TINH BỘT");
+        Mockito.when(service.updateSanPham(sp)).thenReturn(messenge);
+        ModelAndView model  = controller.updateProduct(sp);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        String actual = (String) map.get("message");
+        Assert.assertEquals(messenge, actual);
+        
+    }
+    
+    @Test
+    public void AddProduct_Failed_UniTest(){
+        String messenge = "Thêm sản phẩm thất bại!";
+        SanPhamEntity sp = new SanPhamEntity();
+        // Id sản phẩm đã tồn tại
+        sp.setMaSP(1);
+        sp.setTenSP("Phân bón lá NPK hòa tan Sitto FoPro");
+        sp.setDonVi("Gói");
+        sp.setLoai(2);
+        sp.setSoLuong(800);
+        sp.setGia(40000);
+        sp.setGhiChu("SIÊU TẠO MẦM HOA. KÍCH RA HOA ĐỒNG LOẠT GIÚP BỘ RỄ PHÁT TRIỂN MẠNH, ĐẺ NHÁNH HỮU HIỆU CỦ NHIỀU, CỦ TO, TĂNG HÀM LƯỢNG TINH BỘT");
+        Mockito.when(service.updateSanPham(sp)).thenReturn(messenge);
+        ModelAndView model  = controller.updateProduct(sp);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        String actual = (String) map.get("message");
+        Assert.assertEquals(messenge, actual);
+    }
+    
+    @Test
+    public void SearchForProduct_NonEmpty_UniTest(){
+        ArrayList<SanPhamEntity> lst = new ArrayList<>();
+        SanPhamEntity sp = new SanPhamEntity();
+        sp.setMaSP(1);
+        sp.setTenSP("Phân bón lá NPK hòa tan Sitto FoPro 10-52-10+TE");
+        sp.setDonVi("Gói");
+        sp.setLoai(2);
+        sp.setSoLuong(100);
+        sp.setGia(28000);
+        sp.setGhiChu("SIÊU TẠO MẦM HOA. KÍCH RA HOA ĐỒNG LOẠT GIÚP BỘ RỄ PHÁT TRIỂN MẠNH, ĐẺ NHÁNH HỮU HIỆU CỦ NHIỀU, CỦ TO, TĂNG HÀM LƯỢNG TINH BỘT");
+        lst.add(sp);
+        Mockito.when(service.searchPaging("phân bón",1)).thenReturn(lst);
+        ModelAndView model = controller.searchProduct("phân bón", 1);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        ArrayList<SanPhamEntity> actual = (ArrayList<SanPhamEntity>) map.get("list"); //Tên object gán cho ModelAndView
+        Assert.assertEquals(lst.get(0).getTenSP(), actual.get(0).getTenSP());   
+    }
+    
+    @Test
+    public void SearchForProduct_Empty_UniTest(){
+        ArrayList<SanPhamEntity> lst = new ArrayList<>();
+        SanPhamEntity sp = new SanPhamEntity();
+        sp.setMaSP(1);
+        sp.setTenSP("Quần áo");
+        sp.setDonVi("Bọc");
+        sp.setLoai(2);
+        sp.setSoLuong(100);
+        sp.setGia(140000);
+        sp.setGhiChu("Quần áo thời trang");
+        lst.add(sp);
+        Mockito.when(service.searchPaging("Quần áo",1)).thenReturn(lst);
+        ModelAndView model = controller.searchProduct("Quần áo", 1);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        ArrayList<SanPhamEntity> actual = (ArrayList<SanPhamEntity>) map.get("list"); //Tên object gán cho ModelAndView
+        Assert.assertEquals(lst, actual);   
+    }
+    
+    @Test
+    public void SearchProduct_CheckView_UnitTest() {
+        ArrayList<SanPhamEntity> lst = new ArrayList<>();
+        Mockito.when(service.searchPaging("phân bón",1)).thenReturn(lst);
+        ModelAndView model = controller.searchProduct("phân bón", 1);
+        String expect_view = "productList";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+    
+    @Test
+    public void SearchProduct_Paging_UnitTest() {
+        ArrayList<SanPhamEntity> lst = new ArrayList<>();
+        Mockito.when(service.searchPaging("phân bón",1)).thenReturn(lst);
+        ModelAndView model = controller.searchProduct("phân bón", 1);
+        String expect_view = "productList";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+    
+    @Test
+    public void ProductList_TotalPage_UnitTest() {
+        int total = 0;
+        Mockito.when(service.totalPage()).thenReturn(total);
+        ModelAndView model = controller.productList(1, null);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        int actual = (int) map.get("totalPage");
+        Assert.assertEquals(total, actual);
+    }
+   
 }

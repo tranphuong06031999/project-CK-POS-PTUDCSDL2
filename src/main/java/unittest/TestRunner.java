@@ -16,12 +16,19 @@ import org.junit.runner.notification.Failure;
 public class TestRunner {
 
     public static void main(String[] args) {
-        Result result = JUnitCore.runClasses(TestSanPhamController.class);
+        Result resultSanPham = JUnitCore.runClasses(TestSanPhamController.class);        
+        Result resultGioHang = JUnitCore.runClasses(TestGioHangController.class);
 
-        for (Failure failure : result.getFailures()) {
+        for (Failure failure : resultSanPham.getFailures()) {
+            System.out.println(failure.toString());
+        }
+        
+        for (Failure failure : resultGioHang.getFailures()) {
             System.out.println(failure.toString());
         }
 
-        System.out.println(result.wasSuccessful());
+        System.out.println(resultSanPham.wasSuccessful());        
+        System.out.println(resultGioHang.wasSuccessful());
+
     }
 }
