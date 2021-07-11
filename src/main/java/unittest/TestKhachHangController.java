@@ -35,8 +35,21 @@ public class TestKhachHangController {
 
     @Test
     public void Customer_payin_failure_UnitTest() {
+        String message = "payin failured";
         AbstractEntity entity = new AbstractEntity();
-        String message = "payin failed";
+        entity.setMakh(1);
+        entity.setTiennap(-10000);
+        Mockito.when(service.payIn(entity.getMakh(), entity.getTiennap())).thenReturn(message);
+        ModelAndView model = controller.payIn(entity);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        String actual = (String) map.get("message");
+        Assert.assertEquals(message, actual);
+    }
+
+    @Test
+    public void Customer_payin_success_UnitTest() {
+        String message = "payin success";
+        AbstractEntity entity = new AbstractEntity();
         entity.setMakh(1);
         entity.setTiennap(10000);
         Mockito.when(service.payIn(entity.getMakh(), entity.getTiennap())).thenReturn(message);
@@ -47,25 +60,13 @@ public class TestKhachHangController {
     }
 
     @Test
-    public void Customer_payin_success_UnitTest() {
-        AbstractEntity entity = new AbstractEntity();
-        String message = "payin success";
-        Mockito.when(service.payIn(entity.getMakh(), entity.getTiennap())).thenReturn(message);
-        ModelAndView model = controller.payIn(entity);
-        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
-        String actual = (String) map.get("message");
-        Assert.assertEquals(message, actual);
-    }
-
-    @Test
     public void Customer_UpdateCustomer_failure_UnitTest() {
+        String message = "update customer failed";
         KhachHangEntity kh = new KhachHangEntity();
         kh.setMakh(1);
-        kh.setLoaikh(1);
-        kh.setSodienthoai("090xxxx.xxxx");
-        kh.setTenkh("Nguyen van A");
-        kh.setSodu(0);
-        String message = "update customer failed";
+        kh.setTenkh("1");
+        kh.setSodu(-1000);
+        kh.setSodienthoai("a");
         Mockito.when(service.updateCustomer(kh)).thenReturn(message);
         ModelAndView model = controller.updateCustomer(kh);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
@@ -75,13 +76,11 @@ public class TestKhachHangController {
 
     @Test
     public void Customer_UpdateCustomer_success_UnitTest() {
+        String message = "update customer success";
         KhachHangEntity kh = new KhachHangEntity();
         kh.setMakh(1);
-        kh.setLoaikh(1);
-        kh.setSodienthoai("090xxxx.xxxx");
-        kh.setTenkh("Nguyen van A");
-        kh.setSodu(0);
-        String message = "update customer success";
+        kh.setTenkh("Nguyen Van A");
+        kh.setSodu(1000);
         Mockito.when(service.updateCustomer(kh)).thenReturn(message);
         ModelAndView model = controller.updateCustomer(kh);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
@@ -91,13 +90,13 @@ public class TestKhachHangController {
 
     @Test
     public void Customer_AddCustomer_failure_UnitTest() {
+        String message = "add customer failed";
         KhachHangEntity kh = new KhachHangEntity();
         kh.setMakh(1);
         kh.setLoaikh(1);
         kh.setSodienthoai("090xxxx.xxxx");
         kh.setTenkh("Nguyen van A");
-        kh.setSodu(0);
-        String message = "add customer failed";
+        kh.setSodu(-1000);
         Mockito.when(service.addCustomer(kh)).thenReturn(message);
         ModelAndView model = controller.addCustomer(kh);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
@@ -107,13 +106,13 @@ public class TestKhachHangController {
 
     @Test
     public void Customer_AddCustomer_success_UnitTest() {
+        String message = "add customer successful";
         KhachHangEntity kh = new KhachHangEntity();
         kh.setMakh(1);
         kh.setLoaikh(1);
         kh.setSodienthoai("090xxxx.xxxx");
         kh.setTenkh("Nguyen van A");
-        kh.setSodu(0);
-        String message = "add customer successful";
+        kh.setSodu(10000);
         Mockito.when(service.addCustomer(kh)).thenReturn(message);
         ModelAndView model = controller.addCustomer(kh);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
