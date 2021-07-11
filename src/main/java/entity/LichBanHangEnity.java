@@ -49,6 +49,18 @@ public class LichBanHangEnity extends AbstractEntity implements Serializable{
     public void setNgaylap(String ngaylap) {
         this.ngaylap = ngaylap;
     }
+
+    public void getTenkh(String nguyen_Van_Test) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setNgaylap() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setTongtien() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

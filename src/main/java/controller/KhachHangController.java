@@ -65,7 +65,7 @@ public class KhachHangController {
 
     //Thêm khách hàng
     @RequestMapping(value = "/customer/add", method = RequestMethod.POST)
-    public ModelAndView addCustomer(@ModelAttribute KhachHangEntity kh, RedirectAttributes redirectAttributes) {
+    public ModelAndView addCustomer(@ModelAttribute KhachHangEntity kh) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("message", khService.addCustomer(kh));
         mav.setViewName("redirect:/customer");

@@ -131,9 +131,9 @@ public class TestGioHangController {
         gh.setMagiohang(7);
         Mockito.when(service.deleteCart(gh.getMagiohang())).thenReturn(messenge);
         ModelAndView model = controller.deleteProductCart(gh.getMagiohang(),gh.getMakh());
-        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
-        String actual = (String) map.get("message");
-        Assert.assertEquals(messenge, actual);
+    HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+    String actual = (String) map.get("message");
+    Assert.assertEquals(messenge, actual);
     }
     
 //    @Test
