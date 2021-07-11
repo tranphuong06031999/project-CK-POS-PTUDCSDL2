@@ -20,6 +20,9 @@ public class TestRunner {
         Result resultGioHang = JUnitCore.runClasses(TestGioHangController.class);
         Result resultLichBanHang = JUnitCore.runClasses(TestLichBanHangController.class);
         Result resultKhachHang = JUnitCore.runClasses(TestKhachHangController.class);
+		Result resultPhieuThu = JUnitCore.runClasses(TestPhieuThuController.class);
+		Result resultHoaDon = JUnitCore.runClasses(TestHoaDonController.class);
+		
 
         for (Failure failure : resultSanPham.getFailures()) {
             System.out.println(failure.toString());
@@ -32,14 +35,27 @@ public class TestRunner {
         for (Failure failure : resultLichBanHang.getFailures()) {
             System.out.println(failure.toString());
         }
-
-        for (Failure failure : resultKhachHang.getFailures()) {
+		
+		for (Failure failure : resultKhachHang.getFailures()) {
             System.out.println(failure.toString());
         }
+
+        for (Failure failure : resultPhieuThu.getFailures()) {
+            System.out.println(failure.toString());
+        }
+		
+		for (Failure failure : resultHoaDon.getFailures()) {
+            System.out.println(failure.toString());
+        }
+		
+		
+		
 
         System.out.println(resultSanPham.wasSuccessful());
         System.out.println(resultGioHang.wasSuccessful());
         System.out.println(resultLichBanHang.wasSuccessful());
         System.out.println(resultKhachHang.wasSuccessful());
+		System.out.println(resultPhieuThu.wasSuccessful());
+		System.out.println(resultHoaDon.wasSuccessful());
     }
 }
