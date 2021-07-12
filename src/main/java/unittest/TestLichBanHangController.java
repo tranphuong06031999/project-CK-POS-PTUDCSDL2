@@ -34,7 +34,7 @@ public class TestLichBanHangController {
     ILichBanHangService service;
 
     @Test
-    public void LogList_Search_UnitTest() {
+    public void GetAllSearch_Empty_UnitTest() {
         int makh = 1;
         ArrayList<LichBanHangEnity> lst = null;
         Mockito.when(service.getAllPagingSearch(1, makh)).thenReturn(lst);
@@ -43,27 +43,55 @@ public class TestLichBanHangController {
         ArrayList<LichBanHangEnity> actual = (ArrayList<LichBanHangEnity>) map.get("list");
         Assert.assertEquals(lst, actual);
     }
-    
-    
+
     @Test
-    public void LogList_NonEmpty_UnitTest() {
+    public void GetAllSearch_NonEmpty_UnitTest() {
+        int makh = 1;
         List<LichBanHangEnity> lst = new ArrayList<>();
         LichBanHangEnity lbh = new LichBanHangEnity();
         lbh.setHoadon_id(1);
         lbh.setMakh(1);
         lbh.setTenkh("Nguyen Van A");
-        lbh.setNgaylap("1/1/2021");
+        lbh.setNgaylap("2021-07-14");
+        lbh.setTongtien(1000000);
+        lst.add(lbh);
+        Mockito.when(service.getAllPagingSearch(1, makh)).thenReturn(lst);
+        ModelAndView model = controller.getAllSearch(1, makh);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        ArrayList<LichBanHangEnity> actual = (ArrayList<LichBanHangEnity>) map.get("list");
+        Assert.assertEquals(lst, actual);
+    }
+
+    @Test
+    public void GetAllSearch_CheckView_UnitTest() {
+        int makh = 1;
+        ArrayList<LichBanHangEnity> lst = new ArrayList<>();
+        Mockito.when(service.getAllPagingSearch(1, makh)).thenReturn(lst);
+        ModelAndView model = controller.getAllSearch(1, makh);
+        String expect_view = "logList";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+
+    @Test
+    public void GetAll_NonEmpty_UnitTest() {
+        List<LichBanHangEnity> lst = new ArrayList<>();
+        LichBanHangEnity lbh = new LichBanHangEnity();
+        lbh.setHoadon_id(1);
+        lbh.setMakh(1);
+        lbh.setTenkh("Nguyen Van A");
+        lbh.setNgaylap("2021-07-14");
         lbh.setTongtien(1000000);
         lst.add(lbh);
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
-        ModelAndView model = controller.getAll(1);        
+        ModelAndView model = controller.getAll(1);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
         ArrayList<LichBanHangEnity> actual = (ArrayList<LichBanHangEnity>) map.get("list"); //Tên object gán cho ModelAndView
         Assert.assertEquals(lst.get(0).getMakh(), actual.get(0).getMakh());
     }
 
     @Test
-    public void LogList_Empty_UnitTest() {
+    public void GetAll_Empty_UnitTest() {
         ArrayList<LichBanHangEnity> lst = null;
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
         ModelAndView model = controller.getAll(1);
@@ -73,7 +101,7 @@ public class TestLichBanHangController {
     }
 
     @Test
-    public void LogList_CheckView_UnitTest() {
+    public void GetAll_CheckView_UnitTest() {
         ArrayList<LichBanHangEnity> lst = new ArrayList<>();
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
         ModelAndView model = controller.getAll(1);

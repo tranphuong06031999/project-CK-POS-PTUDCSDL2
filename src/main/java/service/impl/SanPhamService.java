@@ -40,11 +40,9 @@ public class SanPhamService implements ISanPhamService {
     public String updateSanPham(SanPhamEntity sp) {
         if (sanPhamRepository.update(sp) == true) {
             SanPhamEntity sanpham = sanPhamRepository.findById(sp.getMaSP());
-//            data.put("message", "Success");
             return "Cập nhập sản phẩm thành công";
         } else {
             return "Cập nhập sản phẩm thất bại";
-//            message.put("redirect", "/update");
         }
     }
 

@@ -34,8 +34,8 @@ public class TestKhachHangController {
     IKhachHangService service;
 
     @Test
-    public void Customer_payin_failure_UnitTest() {
-        String message = "payin failured";
+    public void PayIn_Failed_UnitTest() {
+        String message = "Nạp tiền thất bại";
         AbstractEntity entity = new AbstractEntity();
         entity.setMakh(1);
         entity.setTiennap(-10000);
@@ -47,8 +47,8 @@ public class TestKhachHangController {
     }
 
     @Test
-    public void Customer_payin_success_UnitTest() {
-        String message = "payin success";
+    public void PayIn_Success_UnitTest() {
+        String message = "Nạp tiền thành công";
         AbstractEntity entity = new AbstractEntity();
         entity.setMakh(1);
         entity.setTiennap(10000);
@@ -60,13 +60,27 @@ public class TestKhachHangController {
     }
 
     @Test
-    public void Customer_UpdateCustomer_failure_UnitTest() {
-        String message = "update customer failed";
+    public void PayIn_RedirectView_UnitTest() {
+        String message = "Nạp tiền thành công";
+        AbstractEntity entity = new AbstractEntity();
+        entity.setMakh(1);
+        entity.setTiennap(10000);
+        Mockito.when(service.payIn(entity.getMakh(), entity.getTiennap())).thenReturn(message);
+        ModelAndView model = controller.payIn(entity);
+        String expect_view = "redirect:/customer";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+
+    @Test
+    public void UpdateCustomer_Failed_UnitTest() {
+        String message = "Cập nhập khách hàng thất bại";
         KhachHangEntity kh = new KhachHangEntity();
         kh.setMakh(1);
-        kh.setTenkh("1");
+        kh.setTenkh("Trần Văn A");
         kh.setSodu(-1000);
-        kh.setSodienthoai("a");
+        //Số điện thoại đã tồn tại
+        kh.setSodienthoai("0892310523");
         Mockito.when(service.updateCustomer(kh)).thenReturn(message);
         ModelAndView model = controller.updateCustomer(kh);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
@@ -75,12 +89,13 @@ public class TestKhachHangController {
     }
 
     @Test
-    public void Customer_UpdateCustomer_success_UnitTest() {
-        String message = "update customer success";
+    public void UpdateCustomer_Success_UnitTest() {
+        String message = "Cập nhập khách hàng thành công";
         KhachHangEntity kh = new KhachHangEntity();
         kh.setMakh(1);
         kh.setTenkh("Nguyen Van A");
         kh.setSodu(1000);
+        kh.setSodienthoai("0932310523");
         Mockito.when(service.updateCustomer(kh)).thenReturn(message);
         ModelAndView model = controller.updateCustomer(kh);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
@@ -89,14 +104,26 @@ public class TestKhachHangController {
     }
 
     @Test
-    public void Customer_AddCustomer_failure_UnitTest() {
-        String message = "add customer failed";
+    public void UpdateCustomer_RedirectView_UnitTest() {
+        String message = "Cập nhập khách hàng thành công";
         KhachHangEntity kh = new KhachHangEntity();
         kh.setMakh(1);
-        kh.setLoaikh(1);
-        kh.setSodienthoai("090xxxx.xxxx");
-        kh.setTenkh("Nguyen van A");
-        kh.setSodu(-1000);
+        kh.setTenkh("Nguyen Van A");
+        kh.setSodu(1000);
+        kh.setSodienthoai("0892310523");
+        Mockito.when(service.updateCustomer(kh)).thenReturn(message);
+        ModelAndView model = controller.updateCustomer(kh);
+        String expect_view = "redirect:/customer";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+
+    @Test
+    public void AddCustomer_Success_UnitTest() {
+        String message = "Thêm khách hàng thành công";
+        KhachHangEntity kh = new KhachHangEntity();
+        kh.setSodienthoai("0892310523");
+        kh.setTenkh("Nguyễn Văn A");
         Mockito.when(service.addCustomer(kh)).thenReturn(message);
         ModelAndView model = controller.addCustomer(kh);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
@@ -105,14 +132,12 @@ public class TestKhachHangController {
     }
 
     @Test
-    public void Customer_AddCustomer_success_UnitTest() {
-        String message = "add customer successful";
+    public void AddCustomer_Failed_UnitTest() {
+        String message = "Thêm khách hàng thất bại";
         KhachHangEntity kh = new KhachHangEntity();
-        kh.setMakh(1);
-        kh.setLoaikh(1);
-        kh.setSodienthoai("090xxxx.xxxx");
-        kh.setTenkh("Nguyen van A");
-        kh.setSodu(10000);
+        //Số điện thoại đã tồn tại
+        kh.setSodienthoai("0892310523");
+        kh.setTenkh("Nguyến Văn A");
         Mockito.when(service.addCustomer(kh)).thenReturn(message);
         ModelAndView model = controller.addCustomer(kh);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
@@ -121,7 +146,21 @@ public class TestKhachHangController {
     }
 
     @Test
-    public void Customer_SearchCustomer_UnitTest() {
+    public void AddCustomer_RedirectView_UnitTest() {
+        String message = "Thêm khách hàng thất bại";
+        KhachHangEntity kh = new KhachHangEntity();
+        //Số điện thoại đã tồn tại
+        kh.setSodienthoai("0892310523");
+        kh.setTenkh("Nguyến Văn A");
+        Mockito.when(service.updateCustomer(kh)).thenReturn(message);
+        ModelAndView model = controller.updateCustomer(kh);
+        String expect_view = "redirect:/customer";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+
+    @Test
+    public void SearchCustomer_Empty_UnitTest() {
         String keyword = "";
         ArrayList<KhachHangEntity> lst = null;
         Mockito.when(service.searchPaging(keyword, 1)).thenReturn(lst);
@@ -132,37 +171,64 @@ public class TestKhachHangController {
     }
 
     @Test
-    public void Customer_NonEmpty_UnitTest() {
+    public void SearchCustomer_NonEmpty_UnitTest() {
         ArrayList<KhachHangEntity> lst = new ArrayList<>();
         KhachHangEntity kh = new KhachHangEntity();
         kh.setMakh(1);
         kh.setLoaikh(1);
-        kh.setSodienthoai("090xxxx.xxxx");
-        kh.setTenkh("Nguyen van A");
-        kh.setSodu(0);
+        kh.setSodienthoai("0892310523");
+        kh.setTenkh("Nguyến Văn A");
+        kh.setSodu(10000000);
         lst.add(kh);
-        Mockito.when(service.getAllPaging(1)).thenReturn(lst);
-        ModelAndView model = controller.getAll(1, "");
+        Mockito.when(service.searchPaging("Văn A", 1)).thenReturn(lst);
+        ModelAndView model = controller.searchCustomer("Văn A", 1);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
         ArrayList<KhachHangEntity> actual = (ArrayList<KhachHangEntity>) map.get("list"); //Tên object gán cho ModelAndView
         Assert.assertEquals(lst.get(0).getMakh(), actual.get(0).getMakh());
     }
 
     @Test
-    public void Customer_Empty_UnitTest() {
-        ArrayList<KhachHangEntity> lst = null;
+    public void SearchCustomer_CheckView_UnitTest() {
+        ArrayList<KhachHangEntity> lst = new ArrayList<>();
+        Mockito.when(service.searchPaging("Văn A", 1)).thenReturn(lst);
+        ModelAndView model = controller.searchCustomer("Văn A", 1);
+        String expect_view = "customersList";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+
+    @Test
+    public void GetAll_NonEmpty_UnitTest() {
+        ArrayList<KhachHangEntity> lst = new ArrayList<>();
+        KhachHangEntity kh = new KhachHangEntity();
+        kh.setMakh(1);
+        kh.setLoaikh(1);
+        kh.setSodienthoai("0892310523");
+        kh.setTenkh("Nguyến Văn A");
+        kh.setSodu(10000000);
+        lst.add(kh);
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
-        ModelAndView model = controller.getAll(1, "");
+        ModelAndView model = controller.getAll(1, null);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
         ArrayList<KhachHangEntity> actual = (ArrayList<KhachHangEntity>) map.get("list");
         Assert.assertEquals(lst, actual);
     }
 
     @Test
-    public void Customer_CheckView_UnitTest() {
+    public void GetAll_Empty_UnitTest() {
+        ArrayList<KhachHangEntity> lst = null;
+        Mockito.when(service.getAllPaging(1)).thenReturn(lst);
+        ModelAndView model = controller.getAll(1, null);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        ArrayList<KhachHangEntity> actual = (ArrayList<KhachHangEntity>) map.get("list");
+        Assert.assertEquals(lst, actual);
+    }
+
+    @Test
+    public void GetAll_CheckView_UnitTest() {
         ArrayList<KhachHangEntity> lst = new ArrayList<>();
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
-        ModelAndView model = controller.getAll(1, "");
+        ModelAndView model = controller.getAll(1, null);
         String expect_view = "customersList";
         String view_actual = model.getViewName();
         Assert.assertEquals(expect_view, view_actual);
