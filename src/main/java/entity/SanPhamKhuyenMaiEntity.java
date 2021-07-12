@@ -4,14 +4,16 @@
  * and open the template in the editor.
  */
 package entity;
+
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
+
 /**
  *
  * @author Liêu Hy Quỳnh
  */
-public class SanPhamKhuyenMaiEntity {
+public class SanPhamKhuyenMaiEntity implements Serializable {
+
     private int maGiamGia;
     private int soTienGiamGia;
     private int maSanPham;
@@ -37,7 +39,6 @@ public class SanPhamKhuyenMaiEntity {
     public void setGiaSanPham(int giaSanPham) {
         this.giaSanPham = giaSanPham;
     }
-    
 
     public String getTenSanPham() {
         return tenSanPham;
@@ -95,9 +96,4 @@ public class SanPhamKhuyenMaiEntity {
         this.ngayKetThucKhuyenMai = ngayKetThucKhuyenMai;
     }
 
-    
-     
-     
-    
-    
 }
