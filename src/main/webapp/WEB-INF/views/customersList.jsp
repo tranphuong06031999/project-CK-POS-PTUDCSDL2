@@ -22,7 +22,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/log">Lịch sử bán hàng <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="/customer">Khách Hàng</a>
@@ -81,7 +81,14 @@
                                     <c:forEach var="customer" items="${list}">
                                         <tr>
                                             <td>${customer.makh}</td>
-                                            <td>${customer.tenkh}</td>
+                                            <c:choose>
+                                                <c:when test="${customer.sodu<=-30000000}">
+                                                    <td class="text-danger">${customer.tenkh}</td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>${customer.tenkh}</td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td>
                                                 <fmt:formatNumber value="${customer.sodu}" pattern="#,###.##" var="pat" /> 
                                                 ${pat}

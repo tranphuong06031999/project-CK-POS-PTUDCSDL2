@@ -21,7 +21,7 @@ import repository.IHoaDonRepository;
  */
 @Repository
 public class HoaDonRepository implements IHoaDonRepository {
-
+    
     @Override
     public ArrayList<HoaDonEntity> findAll() {
         ArrayList<HoaDonEntity> list = new ArrayList<>();
@@ -34,7 +34,7 @@ public class HoaDonRepository implements IHoaDonRepository {
                 HoaDonEntity hd = new HoaDonEntity();
                 hd.setHoadon_id(rs.getInt("hoadon_id"));
                 hd.setMakh(rs.getInt("makh"));
-                hd.setNgaylap(rs.getDate("ngaylap").toString());
+                hd.setNgaylap(rs.getString("ngaylap"));
                 hd.setTongtien(rs.getInt("tongtien"));
                 list.add(hd);
             }
@@ -44,7 +44,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return list;
     }
-
+    
     @Override
     public ArrayList<HoaDonEntity> search(int makh) {
         ArrayList<HoaDonEntity> list = new ArrayList<>();
@@ -60,7 +60,7 @@ public class HoaDonRepository implements IHoaDonRepository {
                     HoaDonEntity hd = new HoaDonEntity();
                     hd.setHoadon_id(rs.getInt("hoadon_id"));
                     hd.setMakh(rs.getInt("makh"));
-                    hd.setNgaylap(rs.getDate("ngaylap").toString());
+                    hd.setNgaylap(rs.getString("ngaylap"));
                     hd.setTongtien(rs.getInt("tongtien"));
                     list.add(hd);
                 } while (rs.next());
@@ -71,7 +71,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return list;
     }
-
+    
     @Override
     public HoaDonEntity findOne(int mahd) {
         HoaDonEntity hd = new HoaDonEntity();
@@ -83,7 +83,7 @@ public class HoaDonRepository implements IHoaDonRepository {
             while (rs.next()) {
                 hd.setHoadon_id(rs.getInt("hoadon_id"));
                 hd.setMakh(rs.getInt("makh"));
-                hd.setNgaylap(rs.getDate("ngaylap").toString());
+                hd.setNgaylap(rs.getString("ngaylap"));
                 hd.setTongtien(rs.getInt("tongtien"));
             }
             helper.close();
@@ -92,7 +92,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return hd;
     }
-
+    
     @Override
     public int count() {
         int count = 0;
@@ -110,7 +110,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return count;
     }
-
+    
     @Override
     public ArrayList<HoaDonEntity> paging(int page) {
         page = (page - 1) * 10;
@@ -124,7 +124,7 @@ public class HoaDonRepository implements IHoaDonRepository {
                 HoaDonEntity hd = new HoaDonEntity();
                 hd.setHoadon_id(rs.getInt("hoadon_id"));
                 hd.setMakh(rs.getInt("makh"));
-                hd.setNgaylap(rs.getDate("ngaylap").toString());
+                hd.setNgaylap(rs.getString("ngaylap"));
                 hd.setTongtien(rs.getInt("tongtien"));
                 list.add(hd);
             }
@@ -134,7 +134,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return list;
     }
-
+    
     @Override
     public ArrayList<HoaDonEntity> searchPaging(int makh, int page) {
         page = (page - 1) * 10;
@@ -151,7 +151,7 @@ public class HoaDonRepository implements IHoaDonRepository {
                     HoaDonEntity hd = new HoaDonEntity();
                     hd.setHoadon_id(rs.getInt("hoadon_id"));
                     hd.setMakh(rs.getInt("makh"));
-                    hd.setNgaylap(rs.getDate("ngaylap").toString());
+                    hd.setNgaylap(rs.getString("ngaylap"));
                     hd.setTongtien(rs.getInt("tongtien"));
                     list.add(hd);
                 } while (rs.next());
@@ -162,10 +162,10 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return list;
     }
-
+    
     @Override
     public int countSearch(int makh) {
-       int count = 0;
+        int count = 0;
         try {
             String sql = "select count(*) count from hoadon where makh = " + makh;
             MySQLDataHelper helper = new MySQLDataHelper();
@@ -180,5 +180,5 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return count;
     }
-
+    
 }

@@ -28,7 +28,7 @@ public interface IKhachHangRepository {
 
     public boolean updateSodu(int makh, int tiennap);
     
-    public boolean updateVip(int makh);
+    public boolean updateVip(int makh, int loaikh);
     
     public int count();
     

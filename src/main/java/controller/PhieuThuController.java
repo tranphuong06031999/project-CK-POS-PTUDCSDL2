@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import service.IKhachHangService;
 import service.IPhieuThuService;
 
 /**
@@ -25,6 +26,9 @@ public class PhieuThuController {
 
     @Autowired
     private IPhieuThuService ptService;
+
+    @Autowired
+    private IKhachHangService khService;
 
     //Lấy danh sách phiếu thu
     @RequestMapping(value = "/receipt", method = RequestMethod.GET)
@@ -63,6 +67,10 @@ public class PhieuThuController {
     //Lấy 1 phiếu thu
     @RequestMapping(value = "/receipt/{id}", method = RequestMethod.GET)
     public ModelAndView getOne(@PathVariable("id") int id) {
-        return new ModelAndView("detailReceipt", "receipt", ptService.getOne(id));
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("kh", khService.getOne(ptService.getOne(id).getMakh()));
+        mav.addObject("receipt", ptService.getOne(id));
+        mav.setViewName("detailReceipt");
+        return mav;
     }
 }

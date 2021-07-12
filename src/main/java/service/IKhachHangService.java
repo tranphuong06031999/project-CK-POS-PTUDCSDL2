@@ -7,7 +7,6 @@ package service;
 
 import entity.KhachHangEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *

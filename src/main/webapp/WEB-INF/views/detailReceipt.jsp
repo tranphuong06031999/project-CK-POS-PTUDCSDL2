@@ -166,7 +166,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/log">Lịch sử bán hàng <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="/customer">Khách Hàng</a>
@@ -184,7 +184,7 @@
                         Phiếu Thu
                         <small class="page-info">
                             <i class="fa fa-angle-double-right text-80"></i>
-                            Mã khách hàng: ${receipt.makh}
+                            Mã phiếu thu: ${receipt.maphieuthu}
                         </small>
                     </h1>
 
@@ -207,10 +207,17 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div>
+                                        <span class="text-sm text-grey-m2 align-middle">Mã khách hàng:</span>
+                                        <span class="text-600 text-110 text-blue align-middle">${kh.makh}</span>
+                                    </div>
+                                    <div>
                                         <span class="text-sm text-grey-m2 align-middle">Tên khách hàng:</span>
                                         <span class="text-600 text-110 text-blue align-middle">${receipt.tenkh}</span>
                                     </div>
-                                    <div>
+                                     <div class="text-grey-m2">
+                                        <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600">${kh.sodienthoai}</b></div>
+                                    </div>
+                                     <div>
                                         <span class="text-sm text-grey-m2 align-middle">Lý do nộp:</span>
                                         <span class="text-600 text-110 text-blue align-middle">..................................................................</span>
                                     </div>
@@ -224,7 +231,7 @@
                                             Phiếu thu
                                         </div>
 
-                                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Mã khách hàng:</span> ${receipt.makh}</div>
+                                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Mã phiếu thu:</span> ${receipt.maphieuthu}</div>
 
                                         <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Ngày lập phiếu:</span> ${receipt.ngaylap}</div>
                                     </div>
@@ -234,20 +241,20 @@
 
                             <div class="mt-4">
                                 <div class="row text-600 text-white bgc-default-tp1 py-25">
-                                    <div class="d-none d-sm-block col-1">Mã</div>
-                                    <div class="col-9 col-sm-5">Tên khách hàng</div>
-                                    <div class="d-none d-sm-block col-4 col-sm-2">Số tiền nạp</div>
-                                    <div class="d-none d-sm-block col-sm-2">Số dư</div>
-                                    <div class="col-2">Ngày nạp</div>
+                                    <div class="col-sm-1">Mã</div>
+                                    <div class="col-sm-4">Tên khách hàng</div>
+                                    <div class="col-sm-2">Số tiền nạp</div>
+                                    <div class="col-sm-2">Số dư</div>
+                                    <div class="col-sm-3">Ngày nạp</div>
                                 </div>
 
                                 <div class="text-95 text-secondary-d3">
                                     <div class="row mb-2 mb-sm-0 py-25">
-                                        <div class="d-none d-sm-block col-1">${receipt.maphieuthu}</div>
-                                        <div class="col-9 col-sm-5">${receipt.tenkh}</div>
-                                        <div class="d-none d-sm-block col-2">${receipt.sotiennap}</div>
-                                        <div class="d-none d-sm-block col-2 text-95">${receipt.sodu}</div>
-                                        <div class="col-2 text-secondary-d2">${receipt.ngaylap}</div>
+                                        <div class="col-sm-1">${receipt.maphieuthu}</div>
+                                        <div class="col-sm-4">${receipt.tenkh}</div>
+                                        <div class="col-sm-2">${receipt.sotiennap}</div>
+                                        <div class="col-sm-2">${receipt.sodu}</div>
+                                        <div class="col-sm-3">${receipt.ngaylap}</div>
                                     </div>
                                 </div>
 

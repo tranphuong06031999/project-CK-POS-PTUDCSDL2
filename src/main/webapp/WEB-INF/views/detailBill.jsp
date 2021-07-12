@@ -166,7 +166,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/log">Lịch sử bán hàng <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/customer">Khách Hàng</a>
@@ -182,6 +182,8 @@
                     <h1 class="page-title text-secondary-d1">
                         Hóa đơn
                         <small class="page-info">
+                            <i class="fa fa-angle-double-right text-80"></i>
+                            Mã hóa đơn: ${hoadon.hoadon_id}
                         </small>
                     </h1>
 
@@ -197,7 +199,38 @@
                 <div class="container px-0">
                     <div class="row mt-4">
                         <div class="col-12 col-lg-10 offset-lg-1">
+                            <hr class="row brc-default-l1 mx-n1 mb-4" />
 
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="text-sm text-grey-m2 align-middle">Mã khách hàng:</span>
+                                        <span class="text-600 text-110 text-blue align-middle">${kh.makh}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-sm text-grey-m2 align-middle">Tên khách hàng:</span>
+                                        <span class="text-600 text-110 text-blue align-middle">${kh.tenkh}</span>
+                                    </div>
+                                    <div class="text-grey-m2">
+                                        <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600">${kh.sodienthoai}</b></div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+
+                                <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                                    <hr class="d-sm-none" />
+                                    <div class="text-grey-m2">
+                                        <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                            Hóa đơn
+                                        </div>
+
+                                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Mã hóa đơn:</span> ${hoadon.hoadon_id}</div>
+
+                                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Ngày lập phiếu:</span> ${hoadon.ngaylap}</div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                            </div>
                             <div class="mt-4">
                                 <div class="row text-600 text-white bgc-default-tp1 py-25">
                                     <div class="col-sm-1">ID</div>
@@ -210,18 +243,18 @@
                                 </div>
                                 <c:forEach var="bill" items="${list}">
                                     <div class="text-95 text-secondary-d3">
-                                    <div class="row mb-2 mb-sm-0 py-25">
-                                        <div class="col-sm-1">${bill.chitiethoadon_id}</div>
-                                        <div class="col-sm-2">${bill.masp}</div>
-                                        <div class="col-sm-2">${bill.soluong}</div>
-                                        <div class="col-sm-2">${bill.giagoc}</div>
-                                        <div class="col-sm-2">${bill.giasaukhuyenmai}</div>
-                                        <div class="col-sm-1">${bill.tongtien}</div>
-                                        <div class="col-sm-2">${bill.chietkhau}</div>
+                                        <div class="row mb-2 mb-sm-0 py-25">
+                                            <div class="col-sm-1">${bill.chitiethoadon_id}</div>
+                                            <div class="col-sm-2">${bill.masp}</div>
+                                            <div class="col-sm-2">${bill.soluong}</div>
+                                            <div class="col-sm-2">${bill.giagoc}</div>
+                                            <div class="col-sm-2">${bill.giasaukhuyenmai}</div>
+                                            <div class="col-sm-1">${bill.tongtien}</div>
+                                            <div class="col-sm-2">${bill.chietkhau}</div>
+                                        </div>
                                     </div>
-                                </div>
                                 </c:forEach>
-                                
+
 
                                 <div class="row border-b-2 brc-default-l2"></div>
                                 <div class="row mt-3">
@@ -236,7 +269,7 @@
                                                 Tổng tiền
                                             </div>
                                             <div class="col-5">
-                                                <span class="text-150 text-success-d3 opacity-2">${total}</span>
+                                                <span class="text-150 text-success-d3 opacity-2">${hoadon.tongtien}</span>
                                             </div>
                                         </div>
                                     </div>

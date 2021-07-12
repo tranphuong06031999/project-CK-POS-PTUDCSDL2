@@ -21,7 +21,7 @@ import repository.IKhachHangRepository;
  */
 @Repository
 public class KhachHangRepository implements IKhachHangRepository {
-
+    
     @Override
     public ArrayList<KhachHangEntity> findAll() {
         ArrayList<KhachHangEntity> list = new ArrayList<>();
@@ -45,7 +45,7 @@ public class KhachHangRepository implements IKhachHangRepository {
         }
         return list;
     }
-
+    
     @Override
     public ArrayList<KhachHangEntity> search(String keyword) {
         ArrayList<KhachHangEntity> list = new ArrayList<>();
@@ -63,6 +63,7 @@ public class KhachHangRepository implements IKhachHangRepository {
                     kh.setTenkh(rs.getString("tenkh"));
                     kh.setSodu(rs.getInt("sodu"));
                     kh.setSodienthoai(rs.getString("sodienthoai"));
+                    kh.setLoaikh(rs.getInt("loaikh"));
                     list.add(kh);
                 } while (rs.next());
             }
@@ -72,7 +73,7 @@ public class KhachHangRepository implements IKhachHangRepository {
         }
         return list;
     }
-
+    
     @Override
     public boolean create(KhachHangEntity kh) {
         String sql = String.format("INSERT INTO `khachhang` (`tenkh`, `sodu`, `sodienthoai`) VALUES('%s','%d','%s')", kh.getTenkh(), 0, kh.getSodienthoai());
@@ -87,7 +88,7 @@ public class KhachHangRepository implements IKhachHangRepository {
             return false;
         }
     }
-
+    
     @Override
     public boolean update(KhachHangEntity kh) {
         String sql = String.format("update khachhang set tenkh = \"%s\", sodu = %d,sodienthoai=\"%s\" where makh = %s", kh.getTenkh(), kh.getSodu(), kh.getSodienthoai(), kh.getMakh());
@@ -102,7 +103,7 @@ public class KhachHangRepository implements IKhachHangRepository {
             return false;
         }
     }
-
+    
     @Override
     public KhachHangEntity findOne(int id) {
         KhachHangEntity kh = new KhachHangEntity();
@@ -119,6 +120,7 @@ public class KhachHangRepository implements IKhachHangRepository {
                     kh.setTenkh(rs.getString("tenkh"));
                     kh.setSodu(rs.getInt("sodu"));
                     kh.setSodienthoai(rs.getString("sodienthoai"));
+                    kh.setLoaikh(rs.getInt("loaikh"));
                 } while (rs.next());
             }
             helper.close();
@@ -127,7 +129,7 @@ public class KhachHangRepository implements IKhachHangRepository {
         }
         return kh;
     }
-
+    
     @Override
     public boolean updateSodu(int makh, int tiennap) {
         tiennap += this.findOne(makh).getSodu();
@@ -143,7 +145,7 @@ public class KhachHangRepository implements IKhachHangRepository {
             return false;
         }
     }
-
+    
     @Override
     public boolean findOneByPhone(String sodienthoai) {
         String sql = "SELECT * from khachhang where sodienthoai = " + sodienthoai;
@@ -161,10 +163,10 @@ public class KhachHangRepository implements IKhachHangRepository {
         helper.close();
         return true;
     }
-
+    
     @Override
-    public boolean updateVip(int makh) {
-        String sql = String.format("update khachhang set loaikh = 1 where makh = %s", makh);
+    public boolean updateVip(int makh, int loaikh) {
+        String sql = String.format("update khachhang set loaikh = %d where makh = %d", loaikh, makh);
         MySQLDataHelper helper = new MySQLDataHelper();
         helper.open();
         int n = helper.excuteUpdate(sql);
@@ -176,7 +178,7 @@ public class KhachHangRepository implements IKhachHangRepository {
             return false;
         }
     }
-
+    
     @Override
     public int count() {
         int count = 0;
@@ -194,7 +196,7 @@ public class KhachHangRepository implements IKhachHangRepository {
         }
         return count;
     }
-
+    
     @Override
     public ArrayList<KhachHangEntity> paging(int page) {
         page = (page - 1) * 10;
@@ -219,7 +221,7 @@ public class KhachHangRepository implements IKhachHangRepository {
         }
         return list;
     }
-
+    
     @Override
     public ArrayList<KhachHangEntity> searchPaging(String keyword, int page) {
         page = (page - 1) * 10;
@@ -238,6 +240,7 @@ public class KhachHangRepository implements IKhachHangRepository {
                     kh.setTenkh(rs.getString("tenkh"));
                     kh.setSodu(rs.getInt("sodu"));
                     kh.setSodienthoai(rs.getString("sodienthoai"));
+                    kh.setLoaikh(rs.getInt("loaikh"));
                     list.add(kh);
                 } while (rs.next());
             }
@@ -247,7 +250,7 @@ public class KhachHangRepository implements IKhachHangRepository {
         }
         return list;
     }
-
+    
     @Override
     public int countSearch(String keyword) {
         int count = 0;

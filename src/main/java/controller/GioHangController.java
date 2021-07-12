@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 import service.IGioHangService;
 
 /**
@@ -30,9 +28,11 @@ public class GioHangController {
 
     //Thêm khách hàng
     @RequestMapping(value = "/cart/add", method = RequestMethod.POST)
-    public RedirectView createCart(@ModelAttribute GioHangEntity gh, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("message", ghService.createCart(gh));
-        return new RedirectView("/product");
+    public ModelAndView createCart(@ModelAttribute GioHangEntity gh) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("message", ghService.createCart(gh));
+        mav.setViewName("redirect:/product");
+        return mav;
     }
 
     //view cart
@@ -41,7 +41,7 @@ public class GioHangController {
         ModelAndView modelView = new ModelAndView();
         modelView.addObject("message", message);
         modelView.addObject("cartList", ghService.getAll(makh));
-        modelView.addObject("totalPrice", ghService.totalPrice(makh));        
+        modelView.addObject("totalPrice", ghService.totalPrice(makh));
         modelView.addObject("discount", ghService.discount(makh));
         modelView.addObject("khuyenmai", ghService.tongKhuyenMai(makh));
         modelView.addObject("chietkhau", ghService.chietKhau(makh));
@@ -52,17 +52,19 @@ public class GioHangController {
 
     //Thêm số lượng
     @RequestMapping(value = "/cart/update", method = RequestMethod.POST)
-    public RedirectView updateCart(@ModelAttribute GioHangEntity gh) {
+    public ModelAndView updateCart(@ModelAttribute GioHangEntity gh) {
         ghService.updateCart(gh);
         String url = "/cart/" + gh.getMakh();
-        return new RedirectView(url);
+        return new ModelAndView("redirect:" + url);
     }
 
     //Xóa sản phẩm khỏi giỏ hàng
     @RequestMapping(value = "/cart/delete/{makh}/{magiohang}", method = RequestMethod.GET)
-    public RedirectView deleteProductCart(@PathVariable("magiohang") int magiohang, @PathVariable("makh") int makh, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("message", ghService.deleteCart(magiohang));
+    public ModelAndView deleteProductCart(@PathVariable("magiohang") int magiohang, @PathVariable("makh") int makh) {
         String url = "/cart/" + makh;
-        return new RedirectView(url);
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("message", ghService.deleteCart(magiohang));
+        mav.setViewName("redirect:" + url);
+        return mav;
     }
 }

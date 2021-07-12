@@ -22,7 +22,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/log">Lịch sử bán hàng <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/customer">Khách Hàng</a>
@@ -344,7 +344,7 @@
             } else {
                 $('#btnAddCart').attr("disabled", true);
                 $('#soluong').attr("disabled", true);
-               $('#btnAddCart').text("Số lượng tồn không đủ");
+                $('#btnAddCart').text("Số lượng tồn không đủ");
                 $('#makh').attr("disabled", true);
             }
         });

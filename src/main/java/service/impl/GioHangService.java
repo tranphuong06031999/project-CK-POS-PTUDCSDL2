@@ -10,7 +10,6 @@ import entity.KhuyenMaiEntity;
 import entity.SanPhamEntity;
 import entity.SanPhamKhuyenMaiEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.IGioHangRepository;
