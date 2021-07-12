@@ -52,6 +52,8 @@
                                     <th scope="col">Tên sản phẩm</th>
                                     <th scope="col">Giá(đ)</th>                                    
                                     <th scope="col">Giá tổng(đ)</th>
+                                    <th scope="col">Chiết khấu(%)</th>
+                                    <th scope="col">Giá tổng sau chiết khấu(đ)</th>
                                     <th scope="col" style="width: 16%">Số Lượng</th>
                                     <th scope="col" >Trạng thái</th>
                                 </tr>
@@ -64,7 +66,7 @@
                                         </tr>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:forEach var="product" items="${cartList}">
+                                        <c:forEach var="product" items="${cartList}" varStatus="status">
                                             <tr>
                                                 <td>${product.magiohang}</td>
                                                 <td>${product.makh}</td>
@@ -78,6 +80,15 @@
                                                     <fmt:formatNumber value="${product.giatong}" pattern="#,###.##" var="pat" /> 
                                                     ${pat}
                                                 </td>
+                                                <td>
+                                                    <fmt:formatNumber value="${chietkhau[status.index].getPhanTramGiamGia()}" pattern="#,###.##" var="pat" /> 
+                                                    -${pat}%
+                                                </td>
+                                                <td>
+                                                    <fmt:formatNumber value="${product.giatong - chietkhau[status.index].getGiaTienGiam()}" pattern="#,###.##" var="pat" /> 
+                                                    ${pat}
+                                                </td>
+                                                
                                                 <td>
                                                     <div class="d-flex">
                                                         <button class="btn btn-outline-secondary" id="reduce" data-quantity="${product.soluong}" data-price="${product.gia}" data-id="${product.magiohang}" data-makh="${product.makh}" data-masp="${product.masp}" onclick="reductionCart(this)">
@@ -116,31 +127,17 @@
                         </div>
                         <div class="card-body p-3"  style="width: 400px;">
                             <h5 class="card-title text-center" style="color: red;">
-                                <fmt:formatNumber value="${totalPrice}" pattern="#,###.##" var="pat" /> 
+                                <fmt:formatNumber value="${totalPrice - discount- sale_khtt}" pattern="#,###.##" var="pat" /> 
                                  ${pat} đ
                             </h5>
                             <hr>
-                            <h5 style="text-transform: uppercase;" >Chiết khấu</h5>
-                            <div class="d-block mb-4">
-                                <!--<span style="color: rgba(0,0,0,0.54); text-decoration: line-through; text-decoration-thickness: 1px;">30.000đ</span>-->
-                                <fmt:formatNumber value="${totalPrice*(discount/100)}" pattern="#,###.##" var="discountAmount" /> 
-                                <span > - ${discountAmount}đ</span>
-                                <span class="float-right">${discount}%</span>
-                            </div>
-                            <h5 style="text-transform: uppercase;" >Khách hàng thân thiết</h5>
-                            <div class="d-block mb-4">
-                                <!--<span style="color: rgba(0,0,0,0.54); text-decoration: line-through; text-decoration-thickness: 1px;">30.000đ</span>-->
-                                <fmt:formatNumber value="${totalPrice*(discount/100)}" pattern="#,###.##" var="discountAmount" /> 
-                                <span > - ${discountAmount}đ</span>
-                                <span class="float-right">${discount}%</span>
-                            </div>
-                            <h5 style="text-transform: uppercase;" >Số sản phẩm nhiều hơn 100</h5>
-                            <div class="d-block mb-4">
-                                <!--<span style="color: rgba(0,0,0,0.54); text-decoration: line-through; text-decoration-thickness: 1px;">30.000đ</span>-->
-                                <fmt:formatNumber value="${totalPrice*(discount/100)}" pattern="#,###.##" var="discountAmount" /> 
-                                <span > - ${discountAmount}đ</span>
-                                <span class="float-right">${discount}%</span>
-                            </div>
+                            <c:forEach items="${khuyenmai}" var="km">
+                                <h5 style="text-transform: uppercase;" >${km.getTenKhuyenMai()}</h5>
+                                <div class="d-block mb-4">
+                                    <span > - ${km.getGiaTienGiam()}đ</span>
+                                    <span class="float-right">${km.getPhanTramGiamGia()}%</span>
+                                </div>
+                            </c:forEach>
                             <hr>
                             <c:choose>
                                 <c:when test="${totalPrice != 0}">

@@ -6,6 +6,8 @@
 package repository;
 
 import entity.GioHangEntity;
+import entity.KhuyenMaiEntity;
+import entity.SanPhamKhuyenMaiEntity;
 import java.util.ArrayList;
 
 /**
@@ -33,5 +35,9 @@ public interface IGioHangRepository {
     public int quantity(int makh);
     
     public GioHangEntity findById(int magiohang);
+    
+    public SanPhamKhuyenMaiEntity getThongTinKhuyenMaiSanPham(int masp);
+    
+    public int soLuongSanPhamTrongGioHang ( int masp, int makh);
 
 }

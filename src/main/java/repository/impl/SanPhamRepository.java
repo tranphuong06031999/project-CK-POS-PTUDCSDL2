@@ -259,5 +259,50 @@ public class SanPhamRepository implements ISanPhamRepository {
             return false;
         }
     }
+    
+    @Override
+    public ArrayList<Integer> getMaSanPham(int makh) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        String sql = "select sp.masp from giohang gh join sanpham sp on gh.masp=sp.masp where gh.makh = " + makh;
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            if (rs.next() == false) {
+                list = null;
+            } else {
+                do {
+                    int km = rs.getInt("masp");
+                    list.add(km);
+                } while (rs.next());
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    
+    @Override
+    public int getGiaSanPham(int masp) {
+        int giasp = 0;
+        String sql = "select sp.gia from sanpham sp where sp.masp = " + masp;
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            if (rs.next() == false) {
+                giasp = 0;
+            } else {
+                do {
+                    giasp = rs.getInt("gia");
+                } while (rs.next());
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return giasp;
+    }
 
 }

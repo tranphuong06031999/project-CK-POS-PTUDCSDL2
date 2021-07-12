@@ -6,6 +6,8 @@
 package service;
 
 import entity.GioHangEntity;
+import entity.KhuyenMaiEntity;
+import entity.SanPhamKhuyenMaiEntity;
 import java.util.ArrayList;
 
 /**
@@ -25,5 +27,12 @@ public interface IGioHangService {
     public int totalPrice(int makh);
     
     public int discount(int makh);
-
+    
+   public ArrayList<KhuyenMaiEntity> khuyenMai(int makh);
+   
+   public ArrayList<KhuyenMaiEntity> chietKhau(int makh);
+   
+   public ArrayList<KhuyenMaiEntity> tongKhuyenMai(int makh);
+   
+   public int tienGiamCuaKhachHangThanThiet( int makh );
 }

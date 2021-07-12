@@ -6,7 +6,9 @@
 package service.impl;
 
 import entity.GioHangEntity;
+import entity.KhuyenMaiEntity;
 import entity.SanPhamEntity;
+import entity.SanPhamKhuyenMaiEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,26 +117,155 @@ public class GioHangService implements IGioHangService {
     @Override
     public int totalPrice(int makh) {
         int total = ghRepository.totalPrice(makh);
-        int discount = discount(makh);
-        total = total - (total * discount / 100);
         return total;
     }
     
     @Override
     public int discount(int makh){
-        int qty = ghRepository.quantity(makh);
-        if(qty <= 100){
-            return 2;
-        }
-        else if(qty > 100 && qty <= 200){
-            return 3;
-        }
-        else if(qty > 200 && qty <= 500){
-            return 5;
-        }
-        else{
-            return 7;
-        }
+        ArrayList<KhuyenMaiEntity> sp_km = khuyenMai(makh);
+        ArrayList<KhuyenMaiEntity> chietKhau = chietKhau(makh);
+        
+        int discount = 0;
+        
+        for ( KhuyenMaiEntity ck: chietKhau){
+                discount += ck.getGiaTienGiam();           
+        }  
+        
+        if (sp_km != null){
+            for ( KhuyenMaiEntity spkm: sp_km){
+                discount += spkm.getGiaTienGiam();           
+            }
+        }   
+        return discount;
     }
+    
+    @Override
+    public ArrayList<KhuyenMaiEntity> khuyenMai(int makh){
+        ArrayList<Integer> masp = spRepository.getMaSanPham(makh);
+        ArrayList<SanPhamKhuyenMaiEntity> spKm = new ArrayList<SanPhamKhuyenMaiEntity>();
+        
+        ArrayList<KhuyenMaiEntity> listKm = new ArrayList<KhuyenMaiEntity>();
+        
+        if (masp != null){
+            for (int i = 0; i < masp.size(); i++) {
+                SanPhamKhuyenMaiEntity sp = new SanPhamKhuyenMaiEntity();
+                sp = ghRepository.getThongTinKhuyenMaiSanPham(masp.get(i));
+                if ( sp.getTenKhuyenMai() != null){
+                    spKm.add(sp);
+                }
+            }
+        }else{
+            spKm = null;
+        }
+        
+        ArrayList<KhuyenMaiEntity> chietKhau = chietKhau(makh);
+        
+        if ( spKm != null){
+            for ( SanPhamKhuyenMaiEntity spkm: spKm) {
+                int sl_sp = 0;
+                KhuyenMaiEntity thongTinKhuyenMai = new KhuyenMaiEntity();           
+                sl_sp = ghRepository.soLuongSanPhamTrongGioHang( spkm.getMaSanPham(), makh);
+                int giaSp = 0;
+                int demKhachHangChietKhau = 0;
+                
+                for ( KhuyenMaiEntity ck: chietKhau ){         
+                    if ( ck.getTenKhuyenMai().equals(String.valueOf(spkm.getMaSanPham())) && ck.getGiaTienGiam() > 0){
+                        giaSp = spkm.getGiaSanPham() * sl_sp - ck.getGiaTienGiam();
+                        demKhachHangChietKhau = 1;
+                    }
+                }
+                
+                if (demKhachHangChietKhau == 0){
+                    giaSp = spkm.getGiaSanPham() * sl_sp;
+                }
+                
+                int giaSpGiamGia = (int)(giaSp * ((float)spkm.getMaGiamGia() / 100 ));
+                
+                if ( giaSpGiamGia > spkm.getToiDaKhuyenMai() && spkm.getToiDaKhuyenMai() != 0){
+                    giaSpGiamGia = spkm.getToiDaKhuyenMai();
+                }
+                String tenKm = spkm.getTenKhuyenMai() + " ( mã sản phẩm " + spkm.getMaSanPham() + " giảm tối đa " + spkm.getToiDaKhuyenMai() + "đ )";
+                thongTinKhuyenMai.setGiaTienGiam(giaSpGiamGia);
+                thongTinKhuyenMai.setPhanTramGiamGia(spkm.getMaGiamGia());
+                thongTinKhuyenMai.setTenKhuyenMai(tenKm);    
+                listKm.add(thongTinKhuyenMai);
+            }
+        }else{
+            listKm = null ;
+        }
+        return listKm;
+    }
+    
+    @Override
+    public ArrayList<KhuyenMaiEntity> chietKhau(int makh){
+        ArrayList<KhuyenMaiEntity> chietKhau = new ArrayList<KhuyenMaiEntity>();
+        ArrayList<Integer> masp = spRepository.getMaSanPham(makh);
+        if ( masp != null ){
+            for ( int sp: masp) {
+                KhuyenMaiEntity thongTinChietKhau = new KhuyenMaiEntity();
 
+                int giaSp = spRepository.getGiaSanPham(sp);
+                int soLg = ghRepository.soLuongSanPhamTrongGioHang(sp, makh);
+
+                if (soLg >= 10 ){
+                    String ten = String.valueOf(sp);
+                    int giaGiam = (int)(giaSp * soLg * (float)0.05);
+                    int phanTramGiamGia = 5;
+
+                    thongTinChietKhau.setGiaTienGiam(giaGiam);
+                    thongTinChietKhau.setPhanTramGiamGia(phanTramGiamGia);
+                    thongTinChietKhau.setTenKhuyenMai(ten);
+                    chietKhau.add(thongTinChietKhau);
+                }  else{
+                    String ten = String.valueOf(sp);
+                    thongTinChietKhau.setGiaTienGiam(0);
+                    thongTinChietKhau.setPhanTramGiamGia(0);
+                    thongTinChietKhau.setTenKhuyenMai(ten);
+                    chietKhau.add(thongTinChietKhau);
+                } 
+            }
+        }else{
+            return null;
+        }
+        return chietKhau;
+    }
+    
+    @Override
+    public ArrayList<KhuyenMaiEntity> tongKhuyenMai(int makh){
+        ArrayList<KhuyenMaiEntity> tongKhuyenMai = khuyenMai(makh);
+        int totalPrice = totalPrice(makh);
+        int discount = discount(makh);
+        
+        int price = totalPrice - discount;
+        
+        int kiemTraKhachHangThanThiet = khRepository.kiemTraKhachHangThanThiet(makh);
+        if ( kiemTraKhachHangThanThiet > 0){
+            KhuyenMaiEntity thongTinKhuyenMai = new KhuyenMaiEntity();   
+            int giaSpGiamGia = (int)(price * 0.1);
+            int maGiamGia = 10;
+            thongTinKhuyenMai.setGiaTienGiam(giaSpGiamGia);
+            thongTinKhuyenMai.setPhanTramGiamGia(maGiamGia);
+            thongTinKhuyenMai.setTenKhuyenMai("Khách hàng thân thiết");    
+            tongKhuyenMai.add(thongTinKhuyenMai);
+        }
+        return tongKhuyenMai;
+    }    
+   
+    @Override
+    public int tienGiamCuaKhachHangThanThiet(int makh){
+        int priceResult = 0;
+        int totalPrice = totalPrice(makh);
+        int discount = discount(makh);
+        
+        int price = totalPrice - discount;
+        
+        int kiemTraKhachHangThanThiet = khRepository.kiemTraKhachHangThanThiet(makh);
+        if ( kiemTraKhachHangThanThiet > 0){   
+            priceResult = (int)(price * 0.1);
+        }
+        System.out.print("price: " + price);
+        System.out.print("khtt: " + priceResult);
+        
+        return priceResult;
+    }    
 }

@@ -265,4 +265,23 @@ public class KhachHangRepository implements IKhachHangRepository {
         }
         return count;
     }
+    
+    @Override
+    public int kiemTraKhachHangThanThiet(int makh) {
+        int count = 0;
+        try {
+            String sql = "SELECT count(*) count from khachhang where makh = " + makh + " and loaikh = 1";
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    
 }

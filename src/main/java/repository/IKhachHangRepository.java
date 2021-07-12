@@ -37,4 +37,6 @@ public interface IKhachHangRepository {
     public ArrayList<KhachHangEntity> searchPaging(String keyword, int page);
     
     public int countSearch(String keyword);
+    
+    public int kiemTraKhachHangThanThiet(int makh);
 }

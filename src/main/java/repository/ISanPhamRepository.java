@@ -34,4 +34,8 @@ public interface ISanPhamRepository {
 
     public boolean updateSoluong(int masp, int soluong);
 
+    public ArrayList<Integer> getMaSanPham(int makh);
+    
+    public int getGiaSanPham( int masp);
+
 }

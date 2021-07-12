@@ -6,6 +6,8 @@
 package repository.impl;
 
 import entity.GioHangEntity;
+import entity.KhuyenMaiEntity;
+import entity.SanPhamKhuyenMaiEntity;
 import helper.MySQLDataHelper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -214,5 +216,51 @@ public class GioHangRepository implements IGioHangRepository {
         }
         return cart;
     }
+    
+    @Override
+    public SanPhamKhuyenMaiEntity getThongTinKhuyenMaiSanPham(int masp) {
+        SanPhamKhuyenMaiEntity km = new SanPhamKhuyenMaiEntity();
+        String sql = "select sp.masp, sp.tensp, sp.khuyenmai,sp.gia, km.ngay_bat_dau, km.ngay_ket_thuc, km.giam_gia, km.toi_da, km.ten"
+                + " from sanpham sp, khuyenmai km where sp.masp = " + masp + " and sp.khuyenmai = km.khuyenmai_id";
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                km.setToiDaKhuyenMai(rs.getInt("toi_da"));
+                km.setMaGiamGia(rs.getInt("giam_gia"));
+                km.setMaSanPham(rs.getInt("masp"));
+                km.setTenSanPham(rs.getString("tensp"));
+                km.setGiaSanPham(rs.getInt("gia"));
+                km.setTenKhuyenMai(rs.getString("ten"));
+                km.setNgayBatDauKhuyenMai(rs.getDate("ngay_bat_dau"));
+                km.setNgayKetThucKhuyenMai(rs.getDate("ngay_ket_thuc"));
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return km;
+    }
+
+    @Override
+    public int soLuongSanPhamTrongGioHang(int masp, int makh){
+        int total = 0;
+        String sql = "select SUM(soluong) as total  from giohang where makh = " + makh + " and masp = " + masp;
+        MySQLDataHelper helper = new MySQLDataHelper();
+        try {
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                total = rs.getInt("total");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+            
+            
 
 }
