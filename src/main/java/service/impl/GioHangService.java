@@ -16,6 +16,8 @@ import repository.IGioHangRepository;
 import repository.IKhachHangRepository;
 import repository.ISanPhamRepository;
 import service.IGioHangService;
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
 
 /**
  *
@@ -125,10 +127,11 @@ public class GioHangService implements IGioHangService {
         ArrayList<KhuyenMaiEntity> chietKhau = chietKhau(makh);
         
         int discount = 0;
-        
-        for ( KhuyenMaiEntity ck: chietKhau){
-                discount += ck.getGiaTienGiam();           
-        }  
+        if ( chietKhau != null){
+            for ( KhuyenMaiEntity ck: chietKhau){
+                    discount += ck.getGiaTienGiam();           
+            }  
+        }
         
         if (sp_km != null){
             for ( KhuyenMaiEntity spkm: sp_km){
@@ -144,6 +147,9 @@ public class GioHangService implements IGioHangService {
         ArrayList<SanPhamKhuyenMaiEntity> spKm = new ArrayList<SanPhamKhuyenMaiEntity>();
         
         ArrayList<KhuyenMaiEntity> listKm = new ArrayList<KhuyenMaiEntity>();
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+        Date toDate = new Date();  
         
         if (masp != null){
             for (int i = 0; i < masp.size(); i++) {
@@ -161,33 +167,35 @@ public class GioHangService implements IGioHangService {
         
         if ( spKm != null){
             for ( SanPhamKhuyenMaiEntity spkm: spKm) {
-                int sl_sp = 0;
-                KhuyenMaiEntity thongTinKhuyenMai = new KhuyenMaiEntity();           
-                sl_sp = ghRepository.soLuongSanPhamTrongGioHang( spkm.getMaSanPham(), makh);
-                int giaSp = 0;
-                int demKhachHangChietKhau = 0;
-                
-                for ( KhuyenMaiEntity ck: chietKhau ){         
-                    if ( ck.getTenKhuyenMai().equals(String.valueOf(spkm.getMaSanPham())) && ck.getGiaTienGiam() > 0){
-                        giaSp = spkm.getGiaSanPham() * sl_sp - ck.getGiaTienGiam();
-                        demKhachHangChietKhau = 1;
+                if ( (spkm.getNgayBatDauKhuyenMai().before(toDate) || spkm.getNgayBatDauKhuyenMai().equals(toDate)) && (toDate.before(spkm.getNgayKetThucKhuyenMai()) || spkm.getNgayKetThucKhuyenMai().equals(toDate))){
+                    int sl_sp = 0;
+                    KhuyenMaiEntity thongTinKhuyenMai = new KhuyenMaiEntity();           
+                    sl_sp = ghRepository.soLuongSanPhamTrongGioHang( spkm.getMaSanPham(), makh);
+                    int giaSp = 0;
+                    int demKhachHangChietKhau = 0;
+
+                    for ( KhuyenMaiEntity ck: chietKhau ){         
+                        if ( ck.getTenKhuyenMai().equals(String.valueOf(spkm.getMaSanPham())) && ck.getGiaTienGiam() > 0){
+                            giaSp = spkm.getGiaSanPham() * sl_sp - ck.getGiaTienGiam();
+                            demKhachHangChietKhau = 1;
+                        }
                     }
-                }
                 
-                if (demKhachHangChietKhau == 0){
-                    giaSp = spkm.getGiaSanPham() * sl_sp;
+                    if (demKhachHangChietKhau == 0){
+                        giaSp = spkm.getGiaSanPham() * sl_sp;
+                    }
+
+                    int giaSpGiamGia = (int)(giaSp * ((float)spkm.getMaGiamGia() / 100 ));
+
+                    if ( giaSpGiamGia > spkm.getToiDaKhuyenMai() && spkm.getToiDaKhuyenMai() != 0){
+                        giaSpGiamGia = spkm.getToiDaKhuyenMai();
+                    }
+                    String tenKm = spkm.getTenKhuyenMai() + " ( mã sản phẩm " + spkm.getMaSanPham() + " giảm tối đa " + spkm.getToiDaKhuyenMai() + "đ )";
+                    thongTinKhuyenMai.setGiaTienGiam(giaSpGiamGia);
+                    thongTinKhuyenMai.setPhanTramGiamGia(spkm.getMaGiamGia());
+                    thongTinKhuyenMai.setTenKhuyenMai(tenKm);    
+                    listKm.add(thongTinKhuyenMai);
                 }
-                
-                int giaSpGiamGia = (int)(giaSp * ((float)spkm.getMaGiamGia() / 100 ));
-                
-                if ( giaSpGiamGia > spkm.getToiDaKhuyenMai() && spkm.getToiDaKhuyenMai() != 0){
-                    giaSpGiamGia = spkm.getToiDaKhuyenMai();
-                }
-                String tenKm = spkm.getTenKhuyenMai() + " ( mã sản phẩm " + spkm.getMaSanPham() + " giảm tối đa " + spkm.getToiDaKhuyenMai() + "đ )";
-                thongTinKhuyenMai.setGiaTienGiam(giaSpGiamGia);
-                thongTinKhuyenMai.setPhanTramGiamGia(spkm.getMaGiamGia());
-                thongTinKhuyenMai.setTenKhuyenMai(tenKm);    
-                listKm.add(thongTinKhuyenMai);
             }
         }else{
             listKm = null ;
