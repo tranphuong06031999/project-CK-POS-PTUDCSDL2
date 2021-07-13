@@ -39,5 +39,7 @@ public interface IGioHangRepository {
     public SanPhamKhuyenMaiEntity getThongTinKhuyenMaiSanPham(int masp);
     
     public int soLuongSanPhamTrongGioHang ( int masp, int makh);
+    
+    public boolean xoaGioHang( int makh );
 
 }

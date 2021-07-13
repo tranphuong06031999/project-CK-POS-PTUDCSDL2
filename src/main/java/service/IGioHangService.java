@@ -35,4 +35,7 @@ public interface IGioHangService {
    public ArrayList<KhuyenMaiEntity> tongKhuyenMai(int makh);
    
    public int tienGiamCuaKhachHangThanThiet( int makh );
+   
+   public String checkoutCart ( int makh );
+   
 }

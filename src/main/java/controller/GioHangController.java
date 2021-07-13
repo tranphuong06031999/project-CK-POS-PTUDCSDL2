@@ -40,6 +40,7 @@ public class GioHangController {
     public ModelAndView cartList(@PathVariable("makh") int makh, @RequestParam(name = "message", required = false) String message) {
         ModelAndView modelView = new ModelAndView();
         modelView.addObject("message", message);
+        modelView.addObject("makh", makh);
         modelView.addObject("cartList", ghService.getAll(makh));
         modelView.addObject("totalPrice", ghService.totalPrice(makh));
         modelView.addObject("discount", ghService.discount(makh));
@@ -67,4 +68,18 @@ public class GioHangController {
         mav.setViewName("redirect:" + url);
         return mav;
     }
+    
+    @RequestMapping(value = "/cart/thanhtoan/{makh}", method = RequestMethod.GET)
+    public ModelAndView checkoutCart(@PathVariable("makh") int makh) {
+//        ghService.checkoutCart(makh);
+//        String url = "/cart/" + makh;
+//        return new ModelAndView("redirect:" + url);   
+        ModelAndView mav = new ModelAndView();
+        String url = "/cart/" + makh;
+        mav.addObject("message", ghService.checkoutCart(makh));
+        mav.setViewName("redirect:" + url);
+        return mav;
+    }
+    
+    
 }

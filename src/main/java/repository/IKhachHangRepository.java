@@ -39,4 +39,8 @@ public interface IKhachHangRepository {
     public int countSearch(String keyword);
     
     public int kiemTraKhachHangThanThiet(int makh);
+    
+    public int getSoDuTaiKhoanKhachHang( int makh );
+    
+    public boolean capNhatSoDuTaiKhoan( int makh, int sodu );
 }

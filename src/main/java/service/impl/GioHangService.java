@@ -18,6 +18,7 @@ import repository.ISanPhamRepository;
 import service.IGioHangService;
 import java.text.SimpleDateFormat;  
 import java.util.Date;  
+import repository.IHoaDonRepository;
 
 /**
  *
@@ -34,6 +35,8 @@ public class GioHangService implements IGioHangService {
 
     @Autowired
     ISanPhamRepository spRepository;
+    @Autowired
+    IHoaDonRepository hdRepository;
 
     @Override
     public String createCart(GioHangEntity cart) {
@@ -239,14 +242,20 @@ public class GioHangService implements IGioHangService {
     
     @Override
     public ArrayList<KhuyenMaiEntity> tongKhuyenMai(int makh){
-        ArrayList<KhuyenMaiEntity> tongKhuyenMai = khuyenMai(makh);
+        ArrayList<KhuyenMaiEntity> khuyenMai = khuyenMai(makh);
+        ArrayList<KhuyenMaiEntity> tongKhuyenMai = new ArrayList<KhuyenMaiEntity>();
+        if ( khuyenMai != null){
+            tongKhuyenMai = khuyenMai;
+        }            
+        
         int totalPrice = totalPrice(makh);
         int discount = discount(makh);
         
         int price = totalPrice - discount;
         
         int kiemTraKhachHangThanThiet = khRepository.kiemTraKhachHangThanThiet(makh);
-        if ( kiemTraKhachHangThanThiet > 0){
+        
+        if ( kiemTraKhachHangThanThiet > 0 && price > 0){
             KhuyenMaiEntity thongTinKhuyenMai = new KhuyenMaiEntity();   
             int giaSpGiamGia = (int)(price * 0.1);
             int maGiamGia = 10;
@@ -255,7 +264,13 @@ public class GioHangService implements IGioHangService {
             thongTinKhuyenMai.setTenKhuyenMai("Khách hàng thân thiết");    
             tongKhuyenMai.add(thongTinKhuyenMai);
         }
-        return tongKhuyenMai;
+        
+        if ( tongKhuyenMai != null){
+            return tongKhuyenMai;
+        }else{
+            return null;
+        }
+            
     }    
    
     @Override
@@ -270,9 +285,62 @@ public class GioHangService implements IGioHangService {
         if ( kiemTraKhachHangThanThiet > 0){   
             priceResult = (int)(price * 0.1);
         }
-        System.out.print("price: " + price);
-        System.out.print("khtt: " + priceResult);
-        
         return priceResult;
-    }    
+    }
+    
+    @Override
+    public String checkoutCart(int makh){
+        int lastHoaDonId = hdRepository.getMaHoaDonCuoi();
+        int hoaDonId = lastHoaDonId + 1; 
+        java.util.Date toDate = new Date();  
+        int totalPrice = totalPrice(makh);
+        int discount = discount(makh);
+        
+        int tienGiamKhachHangThanThiet = tienGiamCuaKhachHangThanThiet(makh);
+        int tongTien = totalPrice - discount - tienGiamKhachHangThanThiet;
+        
+        boolean addDonHangResult = hdRepository.addDonHang(hoaDonId, makh, toDate, tongTien, tienGiamKhachHangThanThiet);
+        
+        ArrayList<Integer> masp = spRepository.getMaSanPham(makh);
+        for ( int sp: masp) {
+            int giaSp = spRepository.getGiaSanPham(sp);
+            int soLg = ghRepository.soLuongSanPhamTrongGioHang(sp, makh);
+            int tongTienBanDau = giaSp * soLg;
+            int chietKhau = 0;
+            int tienGiamChietKhau = 0;
+            int tienGiamSauChietKhau = 0;
+            int khuyenMaiKhac = 0;
+            int tienGiamSauKhuyenMai = 0;
+            int tongTienSauCung = 0;
+            if (soLg >= 10 ){
+                chietKhau = 5;
+                tienGiamChietKhau = (int)(giaSp * soLg * (float)0.05);
+            }
+            tienGiamSauChietKhau = giaSp * soLg - tienGiamChietKhau;
+            SanPhamKhuyenMaiEntity ttkm = new SanPhamKhuyenMaiEntity();
+            ttkm = ghRepository.getThongTinKhuyenMaiSanPham(sp);
+            if ( ttkm.getTenKhuyenMai() != null && (ttkm.getNgayBatDauKhuyenMai().before(toDate) || ttkm.getNgayBatDauKhuyenMai().equals(toDate)) && (toDate.before(ttkm.getNgayKetThucKhuyenMai()) || ttkm.getNgayKetThucKhuyenMai().equals(toDate))){
+                khuyenMaiKhac = ttkm.getMaGiamGia();
+                tienGiamSauKhuyenMai = (int)(tienGiamSauChietKhau * ((float)ttkm.getMaGiamGia() / 100 ));
+            }
+            tongTienSauCung = tienGiamSauChietKhau - tienGiamSauKhuyenMai;  
+            int maChiTietHoaDonCuoi = hdRepository.getMaChiTietHoaDonCuoi() + 1;
+            boolean addChiTietHoaDonResult = hdRepository.addChiTietHoaDon(maChiTietHoaDonCuoi, hoaDonId, sp, soLg, giaSp, tongTienBanDau, chietKhau, khuyenMaiKhac, tongTienSauCung );
+        }
+        
+        boolean deleteCartResult = ghRepository.xoaGioHang(makh);
+        
+        int soDuTaiKhoanKhachHang = khRepository.getSoDuTaiKhoanKhachHang(makh);
+        
+        int soDuSauCapNhat = soDuTaiKhoanKhachHang - tongTien;
+        
+        boolean resultCapNhatTaiKhoanKhachHang = khRepository.capNhatSoDuTaiKhoan(makh, soDuSauCapNhat);
+        
+        if ( addDonHangResult && deleteCartResult && resultCapNhatTaiKhoanKhachHang ){
+            return "Bạn đã thanh toán đơn hàng thành công";
+        }else{
+            return "Bạn đã thanh toán đơn hàng thất bại";
+        } 
+    }
+    
 }

@@ -287,4 +287,39 @@ public class KhachHangRepository implements IKhachHangRepository {
         return count;
     }
     
+    @Override
+    public int getSoDuTaiKhoanKhachHang( int makh ){
+        
+        int sodu = 0;
+        try {
+            String sql = "SELECT sodu from khachhang where makh = " + makh;
+            MySQLDataHelper helper = new MySQLDataHelper();
+            helper.open();
+            ResultSet rs = helper.excuteQuery(sql);
+            while (rs.next()) {
+                sodu = rs.getInt("sodu");
+            }
+            helper.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(KhachHangRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sodu;
+    }
+    
+    @Override
+    public boolean capNhatSoDuTaiKhoan( int makh, int sodu ){
+        
+        String sql = String.format("update khachhang set sodu = %d where makh = %d", sodu, makh);
+        MySQLDataHelper helper = new MySQLDataHelper();
+        helper.open();
+        int n = helper.excuteUpdate(sql);
+        if (n > 0) {
+            helper.close();
+            return true;
+        } else {
+            helper.close();
+            return false;
+        }
+        
+    }
 }

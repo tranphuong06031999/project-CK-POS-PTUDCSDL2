@@ -18,7 +18,7 @@
             }
         </style>
     </head>
-    <body>
+    <body>     
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -69,7 +69,7 @@
                                         <c:forEach var="product" items="${cartList}" varStatus="status">
                                             <tr>
                                                 <td>${product.magiohang}</td>
-                                                <td>${product.makh}</td>
+                                                <td id="makh${status.index}">${product.makh}</td>
                                                 <td>${product.masp}</td>
                                                 <td>${product.tensp}</td>                                                  
                                                 <td>
@@ -141,7 +141,28 @@
                             <hr>
                             <c:choose>
                                 <c:when test="${totalPrice != 0}">
-                                    <a href="#" class="btn btn-primary">Thanh toán</a>
+                                    <a id = "thanhToanButton" class="btn btn-primary">Thanh toán</a>
+                                    <div class="modal" id="myModal">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                              <h4 class="modal-title">Thông báo</h4>
+                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                              Đơn hàng đang được thanh toán.....
+                                            </div> 
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                              <button id="closeModal" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                 </c:when>    
                                 <c:otherwise>
                                     <a href="" class="btn btn-secondary disabled">Thanh toán</a>
@@ -164,6 +185,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q " crossorigin="anonymous "></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl " crossorigin="anonymous "></script>
     <script>
+        
+        $("#thanhToanButton").on("click", function(e) {
+            var makh = $('#makh0').text();
+            var atag = e.target;
+            $(atag).attr("href", `/cart/thanhtoan/${makh}`);
+            console.log(`/cart/thanhtoan/${makh}`);
+            $('#myModal').modal('show');
+        });
+        
+        $("#closeModal").on("click", function(e) {
+            $('#myModal').modal('hide');
+        });
+        
         var message = $('#message').val();
         if (message !== "") {
             alert(message);
