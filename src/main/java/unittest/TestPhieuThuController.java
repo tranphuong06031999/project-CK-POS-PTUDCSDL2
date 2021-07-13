@@ -5,10 +5,8 @@
  */
 package unittest;
 
-import controller.KhachHangController;
 import controller.PhieuThuController;
-import entity.AbstractEntity;
-import entity.PhieuThuEntity;
+import entity.KhachHangEntity;
 import entity.PhieuThuEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,26 +34,102 @@ public class TestPhieuThuController {
     @Mock
     IPhieuThuService service;
 
+    @Mock
+    IKhachHangService khService;
+
     @Test
-    public void Bill_NonEmpty_UnitTest() {
+    public void GetOne_NonEmpty_UnitTest() {
+        PhieuThuEntity pt = new PhieuThuEntity();
+        pt.setMakh(1);
+        pt.setMaphieuthu(1);
+        pt.setNgaylap("2021-07-14");
+        pt.setSodu(1000000);
+        pt.setSotiennap(300000);
+        pt.setTenkh("Khiếu Châu");
+        Mockito.when(service.getOne(1)).thenReturn(pt);
+        ModelAndView model = controller.getOne(1);
+        PhieuThuEntity actual = (PhieuThuEntity) model.getModel().get("receipt");
+        Assert.assertEquals(pt.getTenkh(), actual.getTenkh());
+    }
+
+    @Test
+    public void GetOne_Empty_UnitTest() {
+        PhieuThuEntity pt = new PhieuThuEntity();
+        Mockito.when(service.getOne(1)).thenReturn(pt);
+        ModelAndView model = controller.getOne(1);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        PhieuThuEntity actual = (PhieuThuEntity) map.get("receipt");
+        Assert.assertEquals(pt, actual);
+    }
+
+    @Test
+    public void GetOne_CheckView_UnitTest() {
+        PhieuThuEntity pt = new PhieuThuEntity();
+        Mockito.when(service.getOne(pt.getMaphieuthu())).thenReturn(pt);
+        ModelAndView model = controller.getOne(pt.getMaphieuthu());
+        String expect_view = "detailReceipt";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+
+    @Test
+    public void SearchReceipt_Empty_UnitTest() {
+        ArrayList<PhieuThuEntity> lst = null;
+        Mockito.when(service.searchPaging("Khiếu", 1)).thenReturn(lst);
+        ModelAndView model = controller.searchReceipt("Khiếu", 1);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        ArrayList<PhieuThuEntity> actual = (ArrayList<PhieuThuEntity>) map.get("list");
+        Assert.assertEquals(lst, actual);
+    }
+
+    @Test
+    public void SearchReceipt_NonEmpty_UnitTest() {
         ArrayList<PhieuThuEntity> lst = new ArrayList<>();
         PhieuThuEntity pt = new PhieuThuEntity();
         pt.setMakh(1);
-        pt.setMaphieuthu(0);
-        pt.setNgaylap("1/1/2021");
-        pt.setSotiennap(0);
-        pt.setSodu(0);
-        pt.setTenkh("Nguyen Van A");
+        pt.setMaphieuthu(1);
+        pt.setNgaylap("2021-07-14");
+        pt.setSodu(10000000);
+        pt.setSotiennap(3000000);
+        pt.setTenkh("Khiếu Châu");
+        lst.add(pt);
+        Mockito.when(service.searchPaging("Khiếu", 1)).thenReturn(lst);
+        ModelAndView model = controller.searchReceipt("Khiếu", 1);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        ArrayList<PhieuThuEntity> actual = (ArrayList<PhieuThuEntity>) map.get("list");
+        Assert.assertEquals(lst.get(0).getTenkh(), actual.get(0).getTenkh());
+    }
+
+    @Test
+    public void SearchReceipt_CheckView_UnitTest() {
+        ArrayList<PhieuThuEntity> lst = new ArrayList<>();
+        Mockito.when(service.searchPaging("Khiếu", 1)).thenReturn(lst);
+        ModelAndView model = controller.searchReceipt("Khiếu", 1);
+        String expect_view = "receiptsList";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+
+    @Test
+    public void GetAll_NonEmpty_UnitTest() {
+        ArrayList<PhieuThuEntity> lst = new ArrayList<>();
+        PhieuThuEntity pt = new PhieuThuEntity();
+        pt.setMakh(1);
+        pt.setMaphieuthu(1);
+        pt.setNgaylap("2021-07-14");
+        pt.setSodu(10000000);
+        pt.setSotiennap(3000000);
+        pt.setTenkh("Khiếu Châu");
         lst.add(pt);
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
         ModelAndView model = controller.getAll(1);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
-        ArrayList<PhieuThuEntity> actual = (ArrayList<PhieuThuEntity>) map.get("list"); //Tên object gán cho ModelAndView
-        Assert.assertEquals(lst.get(0).getMakh(), actual.get(0).getMakh());
+        ArrayList<PhieuThuEntity> actual = (ArrayList<PhieuThuEntity>) map.get("list");
+        Assert.assertEquals(lst.get(0).getTenkh(), actual.get(0).getTenkh());
     }
 
     @Test
-    public void Bill_Empty_UnitTest() {
+    public void GetAll_Empty_UnitTest() {
         ArrayList<PhieuThuEntity> lst = null;
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
         ModelAndView model = controller.getAll(1);
@@ -65,11 +139,11 @@ public class TestPhieuThuController {
     }
 
     @Test
-    public void Bill_CheckView_UnitTest() {
+    public void GetAll_CheckView_UnitTest() {
         ArrayList<PhieuThuEntity> lst = new ArrayList<>();
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
         ModelAndView model = controller.getAll(1);
-        String expect_view = "customersList";
+        String expect_view = "receiptsList";
         String view_actual = model.getViewName();
         Assert.assertEquals(expect_view, view_actual);
     }

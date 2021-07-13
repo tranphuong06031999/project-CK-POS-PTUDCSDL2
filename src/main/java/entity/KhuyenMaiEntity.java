@@ -4,13 +4,16 @@
  * and open the template in the editor.
  */
 package entity;
+
 import java.io.Serializable;
+
 /**
  *
  * @author Liêu Hy Quỳnh
  */
-public class KhuyenMaiEntity {
-    private int phanTramGiamGia ;
+public class KhuyenMaiEntity implements Serializable {
+
+    private int phanTramGiamGia;
     private int giaTienGiam;
     private String tenKhuyenMai;
 
@@ -30,8 +33,6 @@ public class KhuyenMaiEntity {
         this.giaTienGiam = giaTienGiam;
     }
 
-
-
     public String getTenKhuyenMai() {
         return tenKhuyenMai;
     }
@@ -39,5 +40,5 @@ public class KhuyenMaiEntity {
     public void setTenKhuyenMai(String tenKhuyenMai) {
         this.tenKhuyenMai = tenKhuyenMai;
     }
-    
+
 }

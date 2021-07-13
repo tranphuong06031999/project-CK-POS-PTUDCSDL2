@@ -262,7 +262,7 @@
                             <input type="hidden" id="gia2" name="gia">  
                             <div class="form-group">
                                 <label for="soluong">Số lượng</label>
-                                <input type="number" class="form-control" id="soluong" name="soluong" placeholder="Nhập số lượng" required min="1">
+                                <input type="number" class="form-control" id="soluong" name="soluong" placeholder="Nhập số lượng" required min="1" max="10000">
                             </div>
                             <button id="btnAddCart" class="btn btn-outline-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-piggy-bank" viewBox="0 0 16 16">
                                 <path d="M5 6.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zm1.138-1.496A6.613 6.613 0 0 1 7.964 4.5c.666 0 1.303.097 1.893.273a.5.5 0 0 0 .286-.958A7.602 7.602 0 0 0 7.964 3.5c-.734 0-1.441.103-2.102.292a.5.5 0 1 0 .276.962z"/>

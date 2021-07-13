@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author THAIHUYNH
  */
-public class LichBanHangEnity extends AbstractEntity implements Serializable{
+public class LichBanHangEnity extends AbstractEntity implements Serializable {
+
     private int hoadon_id;
     private String tenkh;
     private int tongtien;
@@ -25,7 +26,6 @@ public class LichBanHangEnity extends AbstractEntity implements Serializable{
         this.hoadon_id = hoadon_id;
     }
 
-    
     public String getTenkh() {
         return tenkh;
     }
@@ -49,18 +49,4 @@ public class LichBanHangEnity extends AbstractEntity implements Serializable{
     public void setNgaylap(String ngaylap) {
         this.ngaylap = ngaylap;
     }
-
-    public void getTenkh(String nguyen_Van_Test) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void setNgaylap() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void setTongtien() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
 }

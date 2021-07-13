@@ -55,7 +55,7 @@
                             <c:choose>
                                 <c:when test="${list == null}">
                                     <tr >
-                                        <td colspan="7">Không tìm thấy</td>
+                                        <td colspan="4">Không tìm thấy</td>
                                     </tr>
                                 </c:when>
                                 <c:otherwise>

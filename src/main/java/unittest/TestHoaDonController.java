@@ -6,6 +6,7 @@
 package unittest;
 
 import controller.HoaDonController;
+import entity.ChiTietHoaDonEntity;
 import entity.HoaDonEntity;
 import entity.KhachHangEntity;
 import java.util.ArrayList;
@@ -38,51 +39,48 @@ public class TestHoaDonController {
     IKhachHangService khService;
 
     @Test
-    public void getAllCTHD_UnitTest() {
-        ArrayList<HoaDonEntity> lst = new ArrayList<>();
-
-        HoaDonEntity hd = new HoaDonEntity();
-        hd.setHoadon_id(1);
-        hd.setMakh(1);
-
-        lst.add(hd);
-
-        KhachHangEntity kh = new KhachHangEntity();
-        kh.setMakh(1);
-
-        Mockito.when(khService.getOne(service.getOne(hd.getHoadon_id()).getMakh())).thenReturn(kh);
-        Mockito.when(service.searchPaging(kh.getMakh(), 1)).thenReturn(lst);
-        ModelAndView model = controller.getAllCTHD(hd.getMakh());
+    public void Search_Empty_UnitTest() {
+        ArrayList<HoaDonEntity> lst = null;
+        Mockito.when(service.searchPaging(1, 1)).thenReturn(lst);
+        ModelAndView model = controller.search(1, 1);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
         ArrayList<HoaDonEntity> actual = (ArrayList<HoaDonEntity>) map.get("list");
         Assert.assertEquals(lst, actual);
     }
 
     @Test
-    public void Search_UnitTest() {
+    public void Search_NonEmpty_UnitTest() {
         ArrayList<HoaDonEntity> lst = new ArrayList<>();
-
         HoaDonEntity hd = new HoaDonEntity();
         hd.setHoadon_id(1);
         hd.setMakh(1);
-
-        lst.add(hd);
-
-        KhachHangEntity kh = new KhachHangEntity();
-        kh.setMakh(1);
-
-        Mockito.when(service.searchPaging(kh.getMakh(), 1)).thenReturn(lst);
-        ModelAndView model = controller.search(kh.getMakh(), 1);
+        hd.setNgaylap("2021-07-14");
+        hd.setTongtien(30000);
+        Mockito.when(service.searchPaging(1, 1)).thenReturn(lst);
+        ModelAndView model = controller.search(1, 1);
         HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
         ArrayList<HoaDonEntity> actual = (ArrayList<HoaDonEntity>) map.get("list");
         Assert.assertEquals(lst, actual);
     }
 
     @Test
-    public void NonEmpty_UnitTest() {
+    public void Search_CheckView_UnitTest() {
+        ArrayList<HoaDonEntity> lst = new ArrayList<>();
+        Mockito.when(service.searchPaging(1, 1)).thenReturn(lst);
+        ModelAndView model = controller.search(1, 1);
+        String expect_view = "billsList";
+        String view_actual = model.getViewName();
+        Assert.assertEquals(expect_view, view_actual);
+    }
+
+    @Test
+    public void GetAll_NonEmpty_UnitTest() {
         ArrayList<HoaDonEntity> lst = new ArrayList<>();
         HoaDonEntity hd = new HoaDonEntity();
         hd.setMakh(1);
+        hd.setHoadon_id(1);
+        hd.setNgaylap("2021-07-14");
+        hd.setTongtien(30000);
         lst.add(hd);
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
         ModelAndView model = controller.getAll(1);
@@ -92,7 +90,7 @@ public class TestHoaDonController {
     }
 
     @Test
-    public void Empty_UnitTest() {
+    public void GetAll_Empty_UnitTest() {
         ArrayList<HoaDonEntity> lst = null;
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
         ModelAndView model = controller.getAll(1);
@@ -102,7 +100,7 @@ public class TestHoaDonController {
     }
 
     @Test
-    public void CheckView_UnitTest() {
+    public void GetAll_CheckView_UnitTest() {
         ArrayList<HoaDonEntity> lst = new ArrayList<>();
         Mockito.when(service.getAllPaging(1)).thenReturn(lst);
         ModelAndView model = controller.getAll(1);
