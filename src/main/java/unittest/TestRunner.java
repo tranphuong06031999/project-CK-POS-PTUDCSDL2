@@ -22,6 +22,7 @@ public class TestRunner {
         Result resultKhachHang = JUnitCore.runClasses(TestKhachHangController.class);
         Result resultPhieuThu = JUnitCore.runClasses(TestPhieuThuController.class);
         Result resultHoaDon = JUnitCore.runClasses(TestHoaDonController.class);
+        Result resultQuyCach = JUnitCore.runClasses(TestQuyCachController.class);
 
         for (Failure failure : resultSanPham.getFailures()) {
             System.out.println(failure.toString());
@@ -46,6 +47,10 @@ public class TestRunner {
         for (Failure failure : resultHoaDon.getFailures()) {
             System.out.println(failure.toString());
         }
+        
+         for (Failure failure : resultQuyCach.getFailures()) {
+            System.out.println(failure.toString());
+        }
 
         System.out.println(resultSanPham.wasSuccessful());
         System.out.println(resultGioHang.wasSuccessful());
@@ -53,5 +58,6 @@ public class TestRunner {
         System.out.println(resultKhachHang.wasSuccessful());
         System.out.println(resultPhieuThu.wasSuccessful());
         System.out.println(resultHoaDon.wasSuccessful());
+        System.out.println(resultQuyCach.wasSuccessful());
     }
 }

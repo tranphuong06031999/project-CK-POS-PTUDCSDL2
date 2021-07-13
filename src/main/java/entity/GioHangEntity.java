@@ -18,7 +18,6 @@ public class GioHangEntity implements Serializable {
     private int masp;
     private String tensp;
     private int soluong;
-    private int gia;
     private int giatong;
 
     public GioHangEntity() {
@@ -54,14 +53,6 @@ public class GioHangEntity implements Serializable {
 
     public void setSoluong(int soluong) {
         this.soluong = soluong;
-    }
-
-    public int getGia() {
-        return gia;
-    }
-
-    public void setGia(int gia) {
-        this.gia = gia;
     }
 
     public int getGiatong() {

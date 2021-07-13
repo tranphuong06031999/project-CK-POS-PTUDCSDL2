@@ -23,7 +23,7 @@ public class SanPhamRepository implements ISanPhamRepository {
     @Override
     public SanPhamEntity findById(int masp) {
         SanPhamEntity sp = new SanPhamEntity();
-        String sql = "SELECT masp, tensp, loai, donvi, soluong, gia, ghichu FROM sanpham WHERE masp = " + masp;
+        String sql = "SELECT masp, tensp, donvi, soluong, ghichu FROM sanpham WHERE masp = " + masp;
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
@@ -31,10 +31,8 @@ public class SanPhamRepository implements ISanPhamRepository {
             while (rs.next()) {
                 sp.setMaSP(rs.getInt("masp"));
                 sp.setTenSP(rs.getString("tensp"));
-                sp.setLoai(rs.getInt("loai"));
                 sp.setDonVi(rs.getString("donvi"));
                 sp.setSoLuong(rs.getInt("soluong"));
-                sp.setGia(rs.getInt("gia"));
                 sp.setGhiChu(rs.getString("ghichu"));
             }
             helper.close();
@@ -46,12 +44,10 @@ public class SanPhamRepository implements ISanPhamRepository {
 
     @Override
     public boolean create(SanPhamEntity sp) {
-        String sql = String.format("INSERT INTO sanpham (tensp, loai, donvi, soluong, gia, ghichu) VALUES ('%s', '%d', '%s', '%d', '%d', '%s')",
+        String sql = String.format("INSERT INTO sanpham (tensp, donvi, soluong, ghichu) VALUES ('%s', '%s', '%d', '%s')",
                 sp.getTenSP(),
-                sp.getLoai(),
                 sp.getDonVi(),
                 sp.getSoLuong(),
-                sp.getGia(),
                 sp.getGhiChu());
         MySQLDataHelper helper = new MySQLDataHelper();
         helper.open();
@@ -67,12 +63,10 @@ public class SanPhamRepository implements ISanPhamRepository {
 
     @Override
     public boolean update(SanPhamEntity sp) {
-        String sql = String.format("UPDATE sanpham SET tensp = '%s', loai = '%d', donvi = '%s', soluong = '%d', gia = '%d', ghichu = '%s' WHERE masp = '%d'",
+        String sql = String.format("UPDATE sanpham SET tensp = '%s', donvi = '%s', soluong = '%d', ghichu = '%s' WHERE masp = '%d'",
                 sp.getTenSP(),
-                sp.getLoai(),
                 sp.getDonVi(),
                 sp.getSoLuong(),
-                sp.getGia(),
                 sp.getGhiChu(),
                 sp.getMaSP());
         MySQLDataHelper helper = new MySQLDataHelper();
@@ -102,10 +96,8 @@ public class SanPhamRepository implements ISanPhamRepository {
                     SanPhamEntity sp = new SanPhamEntity();
                     sp.setMaSP(rs.getInt("masp"));
                     sp.setTenSP(rs.getString("tensp"));
-                    sp.setLoai(rs.getInt("loai"));
                     sp.setDonVi(rs.getString("donvi"));
                     sp.setSoLuong(rs.getInt("soluong"));
-                    sp.setGia(rs.getInt("gia"));
                     sp.setGhiChu(rs.getString("ghichu"));
                     list.add(sp);
                 } while (rs.next());
@@ -120,7 +112,7 @@ public class SanPhamRepository implements ISanPhamRepository {
     @Override
     public ArrayList<SanPhamEntity> productsList() {
         ArrayList<SanPhamEntity> list = new ArrayList<>();
-        String sql = "SELECT masp, tensp, loai, donvi, soluong, gia, ghichu FROM sanpham";
+        String sql = "SELECT masp, tensp, donvi, soluong, ghichu FROM sanpham";
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
@@ -132,10 +124,8 @@ public class SanPhamRepository implements ISanPhamRepository {
                     SanPhamEntity sp = new SanPhamEntity();
                     sp.setMaSP(rs.getInt("masp"));
                     sp.setTenSP(rs.getString("tensp"));
-                    sp.setLoai(rs.getInt("loai"));
                     sp.setDonVi(rs.getString("donvi"));
                     sp.setSoLuong(rs.getInt("soluong"));
-                    sp.setGia(rs.getInt("gia"));
                     sp.setGhiChu(rs.getString("ghichu"));
                     list.add(sp);
                 } while (rs.next());
@@ -169,7 +159,7 @@ public class SanPhamRepository implements ISanPhamRepository {
     public ArrayList<SanPhamEntity> paging(int page) {
         page = (page - 1) * 10;
         ArrayList<SanPhamEntity> list = new ArrayList<>();
-        String sql = "SELECT masp, tensp, loai, donvi, soluong, gia, ghichu FROM sanpham limit " + page + ",10";
+        String sql = "SELECT masp, tensp, donvi, soluong, ghichu FROM sanpham limit " + page + ",10";
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
@@ -181,10 +171,8 @@ public class SanPhamRepository implements ISanPhamRepository {
                     SanPhamEntity sp = new SanPhamEntity();
                     sp.setMaSP(rs.getInt("masp"));
                     sp.setTenSP(rs.getString("tensp"));
-                    sp.setLoai(rs.getInt("loai"));
                     sp.setDonVi(rs.getString("donvi"));
                     sp.setSoLuong(rs.getInt("soluong"));
-                    sp.setGia(rs.getInt("gia"));
                     sp.setGhiChu(rs.getString("ghichu"));
                     list.add(sp);
                 } while (rs.next());
@@ -212,10 +200,8 @@ public class SanPhamRepository implements ISanPhamRepository {
                     SanPhamEntity sp = new SanPhamEntity();
                     sp.setMaSP(rs.getInt("masp"));
                     sp.setTenSP(rs.getString("tensp"));
-                    sp.setLoai(rs.getInt("loai"));
                     sp.setDonVi(rs.getString("donvi"));
                     sp.setSoLuong(rs.getInt("soluong"));
-                    sp.setGia(rs.getInt("gia"));
                     sp.setGhiChu(rs.getString("ghichu"));
                     list.add(sp);
                 } while (rs.next());
@@ -259,7 +245,7 @@ public class SanPhamRepository implements ISanPhamRepository {
             return false;
         }
     }
-    
+
     @Override
     public ArrayList<Integer> getMaSanPham(int makh) {
         ArrayList<Integer> list = new ArrayList<Integer>();
@@ -282,7 +268,7 @@ public class SanPhamRepository implements ISanPhamRepository {
         }
         return list;
     }
-    
+
     @Override
     public int getGiaSanPham(int masp) {
         int giasp = 0;

@@ -7,7 +7,6 @@ package service;
 
 import entity.GioHangEntity;
 import entity.KhuyenMaiEntity;
-import entity.SanPhamKhuyenMaiEntity;
 import java.util.ArrayList;
 
 /**
@@ -17,8 +16,6 @@ import java.util.ArrayList;
 public interface IGioHangService {
 
     public String createCart(GioHangEntity cart);
-    
-    public String updateCart(GioHangEntity cart);
 
     public String deleteCart(int magiohang);
     

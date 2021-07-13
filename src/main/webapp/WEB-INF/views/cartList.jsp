@@ -13,8 +13,8 @@
             /* Chrome, Safari, Edge, Opera */
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
+                -webkit-appearance: none;
+                margin: 0;
             }
         </style>
     </head>
@@ -88,21 +88,9 @@
                                                     <fmt:formatNumber value="${product.giatong - chietkhau[status.index].getGiaTienGiam()}" pattern="#,###.##" var="pat" /> 
                                                     ${pat}
                                                 </td>
-                                                
+
                                                 <td>
-                                                    <div class="d-flex">
-                                                        <button class="btn btn-outline-secondary" id="reduce" data-quantity="${product.soluong}" data-price="${product.gia}" data-id="${product.magiohang}" data-makh="${product.makh}" data-masp="${product.masp}" onclick="reductionCart(this)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-                                                            <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z"/>
-                                                            </svg>
-                                                        </button>
-                                                        <input class="form-control" type="number" name="quantity" onchange="quantityFunction(this)" data-price="${product.gia}" data-id="${product.magiohang}" data-makh="${product.makh}" data-masp="${product.masp}" value="${product.soluong}">
-                                                        <button class="btn btn-outline-secondary" id="increase" data-quantity="${product.soluong}" data-price="${product.gia}" data-id="${product.magiohang}" data-makh="${product.makh}" data-masp="${product.masp}" onclick="increaseCart(this)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                                            <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
+                                                    <input class="form-control" type="number" name="quantity" disabled value="${product.soluong}">
                                                 </td>
                                                 <td>
                                                     <a href="/cart/delete/${product.makh}/${product.magiohang}" class="btn btn-outline-danger">
@@ -128,7 +116,7 @@
                         <div class="card-body p-3"  style="width: 400px;">
                             <h5 class="card-title text-center" style="color: red;">
                                 <fmt:formatNumber value="${totalPrice - discount- sale_khtt}" pattern="#,###.##" var="pat" /> 
-                                 ${pat} đ
+                                ${pat} đ
                             </h5>
                             <hr>
                             <c:forEach items="${khuyenmai}" var="km">
@@ -144,25 +132,25 @@
                                     <a id = "thanhToanButton" class="btn btn-primary">Thanh toán</a>
                                     <div class="modal" id="myModal">
                                         <div class="modal-dialog">
-                                          <div class="modal-content">
-                                            <!-- Modal Header -->
-                                            <div class="modal-header">
-                                              <h4 class="modal-title">Thông báo</h4>
-                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
+                                            <div class="modal-content">
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Thông báo</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
 
-                                            <!-- Modal body -->
-                                            <div class="modal-body">
-                                              Đơn hàng đang được thanh toán.....
-                                            </div> 
+                                                <!-- Modal body -->
+                                                <div class="modal-body">
+                                                    Đơn hàng đang được thanh toán.....
+                                                </div> 
 
-                                            <!-- Modal footer -->
-                                            <div class="modal-footer">
-                                              <button id="closeModal" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                    <button id="closeModal" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
                                             </div>
-                                          </div>
                                         </div>
-                                      </div>
+                                    </div>
                                 </c:when>    
                                 <c:otherwise>
                                     <a href="" class="btn btn-secondary disabled">Thanh toán</a>
@@ -185,83 +173,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q " crossorigin="anonymous "></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl " crossorigin="anonymous "></script>
     <script>
-        
-        $("#thanhToanButton").on("click", function(e) {
+        $("#thanhToanButton").on("click", function (e) {
             var makh = $('#makh0').text();
             var atag = e.target;
             $(atag).attr("href", `/cart/thanhtoan/${makh}`);
             console.log(`/cart/thanhtoan/${makh}`);
             $('#myModal').modal('show');
         });
-        
-        $("#closeModal").on("click", function(e) {
+
+        $("#closeModal").on("click", function (e) {
             $('#myModal').modal('hide');
         });
-        
+
         var message = $('#message').val();
         if (message !== "") {
             alert(message);
-        }
-        
-        function quantityFunction(cart){
-            var id = cart.getAttribute("data-id");
-            var quantity = cart.value;            
-            var price = cart.getAttribute("data-price");
-            var makh = cart.getAttribute("data-makh");
-            var masp = cart.getAttribute("data-masp");
-            if(quantity >= 1 && quantity <= 10000){
-                $("#cartid").val(id);
-                $("#price").val(price);
-                $("#qty").val(quantity);
-                $('#masp').val(masp);
-                $("#customerid").val(makh);
-                $("#hiddenForm").attr('action', '/cart/update');
-                $("#hiddenForm").submit();
-            }
-            else{
-                if(quantity == 0){
-                    alert("Số lượng phải lớn hơn 1, vui lòng nhập lại.");
-                }
-                else if(quantity > 10000){
-                    alert("Số lượng chỉ được tối đa 10000, vui lòng nhập lại.");
-                }
-            }
-        }
-        
-        function reductionCart(cart) {
-            var id = cart.getAttribute("data-id");
-            var quantity = cart.getAttribute("data-quantity");            
-            var price = cart.getAttribute("data-price");
-            var masp = cart.getAttribute("data-masp");
-            var makh = cart.getAttribute("data-makh");
-            if(quantity > 1){
-                quantity = quantity - 1;
-                $("#cartid").val(id);
-                $("#price").val(price);
-                $("#qty").val(quantity);
-                $('#masp').val(masp);
-                $("#customerid").val(makh);
-                $("#hiddenForm").attr('action', '/cart/update');
-                $("#hiddenForm").submit();
-            }
-        }
-        
-        function increaseCart(cart) {
-            var id = cart.getAttribute("data-id");
-            var quantity = cart.getAttribute("data-quantity");            
-            var price = cart.getAttribute("data-price");
-            var makh = cart.getAttribute("data-makh");
-            var masp = cart.getAttribute("data-masp");
-            if(quantity <= 10000){
-                quantity++;
-                $("#cartid").val(id);
-                $("#price").val(price);
-                $("#qty").val(quantity);
-                $('#masp').val(masp);
-                $("#customerid").val(makh);
-                $("#hiddenForm").attr('action', '/cart/update');
-                $("#hiddenForm").submit();
-            }
         }
     </script>
 </html>

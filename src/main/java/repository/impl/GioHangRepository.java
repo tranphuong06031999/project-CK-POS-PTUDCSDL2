@@ -21,15 +21,14 @@ import repository.IGioHangRepository;
  */
 @Repository
 public class GioHangRepository implements IGioHangRepository {
-
+    
     @Override
     public boolean create(GioHangEntity cart) {
-        String sql = "INSERT INTO giohang(makh,masp, tensp, soluong, gia,giatong) VALUES (" + "'"
+        String sql = "INSERT INTO giohang(makh,masp, tensp, soluong,giatong) VALUES (" + "'"
                 + cart.getMakh() + "'" + ", " + "'"
                 + cart.getMasp() + "'" + ", " + "'"
                 + cart.getTensp() + "'" + ", " + "'"
                 + cart.getSoluong() + "'" + ", " + "'"
-                + cart.getGia() + "'" + ", " + "'"
                 + cart.getGiatong() + "')";
         MySQLDataHelper helper = new MySQLDataHelper();
         helper.open();
@@ -41,7 +40,7 @@ public class GioHangRepository implements IGioHangRepository {
         helper.close();
         return false;
     }
-
+    
     @Override
     public boolean delete(int id) {
         String sql = "delete from giohang where magiohang = " + id;
@@ -55,13 +54,13 @@ public class GioHangRepository implements IGioHangRepository {
         helper.close();
         return false;
     }
-
+    
     @Override
-    public boolean incremental(int id, int price, int qty) {
+    public boolean incremental(int id, int total, int qty) {
         GioHangEntity cart = this.findOne(id);
         qty += cart.getSoluong();
-        price *= qty;
-        String sql = "update giohang set soluong = " + qty + ", giatong = " + price + " where magiohang = " + id;
+        total += cart.getGiatong();
+        String sql = "update giohang set soluong = " + qty + ", giatong = " + total + " where magiohang = " + id;
         MySQLDataHelper helper = new MySQLDataHelper();
         helper.open();
         int n = helper.excuteUpdate(sql);
@@ -72,32 +71,18 @@ public class GioHangRepository implements IGioHangRepository {
         helper.close();
         return false;
     }
-
-    @Override
-    public boolean update(GioHangEntity cart) {
-        int total = cart.getSoluong() * cart.getGia();
-        String sql = "update giohang set soluong = " + cart.getSoluong() + ", giatong = " + total + " where magiohang = " + cart.getMagiohang();
-        MySQLDataHelper helper = new MySQLDataHelper();
-        helper.open();
-        int n = helper.excuteUpdate(sql);
-        if (n == 1) {
-            helper.close();
-            return true;
-        }
-        helper.close();
-        return false;
-    }
-
+    
     @Override
     public GioHangEntity findOne(int id) {
         GioHangEntity cart = new GioHangEntity();
-        String sql = "select soluong from giohang where magiohang = " + id;
+        String sql = "select soluong, giatong from giohang where magiohang = " + id;
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
             ResultSet rs = helper.excuteQuery(sql);
             while (rs.next()) {
                 cart.setSoluong(rs.getInt("soluong"));
+                cart.setGiatong(rs.getInt("giatong"));
             }
             helper.close();
         } catch (SQLException ex) {
@@ -105,7 +90,7 @@ public class GioHangRepository implements IGioHangRepository {
         }
         return cart;
     }
-
+    
     @Override
     public int isExists(int masp, int makh) {
         int cart_id = 0;
@@ -127,7 +112,7 @@ public class GioHangRepository implements IGioHangRepository {
         helper.close();
         return cart_id;
     }
-
+    
     @Override
     public ArrayList<GioHangEntity> findAll(int makh) {
         ArrayList<GioHangEntity> list = new ArrayList<>();
@@ -145,7 +130,6 @@ public class GioHangRepository implements IGioHangRepository {
                     cart.setMagiohang(rs.getInt("magiohang"));
                     cart.setTensp(rs.getString("tensp"));
                     cart.setMasp(rs.getInt("masp"));
-                    cart.setGia(rs.getInt("gia"));
                     cart.setSoluong(rs.getInt("soluong"));
                     cart.setGiatong(rs.getInt("giatong"));
                     list.add(cart);
@@ -157,7 +141,7 @@ public class GioHangRepository implements IGioHangRepository {
         }
         return list;
     }
-
+    
     public int totalPrice(int makh) {
         int total = 0;
         String sql = "select SUM(giatong) as total  from giohang where makh = " + makh;
@@ -176,7 +160,7 @@ public class GioHangRepository implements IGioHangRepository {
     }
     
     @Override
-    public int quantity(int makh){
+    public int quantity(int makh) {
         int total = 0;
         String sql = "select SUM(soluong) as total  from giohang where makh = " + makh;
         MySQLDataHelper helper = new MySQLDataHelper();
@@ -192,7 +176,7 @@ public class GioHangRepository implements IGioHangRepository {
         }
         return total;
     }
-
+    
     @Override
     public GioHangEntity findById(int magiohang) {
         GioHangEntity cart = new GioHangEntity();
@@ -206,7 +190,6 @@ public class GioHangRepository implements IGioHangRepository {
                 cart.setMagiohang(rs.getInt("magiohang"));
                 cart.setTensp(rs.getString("tensp"));
                 cart.setMasp(rs.getInt("masp"));
-                cart.setGia(rs.getInt("gia"));
                 cart.setSoluong(rs.getInt("soluong"));
                 cart.setGiatong(rs.getInt("giatong"));
             }
@@ -242,9 +225,9 @@ public class GioHangRepository implements IGioHangRepository {
         }
         return km;
     }
-
+    
     @Override
-    public int soLuongSanPhamTrongGioHang(int masp, int makh){
+    public int soLuongSanPhamTrongGioHang(int masp, int makh) {
         int total = 0;
         String sql = "select SUM(soluong) as total  from giohang where makh = " + makh + " and masp = " + masp;
         MySQLDataHelper helper = new MySQLDataHelper();
@@ -260,9 +243,9 @@ public class GioHangRepository implements IGioHangRepository {
         }
         return total;
     }
-         
+    
     @Override
-    public boolean xoaGioHang( int makh ){
+    public boolean xoaGioHang(int makh) {
         
         String sql = "delete from giohang where makh = " + makh;
         MySQLDataHelper helper = new MySQLDataHelper();

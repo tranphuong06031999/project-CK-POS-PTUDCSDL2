@@ -6,7 +6,6 @@
 package repository;
 
 import entity.GioHangEntity;
-import entity.KhuyenMaiEntity;
 import entity.SanPhamKhuyenMaiEntity;
 import java.util.ArrayList;
 
@@ -21,8 +20,6 @@ public interface IGioHangRepository {
     public boolean delete(int id);
 
     public boolean incremental(int id, int price, int qty);
-
-    public boolean update(GioHangEntity cart);
 
     public GioHangEntity findOne(int id);
 

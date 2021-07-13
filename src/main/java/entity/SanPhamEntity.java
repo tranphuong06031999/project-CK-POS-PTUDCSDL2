@@ -11,25 +11,22 @@ import java.io.Serializable;
  *
  * @author Trần Đinh Phương
  */
-public class SanPhamEntity implements Serializable{
+public class SanPhamEntity implements Serializable {
+
     private int maSP;
     private String tenSP;
-    private int loai;
     private String donVi;
     private int soLuong;
-    private int gia;
     private String ghiChu;
 
     public SanPhamEntity() {
     }
 
-    public SanPhamEntity(int maSP, String tenSP, int loai, String donVi, int soLuong, int gia, String ghiChu) {
+    public SanPhamEntity(int maSP, String tenSP, String donVi, int soLuong, String ghiChu) {
         this.maSP = maSP;
         this.tenSP = tenSP;
-        this.loai = loai;
         this.donVi = donVi;
         this.soLuong = soLuong;
-        this.gia = gia;
         this.ghiChu = ghiChu;
     }
 
@@ -49,14 +46,6 @@ public class SanPhamEntity implements Serializable{
         this.tenSP = tenSP;
     }
 
-    public int getLoai() {
-        return loai;
-    }
-
-    public void setLoai(int loai) {
-        this.loai = loai;
-    }
-
     public String getDonVi() {
         return donVi;
     }
@@ -73,14 +62,6 @@ public class SanPhamEntity implements Serializable{
         this.soLuong = soLuong;
     }
 
-    public int getGia() {
-        return gia;
-    }
-
-    public void setGia(int gia) {
-        this.gia = gia;
-    }
-
     public String getGhiChu() {
         return ghiChu;
     }
@@ -88,6 +69,5 @@ public class SanPhamEntity implements Serializable{
     public void setGhiChu(String ghiChu) {
         this.ghiChu = ghiChu;
     }
-    
-    
+
 }

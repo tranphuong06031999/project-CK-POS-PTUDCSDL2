@@ -31,7 +31,7 @@ public class GioHangController {
     public ModelAndView createCart(@ModelAttribute GioHangEntity gh) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("message", ghService.createCart(gh));
-        mav.setViewName("redirect:/product");
+        mav.setViewName("redirect:/specifications/" + gh.getMasp());
         return mav;
     }
 
@@ -51,14 +51,6 @@ public class GioHangController {
         return modelView;
     }
 
-    //Thêm số lượng
-    @RequestMapping(value = "/cart/update", method = RequestMethod.POST)
-    public ModelAndView updateCart(@ModelAttribute GioHangEntity gh) {
-        ghService.updateCart(gh);
-        String url = "/cart/" + gh.getMakh();
-        return new ModelAndView("redirect:" + url);
-    }
-
     //Xóa sản phẩm khỏi giỏ hàng
     @RequestMapping(value = "/cart/delete/{makh}/{magiohang}", method = RequestMethod.GET)
     public ModelAndView deleteProductCart(@PathVariable("magiohang") int magiohang, @PathVariable("makh") int makh) {
@@ -68,7 +60,7 @@ public class GioHangController {
         mav.setViewName("redirect:" + url);
         return mav;
     }
-    
+
     @RequestMapping(value = "/cart/thanhtoan/{makh}", method = RequestMethod.GET)
     public ModelAndView checkoutCart(@PathVariable("makh") int makh) {
 //        ghService.checkoutCart(makh);
@@ -80,6 +72,5 @@ public class GioHangController {
         mav.setViewName("redirect:" + url);
         return mav;
     }
-    
-    
+
 }

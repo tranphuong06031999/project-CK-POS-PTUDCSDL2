@@ -38,7 +38,6 @@ public class TestGioHangController {
         GioHangEntity gh = new GioHangEntity();
         gh.setMakh(1);
         gh.setMasp(1);
-        gh.setGia(38000);
         gh.setTensp("Phân bón lá NPK hòa tan Sitto FoPro 10-52-10+TE");
         gh.setSoluong(10);
         Mockito.when(service.createCart(gh)).thenReturn(messenge);
@@ -54,7 +53,6 @@ public class TestGioHangController {
         GioHangEntity gh = new GioHangEntity();
         gh.setMakh(1);
         gh.setMasp(1);
-        gh.setGia(38000);
         gh.setTensp("Phân bón lá NPK hòa tan Sitto FoPro 10-52-10+TE");
         //Vượt quá số lượng tồn
         gh.setSoluong(10001);
@@ -72,7 +70,6 @@ public class TestGioHangController {
         //Mã khách hàng không tồn tại
         gh.setMakh(10000);
         gh.setMasp(1);
-        gh.setGia(38000);
         gh.setTensp("Phân bón lá NPK hòa tan Sitto FoPro 10-52-10+TE");
         gh.setSoluong(10);
         Mockito.when(service.createCart(gh)).thenReturn(messenge);
@@ -88,7 +85,7 @@ public class TestGioHangController {
         GioHangEntity gh = new GioHangEntity();
         Mockito.when(service.createCart(gh)).thenReturn(messenge);
         ModelAndView model = controller.createCart(gh);
-        String expect_view = "redirect:/product";
+        String expect_view = "redirect:/specifications/" + 0;
         String view_actual = model.getViewName();
         Assert.assertEquals(expect_view, view_actual);
     }
@@ -123,7 +120,6 @@ public class TestGioHangController {
         gh.setMagiohang(1);
         gh.setMakh(1);
         gh.setMasp(1);
-        gh.setGia(38000);
         gh.setSoluong(10);
         gh.setGiatong(380000);
         lst.add(gh);
@@ -170,20 +166,6 @@ public class TestGioHangController {
         gh.setMagiohang(1000);
         Mockito.when(service.deleteCart(gh.getMagiohang())).thenReturn(messenge);
         ModelAndView model = controller.deleteProductCart(gh.getMagiohang(), gh.getMakh());
-        String expect_view = "redirect:/cart/" + gh.getMakh();
-        String view_actual = model.getViewName();
-        Assert.assertEquals(expect_view, view_actual);
-    }
-
-    @Test
-    public void UpdateCart_RedirectView_UnitTest() {
-        String messenge = "Cập nhật số lượng thành công!";
-        GioHangEntity gh = new GioHangEntity();
-        gh.setMagiohang(1);
-        gh.setSoluong(10);
-        gh.setGia(38000);
-        Mockito.when(service.updateCart(gh)).thenReturn(messenge);
-        ModelAndView model = controller.updateCart(gh);
         String expect_view = "redirect:/cart/" + gh.getMakh();
         String view_actual = model.getViewName();
         Assert.assertEquals(expect_view, view_actual);
