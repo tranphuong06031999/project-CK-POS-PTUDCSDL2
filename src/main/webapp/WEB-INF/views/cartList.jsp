@@ -49,12 +49,12 @@
                                     <th scope="col">Mã</th>
                                     <th scope="col">Mã KH</th>
                                     <th scope="col">Mã SP</th>
-                                    <th scope="col">Tên sản phẩm</th>
-                                    <th scope="col">Giá(đ)</th>                                    
+                                    <th scope="col" style="width: 20%">Tên sản phẩm</th>
+                                    <!--<th scope="col">Giá(đ)</th>-->                                    
                                     <th scope="col">Giá tổng(đ)</th>
                                     <th scope="col">Chiết khấu(%)</th>
-                                    <th scope="col">Giá tổng sau chiết khấu(đ)</th>
-                                    <th scope="col" style="width: 16%">Số Lượng</th>
+                                    <th scope="col">Giá tổng sau CK(đ)</th>
+                                    <th scope="col" style="width: 9%">Số Lượng</th>
                                     <th scope="col" >Trạng thái</th>
                                 </tr>
                             </thead>
@@ -72,10 +72,6 @@
                                                 <td id="makh${status.index}">${product.makh}</td>
                                                 <td>${product.masp}</td>
                                                 <td>${product.tensp}</td>                                                  
-                                                <td>
-                                                    <fmt:formatNumber value="${product.gia}" pattern="#,###.##" var="pat" /> 
-                                                    ${pat}
-                                                </td>
                                                 <td>
                                                     <fmt:formatNumber value="${product.giatong}" pattern="#,###.##" var="pat" /> 
                                                     ${pat}

@@ -149,13 +149,13 @@ public class GioHangService implements IGioHangService {
                     
                     for (KhuyenMaiEntity ck : chietKhau) {
                         if (ck.getTenKhuyenMai().equals(String.valueOf(spkm.getMaSanPham())) && ck.getGiaTienGiam() > 0) {
-                            giaSp = spkm.getGiaSanPham() * sl_sp - ck.getGiaTienGiam();
+                            giaSp = spkm.getGiaTongSanPham() - ck.getGiaTienGiam();
                             demKhachHangChietKhau = 1;
                         }
                     }
                     
                     if (demKhachHangChietKhau == 0) {
-                        giaSp = spkm.getGiaSanPham() * sl_sp;
+                        giaSp = spkm.getGiaTongSanPham();
                     }
                     
                     int giaSpGiamGia = (int) (giaSp * ((float) spkm.getMaGiamGia() / 100));
@@ -183,13 +183,12 @@ public class GioHangService implements IGioHangService {
         if (masp != null) {
             for (int sp : masp) {
                 KhuyenMaiEntity thongTinChietKhau = new KhuyenMaiEntity();
-                
-                int giaSp = spRepository.getGiaSanPham(sp);
+                int giaSp = spRepository.getGiaSanPham(sp, makh);
                 int soLg = ghRepository.soLuongSanPhamTrongGioHang(sp, makh);
                 
                 if (soLg >= 10) {
                     String ten = String.valueOf(sp);
-                    int giaGiam = (int) (giaSp * soLg * (float) 0.05);
+                    int giaGiam = (int) (giaSp * (float) 0.05);
                     int phanTramGiamGia = 5;
                     
                     thongTinChietKhau.setGiaTienGiam(giaGiam);
@@ -273,9 +272,9 @@ public class GioHangService implements IGioHangService {
         
         ArrayList<Integer> masp = spRepository.getMaSanPham(makh);
         for (int sp : masp) {
-            int giaSp = spRepository.getGiaSanPham(sp);
+            int giaSp = spRepository.getGiaSanPham(sp, makh);
             int soLg = ghRepository.soLuongSanPhamTrongGioHang(sp, makh);
-            int tongTienBanDau = giaSp * soLg;
+            int tongTienBanDau = giaSp;
             int chietKhau = 0;
             int tienGiamChietKhau = 0;
             int tienGiamSauChietKhau = 0;
@@ -284,9 +283,9 @@ public class GioHangService implements IGioHangService {
             int tongTienSauCung = 0;
             if (soLg >= 10) {
                 chietKhau = 5;
-                tienGiamChietKhau = (int) (giaSp * soLg * (float) 0.05);
+                tienGiamChietKhau = (int) (giaSp * (float) 0.05);
             }
-            tienGiamSauChietKhau = giaSp * soLg - tienGiamChietKhau;
+            tienGiamSauChietKhau = giaSp - tienGiamChietKhau;
             SanPhamKhuyenMaiEntity ttkm = new SanPhamKhuyenMaiEntity();
             ttkm = ghRepository.getThongTinKhuyenMaiSanPham(sp);
             if (ttkm.getTenKhuyenMai() != null && (ttkm.getNgayBatDauKhuyenMai().before(toDate) || ttkm.getNgayBatDauKhuyenMai().equals(toDate)) && (toDate.before(ttkm.getNgayKetThucKhuyenMai()) || ttkm.getNgayKetThucKhuyenMai().equals(toDate))) {

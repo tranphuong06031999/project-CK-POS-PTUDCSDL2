@@ -36,6 +36,6 @@ public interface ISanPhamRepository {
 
     public ArrayList<Integer> getMaSanPham(int makh);
     
-    public int getGiaSanPham( int masp);
+    public int getGiaSanPham( int masp, int makh);
 
 }

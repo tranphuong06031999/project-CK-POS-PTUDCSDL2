@@ -19,7 +19,7 @@ public class SanPhamKhuyenMaiEntity implements Serializable {
     private int maSanPham;
     private String tenSanPham;
     private String tenKhuyenMai;
-    private int giaSanPham;
+    private int giaTongSanPham;
     private java.util.Date ngayBatDauKhuyenMai;
     private java.util.Date ngayKetThucKhuyenMai;
     private int toiDaKhuyenMai;
@@ -32,12 +32,12 @@ public class SanPhamKhuyenMaiEntity implements Serializable {
         this.tenKhuyenMai = tenKhuyenMai;
     }
 
-    public int getGiaSanPham() {
-        return giaSanPham;
+    public int getGiaTongSanPham() {
+        return giaTongSanPham;
     }
 
-    public void setGiaSanPham(int giaSanPham) {
-        this.giaSanPham = giaSanPham;
+    public void setGiaTongSanPham(int giaTongSanPham) {
+        this.giaTongSanPham = giaTongSanPham;
     }
 
     public String getTenSanPham() {

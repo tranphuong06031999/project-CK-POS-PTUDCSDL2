@@ -270,18 +270,19 @@ public class SanPhamRepository implements ISanPhamRepository {
     }
 
     @Override
-    public int getGiaSanPham(int masp) {
+    public int getGiaSanPham(int masp, int makh) {
         int giasp = 0;
-        String sql = "select sp.gia from sanpham sp where sp.masp = " + masp;
+        System.out.println(masp);        
+        System.out.println(makh);
+
+        String sql = "select gh.giatong as giatong from giohang gh where gh.masp = "+ masp +" and gh.makh = " + makh;
         MySQLDataHelper helper = new MySQLDataHelper();
         try {
             helper.open();
             ResultSet rs = helper.excuteQuery(sql);
-            if (rs.next() == false) {
-                giasp = 0;
-            } else {
+            if (rs.next() == true) {
                 do {
-                    giasp = rs.getInt("gia");
+                    giasp = rs.getInt("giatong");
                 } while (rs.next());
             }
             helper.close();
