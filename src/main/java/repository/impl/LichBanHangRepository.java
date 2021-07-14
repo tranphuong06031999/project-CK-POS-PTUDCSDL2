@@ -31,7 +31,7 @@ public class LichBanHangRepository implements ILichBanHangRepository {
         String sql = "SELECT khachhang.makh, hoadon.hoadon_id, khachhang.tenkh, SUM(hoadon.tongtien) AS tongtien, hoadon.ngaylap\n"
                 + "FROM hoadon, khachhang\n"
                 + "WHERE hoadon.makh = khachhang.makh\n"
-                + "GROUP BY khachhang.makh, hoadon.ngaylap\n"
+                + "GROUP BY khachhang.makh, date(hoadon.ngaylap)\n"
                 + "ORDER BY hoadon.ngaylap DESC\n"
                 + "LIMIT " + page + ",10";
         MySQLDataHelper helper = new MySQLDataHelper();
@@ -64,7 +64,7 @@ public class LichBanHangRepository implements ILichBanHangRepository {
         try {
             String sql = "SELECT COUNT(*)\n"
                     + "FROM hoadon\n"
-                    + "GROUP BY hoadon.makh, hoadon.ngaylap";
+                    + "GROUP BY hoadon.makh, date(hoadon.ngaylap)";
             MySQLDataHelper helper = new MySQLDataHelper();
             helper.open();
             ResultSet rs = helper.excuteQuery(sql);
@@ -86,7 +86,7 @@ public class LichBanHangRepository implements ILichBanHangRepository {
         String sql = "SELECT khachhang.makh, hoadon.hoadon_id, khachhang.tenkh, SUM(hoadon.tongtien) AS tongtien, hoadon.ngaylap\n"
                 + "FROM hoadon join khachhang on hoadon.makh = khachhang.makh\n"
                 + "WHERE hoadon.makh like '%" + makh + "%' \n"
-                + "GROUP BY khachhang.makh, hoadon.ngaylap\n"
+                + "GROUP BY khachhang.makh, date(hoadon.ngaylap)\n"
                 + "ORDER BY hoadon.ngaylap DESC\n"
                 + "LIMIT " + page + ",10";
         MySQLDataHelper helper = new MySQLDataHelper();
@@ -120,7 +120,7 @@ public class LichBanHangRepository implements ILichBanHangRepository {
             String sql = "SELECT COUNT(*)\n"
                     + "FROM hoadon\n"
                     + "WHERE makh like '%" + makh + "%'\n"
-                    + "GROUP BY hoadon.makh, hoadon.ngaylap";
+                    + "GROUP BY hoadon.makh, date(hoadon.ngaylap)";
             MySQLDataHelper helper = new MySQLDataHelper();
             helper.open();
             ResultSet rs = helper.excuteQuery(sql);
