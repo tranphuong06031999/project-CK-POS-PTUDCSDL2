@@ -237,9 +237,9 @@
                                     <div class="col-sm-1">Mã SP</div>
                                     <div class="col-sm-2">Số lượng</div>
                                     <div class="col-sm-2">Giá gốc</div>
-                                    <div class="col-sm-2">Sau khuyến mãi</div>
                                     <div class="col-sm-2">Chiết khấu</div>
-                                    <div class="col-sm-2" style="width: 10%">Khuyến mãi khác</div>
+                                    <div class="col-sm-2">Khuyến mãi khác</div>
+                                    <div class="col-sm-2" style="width: 10%">Giá đại lý</div>
                                 </div>
                                 <c:forEach var="bill" items="${list}">
                                     <div class="text-95 text-secondary-d3">
@@ -248,9 +248,10 @@
                                             <div class="col-sm-1">${bill.masp}</div>
                                             <div class="col-sm-2">${bill.soluong}</div>
                                             <div class="col-sm-2">${bill.giagoc}</div>
+                                            <div class="col-sm-2">${bill.chietkhau}%</div>
+                                            <div class="col-sm-2">${bill.khuyenmaikhac}%</div>
                                             <div class="col-sm-2">${bill.giasaukhuyenmai}</div>
-                                            <div class="col-sm-2">${bill.chietkhau}</div>
-                                            <div class="col-sm-2">${bill.khuyenmaikhac}</div>
+
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -264,6 +265,16 @@
 
                                     <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
 
+                                        <c:if test="${hoadon.giam_khtt>0}">
+                                            <div class="row my-2">
+                                                <div class="col-7 text-right">
+                                                    Khách hàng thân thiện
+                                                </div>
+                                                <div class="col-5">
+                                                    <span class="text-110 text-secondary-d1">-${hoadon.giam_khtt}</span>
+                                                </div>
+                                            </div>
+                                        </c:if>
                                         <div class="row my-2 align-items-center bgc-primary-l3 p-2">
                                             <div class="col-7 text-right">
                                                 Tổng tiền

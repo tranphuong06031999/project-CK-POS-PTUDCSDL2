@@ -85,6 +85,7 @@ public class HoaDonRepository implements IHoaDonRepository {
                 hd.setMakh(rs.getInt("makh"));
                 hd.setNgaylap(rs.getString("ngaylap"));
                 hd.setTongtien(rs.getInt("tongtien"));
+                hd.setGiam_khtt(rs.getInt("giam_khtt"));
             }
             helper.close();
         } catch (SQLException ex) {
@@ -218,7 +219,7 @@ public class HoaDonRepository implements IHoaDonRepository {
     }
     
     @Override
-    public boolean addDonHang(int id, int makh, java.util.Date ngayLap, int tongTien, int giam_khtt){
+    public boolean addDonHang(int id, int makh, java.util.Date ngayLap, int tongTien, int giam_khtt) {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(ngayLap);
         String sql = "INSERT INTO hoadon(hoadon_id,makh, ngaylap, tongtien, giam_khtt) VALUES (" + "'"
@@ -239,7 +240,7 @@ public class HoaDonRepository implements IHoaDonRepository {
     }
     
     @Override
-    public boolean addChiTietHoaDon(int maChiTietHoaDonCuoi, int hoaDonId, int masp, int soLg, int giaSp, int tongTienBanDau, int chietKhau, int khuyenMaiKhac, int tongTienSauCung ){
+    public boolean addChiTietHoaDon(int maChiTietHoaDonCuoi, int hoaDonId, int masp, int soLg, int giaSp, int tongTienBanDau, int chietKhau, int khuyenMaiKhac, int tongTienSauCung) {
         String sql = "INSERT INTO chitiethoadon(chitiethoadon_id ,ma_hoadon, masp, soluong, giagoc, giasaukhuyenmai, tongtien, chietkhau, khuyenmaikhac) VALUES (" + "'"
                 + maChiTietHoaDonCuoi + "'" + ", " + "'"
                 + hoaDonId + "'" + ", " + "'"

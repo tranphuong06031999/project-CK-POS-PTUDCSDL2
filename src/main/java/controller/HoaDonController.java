@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import service.IGioHangService;
 import service.IHoaDonService;
 import service.IKhachHangService;
 
@@ -24,9 +25,12 @@ public class HoaDonController {
 
     @Autowired
     private IHoaDonService hdService;
-    
+
     @Autowired
     private IKhachHangService khService;
+
+    @Autowired
+    private IGioHangService ghService;
 
     @RequestMapping(value = "/bill", method = RequestMethod.GET)
     public ModelAndView getAll(@RequestParam(defaultValue = "1", name = "page", required = false) int page) {

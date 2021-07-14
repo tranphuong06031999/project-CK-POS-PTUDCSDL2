@@ -11,11 +11,13 @@ import java.io.Serializable;
  *
  * @author NguyenThanhDat
  */
-public class HoaDonEntity implements Serializable{
+public class HoaDonEntity implements Serializable {
+
     private int hoadon_id;
     private int makh;
     private String ngaylap;
     private int tongtien;
+    private int giam_khtt;
 
     public HoaDonEntity() {
     }
@@ -51,6 +53,13 @@ public class HoaDonEntity implements Serializable{
     public void setTongtien(int tongtien) {
         this.tongtien = tongtien;
     }
-    
-    
+
+    public int getGiam_khtt() {
+        return giam_khtt;
+    }
+
+    public void setGiam_khtt(int giam_khtt) {
+        this.giam_khtt = giam_khtt;
+    }
+
 }

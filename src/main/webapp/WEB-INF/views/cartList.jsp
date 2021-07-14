@@ -54,7 +54,7 @@
                                     <th scope="col">Giá tổng(đ)</th>
                                     <th scope="col">Chiết khấu(%)</th>
                                     <th scope="col">Giá tổng sau CK(đ)</th>
-                                    <th scope="col" style="width: 9%">Số Lượng</th>
+                                    <th scope="col" style="width: 10%">Số Lượng</th>
                                     <th scope="col" >Trạng thái</th>
                                 </tr>
                             </thead>
@@ -86,7 +86,7 @@
                                                 </td>
 
                                                 <td>
-                                                    <input class="form-control" type="number" name="quantity" disabled value="${product.soluong}">
+                                                    ${product.soluong}
                                                 </td>
                                                 <td>
                                                     <a href="/cart/delete/${product.makh}/${product.magiohang}" class="btn btn-outline-danger">
@@ -125,7 +125,7 @@
                             <hr>
                             <c:choose>
                                 <c:when test="${totalPrice != 0}">
-                                    <a id = "thanhToanButton" class="btn btn-primary">Thanh toán</a>
+                                    <a href="#" id = "thanhToanButton" role="button" class="btn btn-primary">Thanh toán</a>
                                     <div class="modal" id="myModal">
                                         <div class="modal-dialog">
                                             <div class="modal-content">

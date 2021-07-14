@@ -18,21 +18,21 @@ public interface IGioHangService {
     public String createCart(GioHangEntity cart);
 
     public String deleteCart(int magiohang);
-    
-    public ArrayList<GioHangEntity> getAll(int makh);  
-    
+
+    public ArrayList<GioHangEntity> getAll(int makh);
+
     public int totalPrice(int makh);
-    
+
     public int discount(int makh);
-    
-   public ArrayList<KhuyenMaiEntity> khuyenMai(int makh);
-   
-   public ArrayList<KhuyenMaiEntity> chietKhau(int makh);
-   
-   public ArrayList<KhuyenMaiEntity> tongKhuyenMai(int makh);
-   
-   public int tienGiamCuaKhachHangThanThiet( int makh );
-   
-   public String checkoutCart ( int makh );
-   
+
+    public ArrayList<KhuyenMaiEntity> khuyenMai(int makh);
+
+    public ArrayList<KhuyenMaiEntity> chietKhau(int makh);
+
+    public ArrayList<KhuyenMaiEntity> tongKhuyenMai(int makh);
+
+    public int tienGiamCuaKhachHangThanThiet(int makh);
+
+    public String checkoutCart(int makh);
+
 }

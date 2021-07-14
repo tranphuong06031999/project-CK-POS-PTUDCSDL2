@@ -27,22 +27,23 @@ import repository.IHoaDonRepository;
  */
 @Service
 public class GioHangService implements IGioHangService {
-    
+
     final private int maximumDebt = -30000000;
     protected static final NumberFormat FORMATTER = NumberFormat.getCurrencyInstance();
     final private int maGiamGia = 10;
-    
+
     @Autowired
     IGioHangRepository ghRepository;
-    
+
     @Autowired
     IKhachHangRepository khRepository;
-    
+
     @Autowired
     ISanPhamRepository spRepository;
+
     @Autowired
     IHoaDonRepository hdRepository;
-    
+
     @Override
     public String createCart(GioHangEntity cart) {
         if (khRepository.findOne(cart.getMakh()) == null) {
@@ -71,7 +72,7 @@ public class GioHangService implements IGioHangService {
             }
         }
     }
-    
+
     @Override
     public String deleteCart(int magiohang) {
         GioHangEntity gh = ghRepository.findById(magiohang);
@@ -87,30 +88,30 @@ public class GioHangService implements IGioHangService {
             return "Xóa giỏ hàng thất bại";
         }
     }
-    
+
     @Override
     public ArrayList<GioHangEntity> getAll(int makh) {
         return ghRepository.findAll(makh);
     }
-    
+
     @Override
     public int totalPrice(int makh) {
         int total = ghRepository.totalPrice(makh);
         return total;
     }
-    
+
     @Override
     public int discount(int makh) {
         ArrayList<KhuyenMaiEntity> sp_km = khuyenMai(makh);
         ArrayList<KhuyenMaiEntity> chietKhau = chietKhau(makh);
-        
+
         int discount = 0;
         if (chietKhau != null) {
             for (KhuyenMaiEntity ck : chietKhau) {
                 discount += ck.getGiaTienGiam();
             }
         }
-        
+
         if (sp_km != null) {
             for (KhuyenMaiEntity spkm : sp_km) {
                 discount += spkm.getGiaTienGiam();
@@ -118,17 +119,17 @@ public class GioHangService implements IGioHangService {
         }
         return discount;
     }
-    
+
     @Override
     public ArrayList<KhuyenMaiEntity> khuyenMai(int makh) {
         ArrayList<Integer> masp = spRepository.getMaSanPham(makh);
         ArrayList<SanPhamKhuyenMaiEntity> spKm = new ArrayList<SanPhamKhuyenMaiEntity>();
-        
+
         ArrayList<KhuyenMaiEntity> listKm = new ArrayList<KhuyenMaiEntity>();
-        
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date toDate = new Date();
-        
+
         if (masp != null) {
             for (int i = 0; i < masp.size(); i++) {
                 SanPhamKhuyenMaiEntity sp = new SanPhamKhuyenMaiEntity();
@@ -140,9 +141,9 @@ public class GioHangService implements IGioHangService {
         } else {
             spKm = null;
         }
-        
+
         ArrayList<KhuyenMaiEntity> chietKhau = chietKhau(makh);
-        
+
         if (spKm != null) {
             for (SanPhamKhuyenMaiEntity spkm : spKm) {
                 if ((spkm.getNgayBatDauKhuyenMai().before(toDate) || spkm.getNgayBatDauKhuyenMai().equals(toDate)) && (toDate.before(spkm.getNgayKetThucKhuyenMai()) || spkm.getNgayKetThucKhuyenMai().equals(toDate))) {
@@ -151,20 +152,20 @@ public class GioHangService implements IGioHangService {
                     sl_sp = ghRepository.soLuongSanPhamTrongGioHang(spkm.getMaSanPham(), makh);
                     int giaSp = 0;
                     int demKhachHangChietKhau = 0;
-                    
+
                     for (KhuyenMaiEntity ck : chietKhau) {
                         if (ck.getTenKhuyenMai().equals(String.valueOf(spkm.getMaSanPham())) && ck.getGiaTienGiam() > 0) {
                             giaSp = spkm.getGiaTongSanPham() - ck.getGiaTienGiam();
                             demKhachHangChietKhau = 1;
                         }
                     }
-                    
+
                     if (demKhachHangChietKhau == 0) {
                         giaSp = spkm.getGiaTongSanPham();
                     }
-                    
+
                     int giaSpGiamGia = (int) (giaSp * ((float) spkm.getMaGiamGia() / 100));
-                    
+
                     if (giaSpGiamGia > spkm.getToiDaKhuyenMai() && spkm.getToiDaKhuyenMai() != 0) {
                         giaSpGiamGia = spkm.getToiDaKhuyenMai();
                     }
@@ -180,7 +181,7 @@ public class GioHangService implements IGioHangService {
         }
         return listKm;
     }
-    
+
     @Override
     public ArrayList<KhuyenMaiEntity> chietKhau(int makh) {
         ArrayList<KhuyenMaiEntity> chietKhau = new ArrayList<KhuyenMaiEntity>();
@@ -190,12 +191,12 @@ public class GioHangService implements IGioHangService {
                 KhuyenMaiEntity thongTinChietKhau = new KhuyenMaiEntity();
                 int giaSp = spRepository.getGiaSanPham(sp, makh);
                 int soLg = ghRepository.soLuongSanPhamTrongGioHang(sp, makh);
-                
+
                 if (soLg >= 10) {
                     String ten = String.valueOf(sp);
                     int giaGiam = (int) (giaSp * (float) 0.05);
                     int phanTramGiamGia = 5;
-                    
+
                     thongTinChietKhau.setGiaTienGiam(giaGiam);
                     thongTinChietKhau.setPhanTramGiamGia(phanTramGiamGia);
                     thongTinChietKhau.setTenKhuyenMai(ten);
@@ -213,7 +214,7 @@ public class GioHangService implements IGioHangService {
         }
         return chietKhau;
     }
-    
+
     @Override
     public ArrayList<KhuyenMaiEntity> tongKhuyenMai(int makh) {
         ArrayList<KhuyenMaiEntity> khuyenMai = khuyenMai(makh);
@@ -221,14 +222,14 @@ public class GioHangService implements IGioHangService {
         if (khuyenMai != null) {
             tongKhuyenMai = khuyenMai;
         }
-        
+
         int totalPrice = totalPrice(makh);
         int discount = discount(makh);
-        
+
         int price = totalPrice - discount;
-        
+
         int kiemTraKhachHangThanThiet = khRepository.kiemTraKhachHangThanThiet(makh);
-        
+
         if (kiemTraKhachHangThanThiet > 0 && price > 0) {
             KhuyenMaiEntity thongTinKhuyenMai = new KhuyenMaiEntity();
             int giaSpGiamGia = (int) (price * 0.1);
@@ -238,30 +239,30 @@ public class GioHangService implements IGioHangService {
             thongTinKhuyenMai.setTenKhuyenMai("Khách hàng thân thiết");
             tongKhuyenMai.add(thongTinKhuyenMai);
         }
-        
+
         if (tongKhuyenMai != null) {
             return tongKhuyenMai;
         } else {
             return null;
         }
-        
+
     }
-    
+
     @Override
     public int tienGiamCuaKhachHangThanThiet(int makh) {
         int priceResult = 0;
         int totalPrice = totalPrice(makh);
         int discount = discount(makh);
-        
+
         int price = totalPrice - discount;
-        
+
         int kiemTraKhachHangThanThiet = khRepository.kiemTraKhachHangThanThiet(makh);
         if (kiemTraKhachHangThanThiet > 0) {
             priceResult = (int) (price * 0.1);
         }
         return priceResult;
     }
-    
+
     @Override
     public String checkoutCart(int makh) {
         int lastHoaDonId = hdRepository.getMaHoaDonCuoi();
@@ -269,12 +270,12 @@ public class GioHangService implements IGioHangService {
         java.util.Date toDate = new Date();
         int totalPrice = totalPrice(makh);
         int discount = discount(makh);
-        
+
         int tienGiamKhachHangThanThiet = tienGiamCuaKhachHangThanThiet(makh);
         int tongTien = totalPrice - discount - tienGiamKhachHangThanThiet;
-        
+
         boolean addDonHangResult = hdRepository.addDonHang(hoaDonId, makh, toDate, tongTien, tienGiamKhachHangThanThiet);
-        
+
         ArrayList<Integer> masp = spRepository.getMaSanPham(makh);
         for (int sp : masp) {
             int giaSp = spRepository.getGiaSanPham(sp, makh);
@@ -296,34 +297,25 @@ public class GioHangService implements IGioHangService {
             if (ttkm.getTenKhuyenMai() != null && (ttkm.getNgayBatDauKhuyenMai().before(toDate) || ttkm.getNgayBatDauKhuyenMai().equals(toDate)) && (toDate.before(ttkm.getNgayKetThucKhuyenMai()) || ttkm.getNgayKetThucKhuyenMai().equals(toDate))) {
                 khuyenMaiKhac = ttkm.getMaGiamGia();
                 tienGiamSauKhuyenMai = (int) (tienGiamSauChietKhau * ((float) ttkm.getMaGiamGia() / 100));
-                
+
                 if (tienGiamSauKhuyenMai > ttkm.getToiDaKhuyenMai() && ttkm.getToiDaKhuyenMai() != 0) {
                     tienGiamSauKhuyenMai = ttkm.getToiDaKhuyenMai();
                 }
-            }
-            int kiemTraKhachHangThanThiet = khRepository.kiemTraKhachHangThanThiet(makh);
-        
-            if (kiemTraKhachHangThanThiet > 0) {
-                int phanTramGiamTienKhachHangVip = 10;
-//                tienGiamSauKhuyenMai = (int) (tienGiamSauKhuyenMai - (tienGiamSauKhuyenMai * phanTramGiamTienKhachHangVip / 100));
-                khuyenMaiKhac += phanTramGiamTienKhachHangVip;
             }
             tongTienSauCung = tienGiamSauChietKhau - tienGiamSauKhuyenMai;
             int maChiTietHoaDonCuoi = hdRepository.getMaChiTietHoaDonCuoi() + 1;
             boolean addChiTietHoaDonResult = hdRepository.addChiTietHoaDon(maChiTietHoaDonCuoi, hoaDonId, sp, soLg, giaSp, tongTienBanDau, chietKhau, khuyenMaiKhac, tongTienSauCung);
         }
-        
+
         int soDuTaiKhoanKhachHang = khRepository.getSoDuTaiKhoanKhachHang(makh);
         int soDuSauCapNhat = soDuTaiKhoanKhachHang - tongTien;
         String formatPrìce = FORMATTER.format(maximumDebt);
-        if(soDuTaiKhoanKhachHang < maximumDebt){
-            return "Thanh toán thất bại, bạn đã nợ vượt quá "+ formatPrìce+", vui lòng nạp thêm tiền!";
-        }
-        else if(soDuSauCapNhat < maximumDebt){
-           return "Thanh toán thất bại, Đơn hàng này đã làm vượt quá số nợ "+ formatPrìce+", vui lòng nạp thêm tiền!";
-        }
-        else{
-            if(soDuSauCapNhat < 0){
+        if (soDuTaiKhoanKhachHang < maximumDebt) {
+            return "Thanh toán thất bại, bạn đã nợ vượt quá " + formatPrìce + ", vui lòng nạp thêm tiền!";
+        } else if (soDuSauCapNhat < maximumDebt) {
+            return "Thanh toán thất bại, Đơn hàng này đã làm vượt quá số nợ " + formatPrìce + ", vui lòng nạp thêm tiền!";
+        } else {
+            if (soDuSauCapNhat < 0) {
                 int khachHangThuong = 0;
                 khRepository.updateVip(makh, khachHangThuong);
             }
@@ -331,10 +323,9 @@ public class GioHangService implements IGioHangService {
             boolean resultCapNhatTaiKhoanKhachHang = khRepository.capNhatSoDuTaiKhoan(makh, soDuSauCapNhat);
             if (addDonHangResult && resultCapNhatTaiKhoanKhachHang) {
                 boolean deleteCartResult = ghRepository.xoaGioHang(makh);
-                if(deleteCartResult){
-                   return "Bạn đã thanh toán đơn hàng thành công";
-                }
-                else{
+                if (deleteCartResult) {
+                    return "Bạn đã thanh toán đơn hàng thành công";
+                } else {
                     return "";
                 }
             } else {
@@ -343,5 +334,5 @@ public class GioHangService implements IGioHangService {
         }
 
     }
-    
+
 }
