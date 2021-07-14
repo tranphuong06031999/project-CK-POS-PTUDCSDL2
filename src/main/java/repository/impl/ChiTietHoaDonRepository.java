@@ -39,6 +39,7 @@ public class ChiTietHoaDonRepository implements IChiTietHoaDonRepository {
                 cthd.setGiasaukhuyenmai(rs.getInt("giasaukhuyenmai"));
                 cthd.setTongtien(rs.getInt("tongtien"));
                 cthd.setChietkhau(rs.getFloat("chietkhau"));
+                cthd.setKhuyenmaikhac(rs.getFloat("khuyenmaikhac"));
                 list.add(cthd);
             }
             helper.close();

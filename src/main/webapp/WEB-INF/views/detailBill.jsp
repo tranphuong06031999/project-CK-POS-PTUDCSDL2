@@ -234,23 +234,23 @@
                             <div class="mt-4">
                                 <div class="row text-600 text-white bgc-default-tp1 py-25">
                                     <div class="col-sm-1">ID</div>
-                                    <div class="col-sm-2">Mã sản phẩm</div>
+                                    <div class="col-sm-1">Mã SP</div>
                                     <div class="col-sm-2">Số lượng</div>
                                     <div class="col-sm-2">Giá gốc</div>
                                     <div class="col-sm-2">Sau khuyến mãi</div>
-                                    <div class="col-sm-1">Tổng</div>
                                     <div class="col-sm-2">Chiết khấu</div>
+                                    <div class="col-sm-2" style="width: 10%">Khuyến mãi khác</div>
                                 </div>
                                 <c:forEach var="bill" items="${list}">
                                     <div class="text-95 text-secondary-d3">
                                         <div class="row mb-2 mb-sm-0 py-25">
                                             <div class="col-sm-1">${bill.chitiethoadon_id}</div>
-                                            <div class="col-sm-2">${bill.masp}</div>
+                                            <div class="col-sm-1">${bill.masp}</div>
                                             <div class="col-sm-2">${bill.soluong}</div>
                                             <div class="col-sm-2">${bill.giagoc}</div>
                                             <div class="col-sm-2">${bill.giasaukhuyenmai}</div>
-                                            <div class="col-sm-1">${bill.tongtien}</div>
                                             <div class="col-sm-2">${bill.chietkhau}</div>
+                                            <div class="col-sm-2">${bill.khuyenmaikhac}</div>
                                         </div>
                                     </div>
                                 </c:forEach>

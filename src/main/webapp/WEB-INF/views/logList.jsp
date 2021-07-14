@@ -65,7 +65,7 @@
                                             <td>${log.tenkh}</td>
                                             <td>
                                                 <fmt:formatNumber value="${log.tongtien}" pattern="#,###.##" var="pat" /> 
-                                                ${pat}
+                                                ${pat}đ
                                             </td>
                                             <td>${log.ngaylap}</td>
                                         </tr>

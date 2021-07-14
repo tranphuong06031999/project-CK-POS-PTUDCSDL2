@@ -9,6 +9,7 @@ import entity.GioHangEntity;
 import entity.KhuyenMaiEntity;
 import entity.SanPhamEntity;
 import entity.SanPhamKhuyenMaiEntity;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,10 @@ import repository.IHoaDonRepository;
  */
 @Service
 public class GioHangService implements IGioHangService {
+    
+    final private int maximumDebt = -30000000;
+    protected static final NumberFormat FORMATTER = NumberFormat.getCurrencyInstance();
+    final private int maGiamGia = 10;
     
     @Autowired
     IGioHangRepository ghRepository;
@@ -227,7 +232,7 @@ public class GioHangService implements IGioHangService {
         if (kiemTraKhachHangThanThiet > 0 && price > 0) {
             KhuyenMaiEntity thongTinKhuyenMai = new KhuyenMaiEntity();
             int giaSpGiamGia = (int) (price * 0.1);
-            int maGiamGia = 10;
+//            int maGiamGia = 10;
             thongTinKhuyenMai.setGiaTienGiam(giaSpGiamGia);
             thongTinKhuyenMai.setPhanTramGiamGia(maGiamGia);
             thongTinKhuyenMai.setTenKhuyenMai("Khách hàng thân thiết");
@@ -291,25 +296,52 @@ public class GioHangService implements IGioHangService {
             if (ttkm.getTenKhuyenMai() != null && (ttkm.getNgayBatDauKhuyenMai().before(toDate) || ttkm.getNgayBatDauKhuyenMai().equals(toDate)) && (toDate.before(ttkm.getNgayKetThucKhuyenMai()) || ttkm.getNgayKetThucKhuyenMai().equals(toDate))) {
                 khuyenMaiKhac = ttkm.getMaGiamGia();
                 tienGiamSauKhuyenMai = (int) (tienGiamSauChietKhau * ((float) ttkm.getMaGiamGia() / 100));
+                
+                if (tienGiamSauKhuyenMai > ttkm.getToiDaKhuyenMai() && ttkm.getToiDaKhuyenMai() != 0) {
+                    tienGiamSauKhuyenMai = ttkm.getToiDaKhuyenMai();
+                }
+            }
+            int kiemTraKhachHangThanThiet = khRepository.kiemTraKhachHangThanThiet(makh);
+        
+            if (kiemTraKhachHangThanThiet > 0) {
+                int phanTramGiamTienKhachHangVip = 10;
+//                tienGiamSauKhuyenMai = (int) (tienGiamSauKhuyenMai - (tienGiamSauKhuyenMai * phanTramGiamTienKhachHangVip / 100));
+                khuyenMaiKhac += phanTramGiamTienKhachHangVip;
             }
             tongTienSauCung = tienGiamSauChietKhau - tienGiamSauKhuyenMai;
             int maChiTietHoaDonCuoi = hdRepository.getMaChiTietHoaDonCuoi() + 1;
             boolean addChiTietHoaDonResult = hdRepository.addChiTietHoaDon(maChiTietHoaDonCuoi, hoaDonId, sp, soLg, giaSp, tongTienBanDau, chietKhau, khuyenMaiKhac, tongTienSauCung);
         }
         
-        boolean deleteCartResult = ghRepository.xoaGioHang(makh);
-        
         int soDuTaiKhoanKhachHang = khRepository.getSoDuTaiKhoanKhachHang(makh);
-        
         int soDuSauCapNhat = soDuTaiKhoanKhachHang - tongTien;
-        
-        boolean resultCapNhatTaiKhoanKhachHang = khRepository.capNhatSoDuTaiKhoan(makh, soDuSauCapNhat);
-        
-        if (addDonHangResult && deleteCartResult && resultCapNhatTaiKhoanKhachHang) {
-            return "Bạn đã thanh toán đơn hàng thành công";
-        } else {
-            return "Bạn đã thanh toán đơn hàng thất bại";
+        String formatPrìce = FORMATTER.format(maximumDebt);
+        if(soDuTaiKhoanKhachHang < maximumDebt){
+            return "Thanh toán thất bại, bạn đã nợ vượt quá "+ formatPrìce+", vui lòng nạp thêm tiền!";
         }
+        else if(soDuSauCapNhat < maximumDebt){
+           return "Thanh toán thất bại, Đơn hàng này đã làm vượt quá số nợ "+ formatPrìce+", vui lòng nạp thêm tiền!";
+        }
+        else{
+            if(soDuSauCapNhat < 0){
+                int khachHangThuong = 0;
+                khRepository.updateVip(makh, khachHangThuong);
+            }
+
+            boolean resultCapNhatTaiKhoanKhachHang = khRepository.capNhatSoDuTaiKhoan(makh, soDuSauCapNhat);
+            if (addDonHangResult && resultCapNhatTaiKhoanKhachHang) {
+                boolean deleteCartResult = ghRepository.xoaGioHang(makh);
+                if(deleteCartResult){
+                   return "Bạn đã thanh toán đơn hàng thành công";
+                }
+                else{
+                    return "";
+                }
+            } else {
+                return "Bạn đã thanh toán đơn hàng thất bại";
+            }
+        }
+
     }
     
 }

@@ -32,7 +32,7 @@ public class LichBanHangRepository implements ILichBanHangRepository {
                 + "FROM hoadon, khachhang\n"
                 + "WHERE hoadon.makh = khachhang.makh\n"
                 + "GROUP BY khachhang.makh, date(hoadon.ngaylap)\n"
-                + "ORDER BY hoadon.ngaylap DESC\n"
+                + "ORDER BY timestamp(hoadon.ngaylap) DESC\n"
                 + "LIMIT " + page + ",10";
         MySQLDataHelper helper = new MySQLDataHelper();
         try {

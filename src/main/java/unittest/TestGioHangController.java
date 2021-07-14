@@ -7,6 +7,7 @@ package unittest;
 
 import controller.GioHangController;
 import entity.GioHangEntity;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.Assert;
@@ -169,5 +170,44 @@ public class TestGioHangController {
         String expect_view = "redirect:/cart/" + gh.getMakh();
         String view_actual = model.getViewName();
         Assert.assertEquals(expect_view, view_actual);
+    }
+    
+    @Test
+    public void Checkout_SotienDuNhoHonAm30tr_Success_UnitTest() {
+        int makh = 1;
+        int maximumDebt = -30000000;
+        NumberFormat FORMATTER = NumberFormat.getCurrencyInstance();
+        String formatPrìce = FORMATTER.format(maximumDebt);
+        String messenge = "Thanh toán thất bại, bạn đã nợ vượt quá "+ formatPrìce+", vui lòng nạp thêm tiền!";
+        Mockito.when(service.checkoutCart(makh)).thenReturn(messenge);
+        ModelAndView model = controller.checkoutCart(makh);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        String actual = (String) map.get("message");
+        Assert.assertEquals(messenge, actual);
+    }
+    
+    @Test
+    public void Checkout_SotienDuLonHonAm30tr_Success_UnitTest() {
+        int makh = 1;
+        int maximumDebt = -30000000;
+        NumberFormat FORMATTER = NumberFormat.getCurrencyInstance();
+        String formatPrìce = FORMATTER.format(maximumDebt);
+        String messenge = "Thanh toán thất bại, Đơn hàng này đã làm vượt quá số nợ "+ formatPrìce+", vui lòng nạp thêm tiền!";
+        Mockito.when(service.checkoutCart(makh)).thenReturn(messenge);
+        ModelAndView model = controller.checkoutCart(makh);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        String actual = (String) map.get("message");
+        Assert.assertEquals(messenge, actual);
+    }
+    
+    @Test
+    public void Checkout_Success_UnitTest() {
+        int makh = 1;
+        String messenge = "Bạn đã thanh toán đơn hàng thành công";
+        Mockito.when(service.checkoutCart(makh)).thenReturn(messenge);
+        ModelAndView model = controller.checkoutCart(makh);
+        HashMap<String, Object> map = (HashMap<String, Object>) model.getModel();
+        String actual = (String) map.get("message");
+        Assert.assertEquals(messenge, actual);
     }
 }

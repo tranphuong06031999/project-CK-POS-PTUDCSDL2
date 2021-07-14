@@ -20,10 +20,21 @@ public class ChiTietHoaDonEntity implements Serializable{
     private int giasaukhuyenmai;
     private int tongtien;
     private float chietkhau;
+    private float khuyenmaikhac;
+    
 
     public ChiTietHoaDonEntity() {
     }
 
+    public float getKhuyenmaikhac() {
+        return khuyenmaikhac;
+    }
+
+    public void setKhuyenmaikhac(float khuyenmaikhac) {
+        this.khuyenmaikhac = khuyenmaikhac;
+    }
+    
+    
     public int getChitiethoadon_id() {
         return chitiethoadon_id;
     }
