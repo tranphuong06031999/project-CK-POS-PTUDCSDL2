@@ -83,7 +83,7 @@
                                             <td>${customer.makh}</td>
                                             <c:choose>
                                                 <c:when test="${customer.sodu<=-30000000}">
-                                                    <td class="text-danger">${customer.tenkh}</td>
+                                                    <td class="text-danger">${customer.tenkh} (Quá công nợ)</td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td>${customer.tenkh}</td>
