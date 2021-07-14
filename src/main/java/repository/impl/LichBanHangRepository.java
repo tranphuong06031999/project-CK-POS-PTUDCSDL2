@@ -47,7 +47,7 @@ public class LichBanHangRepository implements ILichBanHangRepository {
                     lbh.setHoadon_id(rs.getInt("hoadon_id"));
                     lbh.setTenkh(rs.getString("tenkh"));
                     lbh.setTongtien(rs.getInt("tongtien"));
-                    lbh.setNgaylap(rs.getString("ngaylap"));
+                    lbh.setNgaylap(rs.getDate("ngaylap").toString());
                     list.add(lbh);
                 } while (rs.next());
             }
@@ -102,7 +102,7 @@ public class LichBanHangRepository implements ILichBanHangRepository {
                     lbh.setHoadon_id(rs.getInt("hoadon_id"));
                     lbh.setTenkh(rs.getString("tenkh"));
                     lbh.setTongtien(rs.getInt("tongtien"));
-                    lbh.setNgaylap(rs.getString("ngaylap"));
+                    lbh.setNgaylap(rs.getDate("ngaylap").toString());
                     list.add(lbh);
                 } while (rs.next());
             }
