@@ -247,12 +247,11 @@ public class GioHangRepository implements IGioHangRepository {
     
     @Override
     public boolean xoaGioHang(int makh) {
-        
         String sql = "delete from giohang where makh = " + makh;
         MySQLDataHelper helper = new MySQLDataHelper();
         helper.open();
         int n = helper.excuteUpdate(sql);
-        if (n == 1) {
+        if (n > 0) {
             helper.close();
             return true;
         }

@@ -321,14 +321,10 @@ public class GioHangService implements IGioHangService {
                 boolean addChiTietHoaDonResult = hdRepository.addChiTietHoaDon(maChiTietHoaDonCuoi, hoaDonId, sp, soLg, giaSp, tongTienBanDau, chietKhau, khuyenMaiKhac, tongTienSauCung);
             }
 
+            boolean deleteCartResult = ghRepository.xoaGioHang(makh);
             boolean resultCapNhatTaiKhoanKhachHang = khRepository.capNhatSoDuTaiKhoan(makh, soDuSauCapNhat);
-            if (addDonHangResult && resultCapNhatTaiKhoanKhachHang) {
-                boolean deleteCartResult = ghRepository.xoaGioHang(makh);
-                if (deleteCartResult) {
-                    return "Bạn đã thanh toán đơn hàng thành công";
-                } else {
-                    return "";
-                }
+            if (addDonHangResult && resultCapNhatTaiKhoanKhachHang && deleteCartResult) {
+                return "Bạn đã thanh toán đơn hàng thành công";
             } else {
                 return "Bạn đã thanh toán đơn hàng thất bại";
             }

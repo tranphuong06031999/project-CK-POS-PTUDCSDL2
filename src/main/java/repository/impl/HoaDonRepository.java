@@ -21,7 +21,7 @@ import repository.IHoaDonRepository;
  */
 @Repository
 public class HoaDonRepository implements IHoaDonRepository {
-    
+
     @Override
     public ArrayList<HoaDonEntity> findAll() {
         ArrayList<HoaDonEntity> list = new ArrayList<>();
@@ -44,7 +44,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return list;
     }
-    
+
     @Override
     public ArrayList<HoaDonEntity> search(int makh) {
         ArrayList<HoaDonEntity> list = new ArrayList<>();
@@ -71,7 +71,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return list;
     }
-    
+
     @Override
     public HoaDonEntity findOne(int mahd) {
         HoaDonEntity hd = new HoaDonEntity();
@@ -93,7 +93,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return hd;
     }
-    
+
     @Override
     public int count() {
         int count = 0;
@@ -111,7 +111,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return count;
     }
-    
+
     @Override
     public ArrayList<HoaDonEntity> paging(int page) {
         page = (page - 1) * 10;
@@ -135,7 +135,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return list;
     }
-    
+
     @Override
     public ArrayList<HoaDonEntity> searchPaging(int makh, int page) {
         page = (page - 1) * 10;
@@ -163,7 +163,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return list;
     }
-    
+
     @Override
     public int countSearch(int makh) {
         int count = 0;
@@ -181,7 +181,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return count;
     }
-    
+
     @Override
     public int getMaHoaDonCuoi() {
         int ma = 0;
@@ -199,7 +199,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return ma;
     }
-    
+
     @Override
     public int getMaChiTietHoaDonCuoi() {
         int ma = 0;
@@ -217,7 +217,7 @@ public class HoaDonRepository implements IHoaDonRepository {
         }
         return ma;
     }
-    
+
     @Override
     public boolean addDonHang(int id, int makh, java.util.Date ngayLap, int tongTien, int giam_khtt) {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -231,14 +231,14 @@ public class HoaDonRepository implements IHoaDonRepository {
         MySQLDataHelper helper = new MySQLDataHelper();
         helper.open();
         int n = helper.excuteUpdate(sql);
-        if (n == 1) {
+        if (n > 0) {
             helper.close();
             return true;
         }
         helper.close();
         return false;
     }
-    
+
     @Override
     public boolean addChiTietHoaDon(int maChiTietHoaDonCuoi, int hoaDonId, int masp, int soLg, int giaSp, int tongTienBanDau, int chietKhau, int khuyenMaiKhac, int tongTienSauCung) {
         String sql = "INSERT INTO chitiethoadon(chitiethoadon_id ,ma_hoadon, masp, soluong, giagoc, giasaukhuyenmai, tongtien, chietkhau, khuyenmaikhac) VALUES (" + "'"
@@ -254,12 +254,12 @@ public class HoaDonRepository implements IHoaDonRepository {
         MySQLDataHelper helper = new MySQLDataHelper();
         helper.open();
         int n = helper.excuteUpdate(sql);
-        if (n == 1) {
+        if (n > 0) {
             helper.close();
             return true;
         }
         helper.close();
         return false;
-        
+
     }
 }
